@@ -3,12 +3,22 @@ import { Clock } from "lucide-react";
 
 export default function Hero() {
   return (
-    <section className="px-5 py-16">
+    <section className="px-4 md:px-16 py-10">
       <div className="container mx-auto">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Left Content */}
+        <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+          {/* SMALL SCREEN IMAGE */}
+          <div className="w-3/4 sm:w-1/2 mx-auto block lg:hidden">
+            <Image
+              src="/hero-img.png"
+              alt="Hero Image"
+              width={320}
+              height={320}
+              className="w-full h-full object-cover shadow"
+            />
+          </div>
+          {/* LEFT CONTENT */}
           <div className="space-y-6">
-            <div className="space-y-2">
+            <div className="space-y-3">
               <p className="text-lg font-medium text-orange-400">Welcome to</p>
               <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight text-gray-900">
                 Foodie Restaurant
@@ -38,8 +48,7 @@ export default function Hero() {
               <span>Open: 11:00am-11:00pm</span>
             </div>
           </div>
-
-          {/* Right Content */}
+          {/* RIGHT CONTENT */}
           <div className="relative w-[440px] h-[440px] mx-auto hidden lg:block">
             <div className="absolute inset-0 border-4 border-dashed rounded-full border-orange-300"></div>
             <div className="absolute inset-8 rounded-full shadow-lg overflow-hidden bg-white">
@@ -51,15 +60,6 @@ export default function Hero() {
                 className="w-full h-full object-cover"
               />
             </div>
-          </div>
-          <div className="w-1/2 mx-auto block lg:hidden">
-            <Image
-              src="/hero-img.png"
-              alt="Hero Image"
-              width={320}
-              height={320}
-              className="w-full h-full object-cover"
-            />
           </div>
         </div>
       </div>
