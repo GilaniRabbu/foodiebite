@@ -171,11 +171,11 @@ const Menu = () => {
               <h2 className="text-2xl lg:text-3xl font-semibold text-green-900 mb-10">
                 {section.title}
               </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {section.items.map((item, i) => (
                   <div
                     key={i}
-                    className="flex justify-between items-center border-b pb-4"
+                    className="flex justify-between items-center gap-5 border-b pb-4"
                   >
                     <div className="flex items-center space-x-4">
                       <img
@@ -183,16 +183,21 @@ const Menu = () => {
                         alt={item.name}
                         className="w-16 h-16 object-cover rounded-md"
                       />
-                      <div className="text-left">
-                        <h4 className="font-bold text-md text-gray-800">
+                      <div className="text-left overflow-hidden">
+                        <h4 className="font-bold text-md text-gray-800 truncate lg:whitespace-normal lg:truncate-none">
                           {item.name}
                         </h4>
-                        <p className="text-sm text-gray-500">{item.desc}</p>
+                        <p className="text-sm text-gray-500 truncate lg:whitespace-normal lg:truncate-none">
+                          {item.desc}
+                        </p>
                       </div>
                     </div>
-                    <span className="text-lg font-semibold text-green-900">
-                      {item.price}
-                    </span>
+                    <div className="flex items-center space-x-4">
+                      <span className="text-lg font-semibold text-green-900">
+                        {item.price}
+                      </span>
+                      <input type="checkbox" />
+                    </div>
                   </div>
                 ))}
               </div>
