@@ -45,7 +45,7 @@ const PopularDish = () => {
   return (
     <div className="px-4 md:px-16 py-10">
       <div className="container mx-auto">
-        <h2 className="text-3xl lg:text-4xl xl:text-5xl font-bold leading-tight text-gray-900">
+        <h2 className="text-2xl lg:text-3xl xl:text-4xl font-bold leading-tight text-gray-900">
           Our Popular Dishes
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 gap-y-10 py-10">

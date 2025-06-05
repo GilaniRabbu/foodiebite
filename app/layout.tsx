@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import { Tomorrow } from "next/font/google";
+import { Poppins } from "next/font/google";
 import ReduxProvider from "@/redux/ReduxProvider";
 import "./globals.css";
 
-const tomorrow = Tomorrow({
-  weight: ["600"],
+const poppins = Poppins({
+  weight: ["500"],
   subsets: ["latin"],
 });
 
@@ -20,7 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${tomorrow.className} antialiased`}>
+      <body className={`${poppins.className} antialiased`}>
         <ReduxProvider>{children}</ReduxProvider>
       </body>
     </html>
