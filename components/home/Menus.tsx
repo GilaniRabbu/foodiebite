@@ -2,13 +2,13 @@
 import React, { useState } from "react";
 import { useGetAllMealsQuery } from "@/redux/api/mealApi";
 import { Meal } from "@/types/Meal";
-import Loader from "@/components/shared/Loader";
 
 const Menus = () => {
   const { data, isLoading, isError } = useGetAllMealsQuery(undefined);
   const [selectedMeals, setSelectedMeals] = useState<string[]>([]);
 
-  if (isLoading) return <Loader />;
+  if (isLoading)
+    return <p className="text-center text-gray-500">Loading meals...</p>;
 
   if (isError)
     return <p className="text-center text-red-500">Failed to load meals.</p>;
