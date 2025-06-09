@@ -104,6 +104,6 @@ function cleanupAuthState(api: any) {
 export const baseApi = createApi({
   reducerPath: "api",
   baseQuery: baseQueryWithRefreshToken,
-  tagTypes: ["Auth", "User"],
+  tagTypes: ["Auth", "User", "Meal"],
   endpoints: () => ({}),
 });

@@ -1,8 +1,8 @@
 import Footer from "@/components/home/Footer";
 import Header from "@/components/home/Header";
 import Hero from "@/components/home/Hero";
-import Menu from "@/components/home/Menu";
 import PopularDish from "@/components/home/PopularDish";
+import Menus from "./../components/home/Menus";
 
 export default function Home() {
   return (
@@ -10,7 +10,7 @@ export default function Home() {
       <Header />
       <Hero />
       <PopularDish />
-      <Menu />
+      <Menus />
       <Footer />
     </main>
   );
