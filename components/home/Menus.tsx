@@ -2,8 +2,7 @@
 import React, { useState } from "react";
 import { useGetAllMealsQuery } from "@/redux/api/mealApi";
 import { Meal } from "@/types/Meal";
-import Loader from "../shared/Loader";
-import Image from "next/image";
+import Loader from "@/components/shared/Loader";
 
 const Menus = () => {
   const { data, isLoading, isError } = useGetAllMealsQuery(undefined);
@@ -51,11 +50,9 @@ const Menus = () => {
                       >
                         <div className="flex items-center space-x-4">
                           {meal.images?.[0]?.url && (
-                            <Image
+                            <img
                               src={meal.images[0].url}
                               alt={meal.images[0].altText}
-                              width={64}
-                              height={64}
                               className="w-16 h-16 object-cover rounded-md"
                             />
                           )}
