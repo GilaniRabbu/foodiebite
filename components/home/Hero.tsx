@@ -40,7 +40,7 @@ export default function Hero() {
                 Reserve a Table
               </button>
               <button className="cursor-pointer px-6 py-3 rounded text-lg border text-gray-800 border-gray-400 hover:bg-gray-100">
-                Online Order
+                About us
               </button>
             </div>
             <div className="flex items-center space-x-2 text-gray-700">

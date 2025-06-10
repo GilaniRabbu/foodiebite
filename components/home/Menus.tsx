@@ -4,7 +4,7 @@ import { useGetAllMealsQuery } from "@/redux/api/mealApi";
 import { Meal } from "@/types/Meal";
 
 const Menus = () => {
-  const { data, isLoading, isError } = useGetAllMealsQuery(undefined);
+  const { data } = useGetAllMealsQuery(undefined);
   console.log("data", data);
   const [selectedMeals, setSelectedMeals] = useState<string[]>([]);
 

@@ -6,7 +6,7 @@ const Footer = () => {
     <footer className="px-6 sm:px-8 lg:px-16 py-8 lg:py-12">
       <div className="container mx-auto">
         <div className="pb-5 border-b border-gray-200">
-          <p className="text-gray-600 text-sm">Contact with us</p>
+          <p className="text-gray-600 text-4xl">Contact with us</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mt-8 mb-10">
@@ -90,7 +90,7 @@ const Footer = () => {
                   href="#"
                   className="text-gray-600 hover:text-gray-900 text-sm"
                 >
-                  2357 Gordon Street, CA
+                  123 Main Street, Downtown
                 </Link>
               </li>
               <li>
@@ -98,7 +98,7 @@ const Footer = () => {
                   href="#"
                   className="text-gray-600 hover:text-gray-900 text-sm"
                 >
-                  0123 456 789
+                  880 123-4567
                 </Link>
               </li>
               <li>

@@ -1,5 +1,6 @@
 import React from "react";
-import { Heart, Search, ShoppingCart, Utensils } from "lucide-react";
+import { Utensils } from "lucide-react";
+import Link from "next/link";
 
 const Header = () => {
   const NavLink = [
@@ -51,7 +52,7 @@ const Header = () => {
             ))}
           </nav>
           <div className="flex items-center space-x-4">
-            <Search
+            {/* <Search
               size={20}
               strokeWidth={2}
               absoluteStrokeWidth={true}
@@ -68,10 +69,19 @@ const Header = () => {
               strokeWidth={2}
               absoluteStrokeWidth={true}
               className="cursor-pointer text-gray-500 hover:text-orange-500"
-            />
-            <button className="cursor-pointer px-4 py-2 rounded text-white bg-orange-400 hover:bg-orange-500">
-              Log in
-            </button>
+            /> */}
+            <Link
+              href="/register"
+              className="px-4 py-2 rounded text-white bg-orange-400 hover:bg-orange-500"
+            >
+              Sign Up
+            </Link>
+            <Link
+              href="/login"
+              className="px-4 py-2 rounded text-white bg-orange-400 hover:bg-orange-500"
+            >
+              Log In
+            </Link>
           </div>
         </div>
       </div>
