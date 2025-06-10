@@ -13,10 +13,10 @@ const mealApi = baseApi.injectEndpoints({
       invalidatesTags: ["Meal"],
     }),
 
-    getMeals: build.query({
-      query: () => "/meals",
-      providesTags: ["Meal"],
-    }),
+    // getMeals: build.query({
+    //   query: () => "/meals",
+    //   providesTags: ["Meal"],
+    // }),
 
     // Get All Meals
     getAllMeals: build.query({
@@ -63,5 +63,5 @@ export const {
   useGetMealByIdQuery,
   useUpdateMealMutation,
   useDeleteMealMutation,
-  useGetMealsQuery,
+  // useGetMealsQuery,
 } = mealApi;
