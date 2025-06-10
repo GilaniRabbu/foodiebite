@@ -5,13 +5,8 @@ import { Meal } from "@/types/Meal";
 
 const Menus = () => {
   const { data, isLoading, isError } = useGetAllMealsQuery(undefined);
+  console.log("data", data);
   const [selectedMeals, setSelectedMeals] = useState<string[]>([]);
-
-  if (isLoading)
-    return <p className="text-center text-gray-500">Loading meals...</p>;
-
-  if (isError)
-    return <p className="text-center text-red-500">Failed to load meals.</p>;
 
   // Group meals by type
   const groupedMeals: Record<string, Meal[]> = data?.data?.reduce(
