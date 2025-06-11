@@ -1,12 +1,14 @@
 "use client";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import { useGetAllMealsQuery } from "@/redux/api/mealApi";
 import { Meal } from "@/types/Meal";
 
 const Menus = () => {
   const { data } = useGetAllMealsQuery(undefined);
-  console.log("data", data);
+  // console.log("data", data);
   const [selectedMeals, setSelectedMeals] = useState<string[]>([]);
+  const router = useRouter();
 
   // Group meals by type
   const groupedMeals: Record<string, Meal[]> = data?.data?.reduce(
@@ -24,6 +26,15 @@ const Menus = () => {
         ? prev.filter((id) => id !== mealId)
         : [...prev, mealId]
     );
+  };
+
+  const handleBookTable = () => {
+    if (selectedMeals.length === 0)
+      return alert("Please select at least one meal.");
+
+    // ✅ Save to localStorage for now (or use a global store like Redux)
+    localStorage.setItem("selectedMeals", JSON.stringify(selectedMeals));
+    router.push("/booking");
   };
 
   return (
@@ -88,12 +99,7 @@ const Menus = () => {
                   <div className="text-center mt-6">
                     <button
                       className="bg-green-700 text-white px-6 py-2 rounded-md hover:bg-green-800"
-                      onClick={() => {
-                        const selectedForThisType = meals
-                          .filter((meal) => selectedMeals.includes(meal._id))
-                          .map((m) => m.name);
-                        console.log(`Book ${type}:`, selectedForThisType);
-                      }}
+                      onClick={handleBookTable}
                     >
                       Book a Table
                       {/* Book {type} */}
