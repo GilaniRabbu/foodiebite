@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useGetAllMealsQuery } from "@/redux/api/mealApi";
 import { Meal } from "@/types/Meal";
+import { toast } from "sonner";
 
 const Menus = () => {
   const { data } = useGetAllMealsQuery(undefined);
@@ -30,7 +31,7 @@ const Menus = () => {
 
   const handleBookTable = () => {
     if (selectedMeals.length === 0)
-      return alert("Please select at least one meal.");
+      return toast.error("Please select at least one meal.");
 
     // ✅ Save to localStorage for now (or use a global store like Redux)
     localStorage.setItem("selectedMeals", JSON.stringify(selectedMeals));
@@ -40,7 +41,7 @@ const Menus = () => {
   return (
     <div className="px-5 py-10">
       <div className="container mx-auto">
-        <div className="bg-cream min-h-screen py-10 px-4 md:px-16">
+        <div className="bg-cream min-h-screen py-10">
           <div className="mb-16 text-center">
             {groupedMeals &&
               Object.entries(groupedMeals).map(([type, meals]) => (

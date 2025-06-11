@@ -1,10 +1,10 @@
-import LoginForm from "@/components/auth/LoginForm";
+import Overview from "@/components/dashboard/user/dashboard/Overview";
 import React from "react";
 
 const page = () => {
   return (
     <div>
-      <LoginForm />
+      <Overview />
     </div>
   );
 };

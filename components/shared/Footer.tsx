@@ -1,14 +1,17 @@
+"use client";
 import React from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const Footer = () => {
+  const pathname = usePathname();
+  const hideHeader =
+    pathname.startsWith("/user") || pathname.startsWith("/admin");
+
+  if (hideHeader) return null;
   return (
     <footer className="px-6 sm:px-8 lg:px-16 py-8 lg:py-12">
       <div className="container mx-auto">
-        <div className="pb-5 border-b border-gray-200">
-          <p className="text-gray-600 text-4xl">Contact with us</p>
-        </div>
-
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mt-8 mb-10">
           {/* Logo and Contact Info */}
           <div className="lg:col-span-1 lg:w-4/5">

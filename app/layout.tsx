@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import ReduxProvider from "@/redux/ReduxProvider";
+import Footer from "@/components/shared/Footer";
 import "./globals.css";
+import ClientHeader from "@/components/shared/ClientHeader";
 
 const poppins = Poppins({
   weight: ["500"],
@@ -21,7 +23,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${poppins.className} antialiased`}>
-        <ReduxProvider>{children}</ReduxProvider>
+        <ReduxProvider>
+          <ClientHeader />
+          {children}
+          <Footer />
+        </ReduxProvider>
       </body>
     </html>
   );

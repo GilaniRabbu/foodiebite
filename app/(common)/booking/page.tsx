@@ -2,9 +2,11 @@
 import React, { useEffect, useState } from "react";
 import { useGetAllMealsQuery } from "@/redux/api/mealApi";
 import { Meal } from "@/types/Meal";
+import { useCreateBookingMutation } from "@/redux/api/bookingApi";
 
 const Page = () => {
   const { data } = useGetAllMealsQuery(undefined);
+  const [createBooking] = useCreateBookingMutation();
   const [groupedSelectedMeals, setGroupedSelectedMeals] = useState<
     Record<string, Meal[]>
   >({});
@@ -80,10 +82,33 @@ const Page = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleBookingSubmit = (e: React.FormEvent) => {
+  const handleBookingSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    // Add logic: check user login, redirect if not, or process booking
+
+    // Collect selected meal IDs with types
+    const selectedMealsWithType: { id: string; type: string }[] = [];
+
+    Object.entries(groupedSelectedMeals).forEach(([type, meals]) => {
+      meals.forEach((meal) => {
+        selectedMealsWithType.push({ id: meal._id, type });
+      });
+    });
+
+    const payload = {
+      ...formData,
+      meals: selectedMealsWithType,
+    };
+
+    try {
+      const res = await createBooking(payload).unwrap();
+      console.log("Booking success:", res);
+      // Optionally reset form or show success UI
+    } catch (err) {
+      console.error("Booking error:", err);
+    }
+
+    // console.log("Form submitted:", formData);
+    // console.log("Selected meals with types:", selectedMealsWithType);
   };
 
   return (

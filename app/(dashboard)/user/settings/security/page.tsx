@@ -1,10 +1,10 @@
-import LoginForm from "@/components/auth/LoginForm";
+import Security from "@/components/dashboard/user/settings/Security";
 import React from "react";
 
 const page = () => {
   return (
     <div>
-      <LoginForm />
+      <Security/>
     </div>
   );
 };

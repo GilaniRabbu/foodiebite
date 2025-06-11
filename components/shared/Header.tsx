@@ -6,23 +6,23 @@ const Header = () => {
   const NavLink = [
     {
       name: "Home",
-      href: "#",
+      href: "/",
     },
     {
-      name: "Menu",
-      href: "/menu",
+      name: "Meals",
+      href: "/meals",
     },
     {
       name: "Booking",
       href: "/booking",
     },
     {
-      name: "Contact",
-      href: "#",
+      name: "About us",
+      href: "/about-us",
     },
     {
-      name: "Blog",
-      href: "#",
+      name: "Contact",
+      href: "/contact",
     },
   ];
   return (
@@ -70,10 +70,7 @@ const Header = () => {
               absoluteStrokeWidth={true}
               className="cursor-pointer text-gray-500 hover:text-orange-500"
             /> */}
-            <Link
-              href="/register"
-              className="px-4 py-2 rounded text-white bg-orange-400 hover:bg-orange-500"
-            >
+            <Link href="/signup" className="px-4 py-2 rounded text-black">
               Sign Up
             </Link>
             <Link
