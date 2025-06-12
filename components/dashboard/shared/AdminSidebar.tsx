@@ -10,6 +10,11 @@ import {
   LogOut,
   Menu,
   X,
+  Star,
+  Users,
+  Mail,
+  BarChart,
+  CreditCard,
 } from "lucide-react";
 import Logo from "@/components/shared/Logo";
 
@@ -19,12 +24,12 @@ export default function AdminSidebar() {
 
   const menuItems = [
     { id: "dashboard", label: "Dashboard", icon: LayoutDashboard, href: "/admin/dashboard" },
-    { id: "customers", label: "Customers", icon: LayoutDashboard, href: "/admin/customers" },
+    { id: "customers", label: "Customers", icon: Users, href: "/admin/customers" },
     { id: "booking", label: "Booking", icon: Calendar, href: "/admin/booking" },
-    { id: "reviews", label: "Reviews", icon: LayoutDashboard, href: "/admin/reviews" },
-    { id: "inquiries", label: "Inquiries", icon: LayoutDashboard, href: "/admin/inquiries" },
-    { id: "analytics", label: "Analytics", icon: LayoutDashboard, href: "/admin/analytics" },
-    { id: "payments", label: "Payments", icon: LayoutDashboard, href: "/admin/payments" },
+    { id: "reviews", label: "Reviews", icon: Star, href: "/admin/reviews" },
+    { id: "inquiries", label: "Inquiries", icon: Mail, href: "/admin/inquiries" },
+    { id: "analytics", label: "Analytics", icon: BarChart, href: "/admin/analytics" },
+    { id: "payments", label: "Payments", icon: CreditCard, href: "/admin/payments" },
     { id: "settings", label: "Settings", icon: Settings, href: "/admin/settings" },
   ];
 
@@ -70,7 +75,6 @@ export default function AdminSidebar() {
           {/* Header */}
           <div className="px-6 py-4 border-gray-200">
             <Logo />
-            <p className="text-xs text-gray-500 ml-10 mt-0.5">Admin Dashboard</p>
           </div>
 
           {/* Navigation */}

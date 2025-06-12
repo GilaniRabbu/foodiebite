@@ -1,5 +1,5 @@
-import { Calendar, Clock, Users } from "lucide-react";
-import React from "react";
+import { Calendar, Clock, Users } from "lucide-react"
+import { Card, CardContent } from "@/components/ui/card"
 
 const BookingSummary = () => {
   const bookings = [
@@ -43,52 +43,54 @@ const BookingSummary = () => {
       status: "cancelled",
       table: "Table 1",
     },
-  ];
+  ]
+
+  const summaryCards = [
+    {
+      title: "Confirmed Bookings",
+      value: bookings.filter((b) => b.status === "confirmed").length,
+      icon: Calendar,
+      iconBg: "bg-green-100",
+      iconColor: "text-green-600",
+    },
+    {
+      title: "Pending Bookings",
+      value: bookings.filter((b) => b.status === "pending").length,
+      icon: Clock,
+      iconBg: "bg-yellow-100",
+      iconColor: "text-yellow-600",
+    },
+    {
+      title: "Total Guests",
+      value: bookings.reduce((sum, b) => sum + b.guests, 0),
+      icon: Users,
+      iconBg: "bg-blue-100",
+      iconColor: "text-blue-600",
+    },
+  ]
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-        <div className="flex items-center gap-3">
-          <div className="p-3 bg-green-100 rounded-lg">
-            <Calendar className="w-6 h-6 text-green-600" />
-          </div>
-          <div>
-            <p className="text-2xl font-bold text-gray-900">
-              {bookings.filter((b) => b.status === "confirmed").length}
-            </p>
-            <p className="text-sm text-gray-600">Confirmed Bookings</p>
-          </div>
-        </div>
-      </div>
-
-      <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-        <div className="flex items-center gap-3">
-          <div className="p-3 bg-yellow-100 rounded-lg">
-            <Clock className="w-6 h-6 text-yellow-600" />
-          </div>
-          <div>
-            <p className="text-2xl font-bold text-gray-900">
-              {bookings.filter((b) => b.status === "pending").length}
-            </p>
-            <p className="text-sm text-gray-600">Pending Bookings</p>
-          </div>
-        </div>
-      </div>
-
-      <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-        <div className="flex items-center gap-3">
-          <div className="p-3 bg-blue-100 rounded-lg">
-            <Users className="w-6 h-6 text-blue-600" />
-          </div>
-          <div>
-            <p className="text-2xl font-bold text-gray-900">
-              {bookings.reduce((sum, b) => sum + b.guests, 0)}
-            </p>
-            <p className="text-sm text-gray-600">Total Guests</p>
-          </div>
-        </div>
-      </div>
+      {summaryCards.map((card, index) => {
+        const Icon = card.icon
+        return (
+          <Card key={index} className="border-border shadow-none rounded-sm">
+            <CardContent className="p-6">
+              <div className="flex items-center gap-3">
+                <div className={`p-3 ${card.iconBg} rounded-lg`}>
+                  <Icon className={`w-6 h-6 ${card.iconColor}`} />
+                </div>
+                <div>
+                  <p className="text-2xl font-bold text-foreground">{card.value}</p>
+                  <p className="text-sm text-muted-foreground">{card.title}</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )
+      })}
     </div>
-  );
-};
+  )
+}
 
-export default BookingSummary;
+export default BookingSummary

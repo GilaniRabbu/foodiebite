@@ -58,15 +58,13 @@ export default function UserSidebar() {
 
       {/* Sidebar */}
       <div
-        className={`fixed lg:sticky lg:top-0 inset-y-0 min-h-screen left-0 z-50 w-64 bg-white border-r border-gray-200 transform transition-transform duration-300 ease-in-out ${isMobileMenuOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+        className={`fixed lg:sticky lg:top-0 inset-y-0 min-h-screen left-0 z-50 w-48 bg-white border-r border-gray-200 transform transition-transform duration-300 ease-in-out ${isMobileMenuOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
           }`}
       >
         <div className="flex flex-col min-h-screen justify-between">
           {/* Header */}
           <div className="px-6 py-4 border-gray-200">
             <Logo />
-            <p className="text-xs text-gray-500 ml-10 mt-0.5">User Dashboard</p>
-
           </div>
 
           {/* Navigation */}
@@ -81,13 +79,13 @@ export default function UserSidebar() {
                     <Link
                       href={item.href}
                       onClick={() => setActiveSection(item.id)}
-                      className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-colors duration-200 ${isActive
+                      className={`w-full flex items-center gap-3 px-4 py-1.5 rounded-lg text-left transition-colors duration-200 ${isActive
                         ? "bg-red-50 text-red-600 border border-red-200"
                         : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
                         }`}
                     >
-                      <Icon className="w-5 h-5" />
-                      <span className="font-medium">{item.label}</span>
+                      <Icon size={14} />
+                      <span className="font-medium text-[12px]">{item.label}</span>
                     </Link>
                   </li>
                 );
@@ -99,10 +97,10 @@ export default function UserSidebar() {
           <div className="p-4 border-t border-gray-200">
             <button
               onClick={handleLogout}
-              className="w-full flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-red-50 hover:text-red-600 rounded-lg transition-colors duration-200"
+              className="w-full flex items-center gap-3 px-4 py-1.5 text-gray-600 hover:bg-red-50 hover:text-red-600 rounded-lg transition-colors duration-200"
             >
-              <LogOut className="w-5 h-5" />
-              <span className="font-medium">Logout</span>
+              <LogOut size={14} />
+              <span className="font-medium text-[12px]">Logout</span>
             </button>
           </div>
         </div>
