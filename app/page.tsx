@@ -1,19 +1,28 @@
 import Hero from "@/components/home/Hero";
-import MealsCategory from "@/components/home/MealsCategory";
 import Menus from "./../components/home/Menus";
 import ServiceInfo from "@/components/home/ServiceInfo";
 import StatsSection from "@/components/home/StatsSection";
 import ContactUs from "@/components/contact/Contact";
+import ContainerWrapper from "@/components/common/ContainerWrapper";
+import TopCategories from "@/components/home/TopCategories";
 
 export default function Home() {
   return (
-    <main className="">
-      <Hero />
+    <>
+      <ContainerWrapper>
+        <Hero />
+      </ContainerWrapper>
       <ServiceInfo />
-      <MealsCategory />
-      <Menus />
+      <ContainerWrapper>
+        <TopCategories />
+
+        <Menus />
+      </ContainerWrapper>
       <StatsSection />
-      <ContactUs />
-    </main>
+      <ContainerWrapper>
+        <ContactUs />
+      </ContainerWrapper>
+
+    </>
   );
 }

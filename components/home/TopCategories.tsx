@@ -4,6 +4,8 @@ import { useState } from "react";
 import { FileText } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import Pagination from "../common/Pagination";
+import { toast } from "sonner";
 
 const categories = [
   "All",
@@ -54,7 +56,7 @@ const menuItems = [
   },
 ];
 
-export default function MealsCategory() {
+export default function TopCategories() {
   const [selectedCategory, setSelectedCategory] = useState("All");
 
   const filteredItems =
@@ -63,10 +65,10 @@ export default function MealsCategory() {
       : menuItems.filter((item) => item.category === selectedCategory);
 
   return (
-    <div className="max-w-6xl mx-auto p-6 bg-white">
+    <div className=" bg-white pt-10">
       {/* Top Categories Section */}
       <div className="mb-8">
-        <h2 className="text-3xl font-bold text-gray-800 mb-6">
+        <h2 className="text-3xl font-bold text-green-800 mb-6">
           Top Categories
         </h2>
         <div className="flex flex-wrap gap-3">
@@ -74,11 +76,10 @@ export default function MealsCategory() {
             <button
               key={category}
               onClick={() => setSelectedCategory(category)}
-              className={`px-6 py-2 rounded-full border transition-all duration-200 text-sm font-medium ${
-                selectedCategory === category
-                  ? "bg-green-600 text-white border-transparent hover:bg-green-700"
-                  : "bg-white text-gray-600 border-gray-300 hover:bg-gray-50"
-              }`}
+              className={`px-6 py-2 rounded-full cursor-pointer border transition-all duration-200 text-sm font-medium ${selectedCategory === category
+                ? "bg-orange-500 text-white border-transparent "
+                : "bg-white text-gray-600 border-gray-300 hover:bg-gray-50"
+                }`}
             >
               {category}
             </button>
@@ -88,7 +89,7 @@ export default function MealsCategory() {
 
       {/* Menu Section */}
       <div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
           {filteredItems.map((item) => (
             <div
               key={item.id}
@@ -120,7 +121,7 @@ export default function MealsCategory() {
                   </div>
                   <Link
                     href={`/meals/${item.id}`} // Adjust this route based on your details page
-                    className="w-8 h-8 flex items-center justify-center rounded-full bg-green-600 hover:bg-green-700 text-white"
+                    className="w-8 h-8 flex items-center justify-center rounded-full bg-green-800 text-white"
                   >
                     <FileText className="w-4 h-4" />
                   </Link>
@@ -129,6 +130,7 @@ export default function MealsCategory() {
             </div>
           ))}
         </div>
+        <Pagination currentPage={1} totalPages={5} onPageChange={() => toast.success("Api not connected")} />
       </div>
     </div>
   );

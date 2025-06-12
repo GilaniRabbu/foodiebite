@@ -15,9 +15,9 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mt-8 mb-10">
           {/* Logo and Contact Info */}
           <div className="lg:col-span-1 lg:w-4/5">
-            <h2 className="text-xl font-semibold mb-4">Foodie</h2>
+            <h2 className="text-xl font-semibold mb-4">FoodieBite</h2>
             <p className="text-sm text-gray-600">
-              When you walk into Foodie, you can&apos;t help but sense the
+              When you walk into FoodieBite, you can&apos;t help but sense the
               familiar charm of dinners at grandma&apos;s.
             </p>
           </div>
@@ -109,7 +109,7 @@ const Footer = () => {
                   href="#"
                   className="text-gray-600 hover:text-gray-900 text-sm"
                 >
-                  foodie@gmail.com
+                  foodiebite@gmail.com
                 </Link>
               </li>
             </ul>

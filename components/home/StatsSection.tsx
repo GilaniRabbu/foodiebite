@@ -19,20 +19,18 @@ export default function StatsSection() {
   ];
 
   return (
-    <div className="bg-gray-900 py-16 px-4">
-      <div className="container mx-auto">
-        <div className="flex justify-center items-center flex-col md:flex-row gap-20">
-          {stats.map((stat, index) => (
-            <div key={index} className="flex flex-col items-center">
-              <div className="text-4xl md:text-5xl font-bold text-orange-500 mb-2">
-                {stat.number}
-              </div>
-              <div className="text-sm font-medium text-gray-300">
-                {stat.label}
-              </div>
+    <div className="bg-gray-900 py-16  px-4">
+      <div className="flex justify-center items-center flex-col md:flex-row gap-20">
+        {stats.map((stat, index) => (
+          <div key={index} className="flex flex-col items-center">
+            <div className="text-4xl md:text-5xl font-bold text-orange-500 mb-2">
+              {stat.number}
             </div>
-          ))}
-        </div>
+            <div className="text-sm font-medium text-gray-300">
+              {stat.label}
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
