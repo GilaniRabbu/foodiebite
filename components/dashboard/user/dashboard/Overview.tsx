@@ -5,7 +5,6 @@ export default function Overview() {
     {
       label: "My Bookings",
       value: "4",
-      change: "+1 this month",
       icon: Calendar,
       color: "text-blue-600",
       description: "Total tables booked by you",
@@ -13,7 +12,6 @@ export default function Overview() {
     {
       label: "Total Spent",
       value: "$320",
-      change: "+$50 this month",
       icon: DollarSign,
       color: "text-green-600",
       description: "Your total order spend",
@@ -21,7 +19,6 @@ export default function Overview() {
     {
       label: "Favorite Meal",
       value: "Chicken Alfredo",
-      change: "",
       icon: Utensils,
       color: "text-pink-600",
       description: "Most frequently ordered",
@@ -29,7 +26,6 @@ export default function Overview() {
     {
       label: "Upcoming Booking",
       value: "June 15, 2025",
-      change: "Table for 4 at 7:30 PM",
       icon: Calendar,
       color: "text-orange-600",
       description: "Your next reservation",
@@ -96,9 +92,7 @@ export default function Overview() {
                   <p className="text-2xl font-bold text-gray-900">
                     {stat.value}
                   </p>
-                  <p className="text-sm text-green-600 mt-1">
-                    {stat.change} from last month
-                  </p>
+                
                 </div>
                 <div className={`p-3 rounded-lg bg-gray-50 ${stat.color}`}>
                   <Icon className="w-6 h-6" />

@@ -17,6 +17,18 @@ export function middleware(request: NextRequest) {
     url.pathname = "/user/settings/profile";
     return NextResponse.redirect(url);
   }
+  // Redirect /user to /user/dashboard
+  if (pathname === "/admin") {
+    const url = request.nextUrl.clone();
+    url.pathname = "/admin/dashboard";
+    return NextResponse.redirect(url);
+  }
 
+  // Redirect /user/settings to /user/settings/profile
+  if (pathname === "/admin/settings") {
+    const url = request.nextUrl.clone();
+    url.pathname = "/admin/settings/profile";
+    return NextResponse.redirect(url);
+  }
   return NextResponse.next();
 }

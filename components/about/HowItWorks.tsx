@@ -74,10 +74,7 @@ export default function HowItWorks() {
                 description={service.description}
               />
 
-              {/* Connecting Line (hidden on mobile) */}
-              {index < services.length - 1 && (
-                <div className="hidden md:block absolute top-10 left-full w-full h-0.5 bg-gradient-to-r from-red-200 to-transparent transform translate-x-8 -translate-y-1/2"></div>
-              )}
+
             </div>
           ))}
         </div>

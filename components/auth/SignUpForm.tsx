@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 
 export default function SignUpForm() {
   const [formData, setFormData] = useState({
@@ -45,7 +46,8 @@ export default function SignUpForm() {
                 name="firstName"
                 value={formData.firstName}
                 onChange={handleInputChange}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:outline-none"
+                placeholder="Enter your first name"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:outline-none"
                 required
               />
             </div>
@@ -62,7 +64,8 @@ export default function SignUpForm() {
                 name="lastName"
                 value={formData.lastName}
                 onChange={handleInputChange}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:outline-none"
+                placeholder="Enter your last name"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:outline-none"
                 required
               />
             </div>
@@ -81,7 +84,8 @@ export default function SignUpForm() {
               name="phone"
               value={formData.phone}
               onChange={handleInputChange}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:outline-none"
+              placeholder="Enter your phone number"
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:outline-none"
               required
             />
           </div>
@@ -99,7 +103,8 @@ export default function SignUpForm() {
               name="email"
               value={formData.email}
               onChange={handleInputChange}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:outline-none"
+              placeholder="Enter your email address"
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:outline-none"
               required
             />
           </div>
@@ -117,7 +122,8 @@ export default function SignUpForm() {
               name="password"
               value={formData.password}
               onChange={handleInputChange}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:outline-none"
+              placeholder="Create a password"
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:outline-none"
               required
             />
           </div>
@@ -135,18 +141,30 @@ export default function SignUpForm() {
               name="confirmPassword"
               value={formData.confirmPassword}
               onChange={handleInputChange}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:outline-none"
+              placeholder="Confirm your password"
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:outline-none"
               required
             />
           </div>
 
           <button
             type="submit"
-            className="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-3 rounded-lg transition-colors"
+            className="w-full bg-orange-600 text-white font-semibold py-2.5 rounded-lg transition-colors"
           >
             Create Account
           </button>
         </form>
+
+        {/* New part: Login link */}
+        <p className="mt-6 text-center text-gray-600">
+          Already have an account?{" "}
+          <Link
+            href="/login"
+            className="text-orange-600 font-semibold hover:underline"
+          >
+            Login
+          </Link>
+        </p>
       </div>
     </section>
   );

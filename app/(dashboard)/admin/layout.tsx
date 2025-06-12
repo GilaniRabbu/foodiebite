@@ -1,9 +1,10 @@
 
-import UserSidebar from "@/components/dashboard/shared/UserSidebar";
-import UserTopNavbar from "@/components/dashboard/shared/UserTopNavbar";
+
+import AdminSidebar from "@/components/dashboard/shared/AdminSidebar";
+import AdminTopNavbar from "@/components/dashboard/shared/AdminTopNavbar";
 import React from "react";
 
-export default function UserDashboardLayout({
+export default function AdminDashboardLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -12,12 +13,12 @@ export default function UserDashboardLayout({
     <div>
       {/* Sidebar: fixed only on large screens */}
       <div className="lg:fixed lg:z-50 lg:w-64">
-        <UserSidebar />
+        <AdminSidebar />
       </div>
 
       {/* Main content: pushed right on lg screens */}
       <div className="lg:pl-64 flex flex-col min-h-screen">
-        <UserTopNavbar />
+        <AdminTopNavbar/>
         <main className="px-5 pt-20 pb-5 flex-1">{children}</main>
       </div>
     </div>

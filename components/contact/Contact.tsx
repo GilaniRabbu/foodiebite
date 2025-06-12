@@ -149,7 +149,7 @@ export default function ContactUs() {
                     value={formData.firstName}
                     onChange={handleInputChange}
                     placeholder="First Name"
-                    className="w-full outline-none px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent transition-colors"
+                    className="w-full outline-none px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent transition-colors"
                     required
                   />
                 </div>
@@ -167,7 +167,7 @@ export default function ContactUs() {
                     value={formData.lastName}
                     onChange={handleInputChange}
                     placeholder="Last Name"
-                    className="w-full px-4 py-3 outline-none border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent transition-colors"
+                    className="w-full px-4 py-2.5 outline-none border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent transition-colors"
                     required
                   />
                 </div>
@@ -188,7 +188,7 @@ export default function ContactUs() {
                   value={formData.email}
                   onChange={handleInputChange}
                   placeholder="Email address"
-                  className="w-full px-4 py-3 border outline-none border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent transition-colors"
+                  className="w-full px-4 py-2.5 border outline-none border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent transition-colors"
                   required
                 />
               </div>
@@ -207,7 +207,7 @@ export default function ContactUs() {
                   value={formData.phone}
                   onChange={handleInputChange}
                   placeholder="Phone Number"
-                  className="w-full px-4 py-3 border outline-none border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent transition-colors"
+                  className="w-full px-4 py-2.5 border outline-none border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent transition-colors"
                   required
                 />
               </div>
@@ -224,7 +224,7 @@ export default function ContactUs() {
                   name="subject"
                   value={formData.subject}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 text-gray-500 border border-gray-300 rounded-lg focus:ring-2 outline-none focus:ring-red-500 focus:border-transparent transition-colors"
+                  className="w-full px-4 py-2.5 text-gray-500 border border-gray-300 rounded-lg focus:ring-2 outline-none focus:ring-red-500 focus:border-transparent transition-colors"
                   required
                 >
                   <option value="">Select a subject</option>
@@ -253,7 +253,7 @@ export default function ContactUs() {
                   onChange={handleInputChange}
                   placeholder="Any additional information..."
                   rows={4}
-                  className="w-full outline-none px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent transition-colors "
+                  className="w-full outline-none px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent transition-colors "
                   required
                 />
               </div>

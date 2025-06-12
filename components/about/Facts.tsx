@@ -95,7 +95,7 @@ export default function Facts() {
             </p>
 
             {/* Statistics */}
-            <div className="grid grid-cols-3 gap-8 py-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 py-6">
               {stats.map((stat, index) => (
                 <StatItem
                   key={index}

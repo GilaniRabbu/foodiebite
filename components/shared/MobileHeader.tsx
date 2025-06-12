@@ -17,7 +17,7 @@ const MobileHeader = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
-        <ContainerWrapper className="pt-5 block lg:hidden relative z-50">
+        <ContainerWrapper className="py-5 block lg:hidden relative z-50">
             <div className="flex items-center justify-between">
                 <Logo />
                 <button onClick={() => setIsOpen(true)} className=" cursor-pointer text-gray-700">

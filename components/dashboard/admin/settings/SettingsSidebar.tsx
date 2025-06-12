@@ -23,7 +23,7 @@ const SettingsSidebar = () => {
 
             return (
               <Link
-                href={`/user/settings/${tab.id}`}
+                href={`/admin/settings/${tab.id}`}
                 key={tab.id}
                 className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-colors ${isActive
                   ? "bg-red-50 text-red-600 border border-red-200"

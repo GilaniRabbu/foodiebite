@@ -72,7 +72,7 @@ export default function About() {
 
             {/* View Menu Button */}
             <div className="pt-4">
-              <button className="bg-green-500 hover:bg-green-600 text-white font-semibold px-8 py-4 rounded-full transition-colors duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all">
+              <button className="bg-green-500 hover:bg-green-600 text-white font-semibold px-8 py-4 rounded-full  duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all">
                 View Menu
               </button>
             </div>

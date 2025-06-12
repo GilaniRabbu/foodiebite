@@ -63,7 +63,7 @@ export default function MealsCategory() {
       : menuItems.filter((item) => item.category === selectedCategory);
 
   return (
-    <div className="container mx-auto py-10 bg-white">
+    <div className="container px-5 mx-auto py-10 bg-white">
       {/* Top Categories Section */}
       <div className="mb-8">
         <h2 className="text-3xl font-bold text-gray-800 mb-6">
@@ -74,11 +74,10 @@ export default function MealsCategory() {
             <button
               key={category}
               onClick={() => setSelectedCategory(category)}
-              className={`px-6 py-2 rounded-full border transition-all duration-200 text-sm font-medium ${
-                selectedCategory === category
+              className={`px-6 py-2 rounded-full border transition-all duration-200 text-sm font-medium ${selectedCategory === category
                   ? "bg-green-600 text-white border-transparent hover:bg-green-700"
                   : "bg-white text-gray-600 border-gray-300 hover:bg-gray-50"
-              }`}
+                }`}
             >
               {category}
             </button>
