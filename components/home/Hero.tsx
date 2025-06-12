@@ -1,9 +1,7 @@
 import Image from "next/image";
-import { Calendar, Clock } from "lucide-react";
 
 export default function Hero() {
   return (
-
     <div className="">
       <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
         {/* SMALL SCREEN IMAGE */}
@@ -31,9 +29,9 @@ export default function Hero() {
             </h1>
           </div>
           <p className="text-lg text-balance text-gray-700">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            Vestibulum convallis ante ante, ut tempor neque bibendum non. Ut
-            enim lacus, auctor nec convallis sed, vehicula ut eros.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum
+            convallis ante ante, ut tempor neque bibendum non. Ut enim lacus,
+            auctor nec convallis sed, vehicula ut eros.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
             <button className="cursor-pointer px-6 py-3 rounded text-lg text-white bg-orange-400 hover:bg-orange-500">
@@ -43,8 +41,6 @@ export default function Hero() {
               About us
             </button>
           </div>
-
-
         </div>
         {/* RIGHT CONTENT */}
         <div className="relative w-[440px] h-[440px] mx-auto hidden lg:block">
@@ -61,6 +57,5 @@ export default function Hero() {
         </div>
       </div>
     </div>
-
   );
 }

@@ -62,7 +62,7 @@ export default function AdminOverview() {
       <div>
         <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
         <p className="text-gray-600 mt-2">
-          Here's a snapshot of the restaurant's performance.
+          Here&apos;s a snapshot of the restaurant&apos;s performance.
         </p>
       </div>
 
@@ -107,7 +107,7 @@ export default function AdminOverview() {
               >
                 <p className="font-medium text-gray-900">{feedback.customer}</p>
                 <p className="text-sm text-gray-600">{feedback.date}</p>
-                <p className="text-sm text-gray-700">"{feedback.comment}"</p>
+                <p className="text-sm text-gray-700">&quot;{feedback.comment}&quot;</p>
                 <div className="flex items-center text-yellow-500 text-sm">
                   {[...Array(5)].map((_, i) => (
                     <Star
