@@ -2,7 +2,7 @@ import React from "react";
 
 const Security = () => {
   return (
-    <div>
+    <div className="bg-white rounded-sm p-6 border border-gray-200">
       <div className="py-6">
         <h2 className="text-xl font-semibold text-gray-900 mb-6">
           Security Settings

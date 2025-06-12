@@ -20,7 +20,7 @@ const Profile = () => {
   };
 
   return (
-    <div>
+    <div className="bg-white p-6 rounded-sm border border-gray-200">
       <div className="py-6">
         <h2 className="text-xl font-semibold text-gray-900 mb-6">
           Profile Information
@@ -36,7 +36,7 @@ const Profile = () => {
                 Change Photo
               </button>
               <p className="text-sm text-gray-600 mt-2">
-                JPG, GIF or PNG. 1MB max.
+                JPG, GIF or PNG. 2MB max.
               </p>
             </div>
           </div>

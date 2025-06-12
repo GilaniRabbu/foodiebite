@@ -1,11 +1,16 @@
-"use client";
+"use client"
 
-import { useState } from "react";
-import { Calendar, Clock, Users, Search, Filter } from "lucide-react";
+import { useState } from "react"
+import { Calendar, Clock, Users, Search, Filter } from "lucide-react"
+import { Card, CardContent } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 
 export default function BookingTable() {
-  const [selectedDate, setSelectedDate] = useState("2024-01-15");
-  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedDate, setSelectedDate] = useState("2024-01-15")
+  const [searchTerm, setSearchTerm] = useState("")
 
   const bookings = [
     {
@@ -48,136 +53,138 @@ export default function BookingTable() {
       status: "cancelled",
       table: "Table 1",
     },
-  ];
+  ]
 
-  // Since we removed customer/email, search will filter by table
-  const filteredBookings = bookings.filter((booking) =>
-    booking.table.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // Filter bookings by table search term
+  const filteredBookings = bookings.filter((booking) => booking.table.toLowerCase().includes(searchTerm.toLowerCase()))
+
+  const getStatusVariant = (status: string) => {
+    switch (status) {
+      case "confirmed":
+        return "default" as const
+      case "pending":
+        return "secondary" as const
+      case "cancelled":
+        return "destructive" as const
+      default:
+        return "outline" as const
+    }
+  }
 
   const getStatusColor = (status: string) => {
     switch (status) {
       case "confirmed":
-        return "bg-green-100 text-green-800";
+        return "bg-green-100 text-green-800 hover:bg-green-100"
       case "pending":
-        return "bg-yellow-100 text-yellow-800";
+        return "bg-yellow-100 text-yellow-800 hover:bg-yellow-100"
       case "cancelled":
-        return "bg-red-100 text-red-800";
+        return "bg-red-100 text-red-800 hover:bg-red-100"
       default:
-        return "bg-gray-100 text-gray-800";
+        return "bg-gray-100 text-gray-800 hover:bg-gray-100"
     }
-  };
+  }
 
   return (
     <div className="space-y-6">
       {/* Filters */}
-      <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-        <div className="flex flex-col lg:flex-row gap-4">
-          {/* Search */}
-          <div className="flex-1">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-              <input
-                type="text"
-                placeholder="Search by table..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+      <Card className="shadow-none rounded-sm">
+        <CardContent className="py-2 px-6">
+          <div className="flex flex-col lg:flex-row gap-4">
+            {/* Search */}
+            <div className="flex-1">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+                <Input
+                  type="text"
+                  placeholder="Search by table..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-10"
+                />
+              </div>
+            </div>
+
+            {/* Date Filter */}
+            <div className="flex gap-2">
+              <Input
+                type="date"
+                value={selectedDate}
+                onChange={(e) => setSelectedDate(e.target.value)}
+                className="w-auto"
               />
+              <Button variant="outline" className="flex items-center gap-2">
+                <Filter className="w-4 h-4" />
+                Filter
+              </Button>
             </div>
           </div>
-
-          {/* Date Filter */}
-          <div className="flex gap-2">
-            <input
-              type="date"
-              value={selectedDate}
-              onChange={(e) => setSelectedDate(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
-            />
-            <button className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
-              <Filter className="w-4 h-4" />
-              Filter
-            </button>
-          </div>
-        </div>
-      </div>
+        </CardContent>
+      </Card>
 
       {/* Bookings Table */}
-      <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead className="bg-gray-50 border-b border-gray-200">
-              <tr>
-                <th className="text-left p-4 font-semibold text-gray-900">
-                  Date & Time
-                </th>
-                <th className="text-left p-4 font-semibold text-gray-900">
-                  Guests
-                </th>
-                <th className="text-left p-4 font-semibold text-gray-900">
-                  Table
-                </th>
-                <th className="text-left p-4 font-semibold text-gray-900">
-                  Status
-                </th>
-                <th className="text-left p-4 font-semibold text-gray-900">
-                  Actions
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredBookings.map((booking) => (
-                <tr
-                  key={booking.id}
-                  className="border-b border-gray-100 hover:bg-gray-50"
-                >
-                  <td className="p-4">
-                    <div className="flex items-center gap-2">
-                      <Calendar className="w-4 h-4 text-gray-400" />
-                      <div>
-                        <p className="text-gray-900">{booking.date}</p>
-                        <p className="text-sm text-gray-600 flex items-center gap-1">
-                          <Clock className="w-3 h-3" />
-                          {booking.time}
-                        </p>
+      <Card className="shadow-none rounded-sm">
+        <CardContent className="">
+          <div className="overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="font-semibold">Date & Time</TableHead>
+                  <TableHead className="font-semibold">Guests</TableHead>
+                  <TableHead className="font-semibold">Table</TableHead>
+                  <TableHead className="font-semibold">Status</TableHead>
+                  <TableHead className="font-semibold">Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {filteredBookings.map((booking) => (
+                  <TableRow key={booking.id} className="hover:bg-muted/50">
+                    <TableCell>
+                      <div className="flex items-center gap-2">
+                        <Calendar className="w-4 h-4 text-muted-foreground" />
+                        <div>
+                          <p className="font-medium">{booking.date}</p>
+                          <p className="text-sm text-muted-foreground flex items-center gap-1">
+                            <Clock className="w-3 h-3" />
+                            {booking.time}
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                  </td>
-                  <td className="p-4">
-                    <div className="flex items-center gap-1">
-                      <Users className="w-4 h-4 text-gray-400" />
-                      <span className="text-gray-900">{booking.guests}</span>
-                    </div>
-                  </td>
-                  <td className="p-4">
-                    <span className="text-gray-900">{booking.table}</span>
-                  </td>
-                  <td className="p-4">
-                    <span
-                      className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(
-                        booking.status
-                      )}`}
-                    >
-                      {booking.status}
-                    </span>
-                  </td>
-                  <td className="p-4">
-                    <div className="flex gap-2">
-                      <button className="text-blue-600 hover:text-blue-800 text-sm font-medium">
-                        Edit
-                      </button>
-                      <button className="text-red-600 hover:text-red-800 text-sm font-medium">
-                        Cancel
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-1">
+                        <Users className="w-4 h-4 text-muted-foreground" />
+                        <span>{booking.guests}</span>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <span className="font-medium">{booking.table}</span>
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant="outline" className={getStatusColor(booking.status)}>
+                        {booking.status}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex gap-2">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="text-blue-600 hover:text-blue-800 hover:bg-blue-50"
+                        >
+                          Edit
+                        </Button>
+                        <Button variant="ghost" size="sm" className="text-red-600 hover:text-red-800 hover:bg-red-50">
+                          Cancel
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        </CardContent>
+      </Card>
     </div>
-  );
+  )
 }
