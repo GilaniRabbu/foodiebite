@@ -73,7 +73,7 @@ export default function ContactUs() {
           {/* Testimonial */}
           <div className="relative z-10 bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
             <p className="text-white/90 text-sm leading-relaxed mb-4">
-              &quot;Dining at RestaurantFlow has been an absolute pleasure from
+              &quot;Dining at FoodieBite has been an absolute pleasure from
               start to finish. Their team&apos;s expertise in culinary arts
               allowed them to bring our vision to life with precision and
               creativity. They don&apos;t just serve food; they craft an
@@ -93,22 +93,21 @@ export default function ContactUs() {
                 </div>
               </div>
             </div>
-
           </div>
           {/* Contact Info */}
           <div className="mt-12 ">
             <div className="grid grid-cols-1 sm:grid-cols-2 w-full gap-6 text-sm">
               <div className="flex items-center gap-2 text-white">
                 <MapPin className="w-4 h-4" />
-                <span>123 Food Street, City</span>
+                <span>123 Main Street, Downtown</span>
               </div>
               <div className="flex items-center gap-2 text-white">
                 <Phone className="w-4 h-4" />
-                <span>+1 (555) 123-4567</span>
+                <span>+880 123-4567</span>
               </div>
               <div className="flex items-center gap-2 text-white">
                 <Mail className="w-4 h-4" />
-                <span>hello@restaurant.com</span>
+                <span>foodiebite@gmail.com</span>
               </div>
               <div className="flex items-center gap-2 text-white">
                 <Clock className="w-4 h-4" />
@@ -120,15 +119,15 @@ export default function ContactUs() {
 
         {/* Right Side - Contact Form */}
         <div className=" py-10 sm:py-0 sm:p-8  flex flex-col justify-center">
-          <div className="
-           w-full">
+          <div
+            className="
+           w-full"
+          >
             {/* Header */}
             <div className="mb-8">
-
               <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
                 Have a reservation in mind? Let&apos;s plan it together.
               </h2>
-
             </div>
 
             {/* Contact Form */}
@@ -267,8 +266,6 @@ export default function ContactUs() {
                 Send Message
               </button>
             </form>
-
-
           </div>
         </div>
       </div>

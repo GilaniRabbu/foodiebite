@@ -9,12 +9,12 @@ const infoData = [
   {
     icon: <Clock className="w-6 h-6 text-white" />,
     title: "Open Hours",
-    description: "Monday - Sunday: 11:00 AM - 11:00 PM",
+    description: "Monday - Sunday: 9:00 AM - 11:00 PM",
   },
   {
     icon: <Calendar className="w-6 h-6 text-white" />,
     title: "Reservation",
-    description: "Call us at (880) 123-4567",
+    description: "Call us at +880 123-4567",
   },
 ];
 
