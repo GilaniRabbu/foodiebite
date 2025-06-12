@@ -4,6 +4,7 @@ import ReduxProvider from "@/redux/ReduxProvider";
 import Footer from "@/components/shared/Footer";
 import "./globals.css";
 import ClientHeader from "@/components/shared/ClientHeader";
+import { Toaster } from "sonner";
 
 const poppins = Poppins({
   weight: ["500"],
@@ -26,6 +27,7 @@ export default function RootLayout({
         <ReduxProvider>
           <ClientHeader />
           {children}
+          <Toaster />
           <Footer />
         </ReduxProvider>
       </body>

@@ -1,7 +1,11 @@
+/* eslint-disable */
 "use client";
 
 import { useState } from "react";
 import Link from "next/link";
+import { useCreateUserMutation } from "@/redux/api/userApi";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export default function SignUpForm() {
   const [formData, setFormData] = useState({
@@ -13,15 +17,49 @@ export default function SignUpForm() {
     confirmPassword: "",
   });
 
+  const [createAccount, { isLoading }] = useCreateUserMutation();
+  const router = useRouter();
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Sign Up form submitted:", formData);
-    // Add your API call or logic here
+
+    if (formData.password !== formData.confirmPassword) {
+      toast.error("Passwords do not match");
+      return;
+    }
+
+    if (
+      !formData.email ||
+      !formData.phone ||
+      !formData.firstName ||
+      !formData.lastName ||
+      !formData.password ||
+      !formData.confirmPassword
+    ) {
+      toast.error("All fields are required");
+      return;
+    }
+
+    try {
+      const { confirmPassword, ...rest } = formData;
+      const res = await createAccount(rest).unwrap();
+      if (res.success) {
+        toast.success(res.message);
+        router.push("/login");
+      }
+
+      console.log("Sign Up success:", res);
+      // Optionally clear form or navigate to login page here
+    } catch (err: any) {
+      console.error("Sign Up error:", err);
+      toast.error(err.message);
+    }
   };
 
   return (
@@ -31,7 +69,7 @@ export default function SignUpForm() {
           Sign Up
         </h2>
 
-        <form onSubmit={handleSubmit} className="space-y-5">
+        <form className="space-y-5">
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label
@@ -148,10 +186,13 @@ export default function SignUpForm() {
           </div>
 
           <button
-            type="submit"
-            className="w-full bg-orange-600 text-white font-semibold py-2.5 rounded-lg transition-colors"
+            onClick={handleSubmit}
+            disabled={isLoading}
+            className={`w-full cursor-pointer bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg transition-colors ${
+              isLoading ? "opacity-50 cursor-not-allowed" : ""
+            }`}
           >
-            Create Account
+            {isLoading ? "Signing Up..." : "Sign Up"}
           </button>
         </form>
 

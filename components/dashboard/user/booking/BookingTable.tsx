@@ -1,16 +1,23 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Calendar, Clock, Users, Search, Filter } from "lucide-react"
-import { Card, CardContent } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { useState } from "react";
+import { Calendar, Clock, Users, Search, Filter } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 export default function BookingTable() {
-  const [selectedDate, setSelectedDate] = useState("2024-01-15")
-  const [searchTerm, setSearchTerm] = useState("")
+  const [selectedDate, setSelectedDate] = useState("2024-01-15");
+  const [searchTerm, setSearchTerm] = useState("");
 
   const bookings = [
     {
@@ -53,36 +60,38 @@ export default function BookingTable() {
       status: "cancelled",
       table: "Table 1",
     },
-  ]
+  ];
 
   // Filter bookings by table search term
-  const filteredBookings = bookings.filter((booking) => booking.table.toLowerCase().includes(searchTerm.toLowerCase()))
+  const filteredBookings = bookings.filter((booking) =>
+    booking.table.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
-  const getStatusVariant = (status: string) => {
-    switch (status) {
-      case "confirmed":
-        return "default" as const
-      case "pending":
-        return "secondary" as const
-      case "cancelled":
-        return "destructive" as const
-      default:
-        return "outline" as const
-    }
-  }
+  // const getStatusVariant = (status: string) => {
+  //   switch (status) {
+  //     case "confirmed":
+  //       return "default" as const
+  //     case "pending":
+  //       return "secondary" as const
+  //     case "cancelled":
+  //       return "destructive" as const
+  //     default:
+  //       return "outline" as const
+  //   }
+  // }
 
   const getStatusColor = (status: string) => {
     switch (status) {
       case "confirmed":
-        return "bg-green-100 text-green-800 hover:bg-green-100"
+        return "bg-green-100 text-green-800 hover:bg-green-100";
       case "pending":
-        return "bg-yellow-100 text-yellow-800 hover:bg-yellow-100"
+        return "bg-yellow-100 text-yellow-800 hover:bg-yellow-100";
       case "cancelled":
-        return "bg-red-100 text-red-800 hover:bg-red-100"
+        return "bg-red-100 text-red-800 hover:bg-red-100";
       default:
-        return "bg-gray-100 text-gray-800 hover:bg-gray-100"
+        return "bg-gray-100 text-gray-800 hover:bg-gray-100";
     }
-  }
+  };
 
   return (
     <div className="space-y-6">
@@ -160,7 +169,10 @@ export default function BookingTable() {
                       <span className="font-medium">{booking.table}</span>
                     </TableCell>
                     <TableCell>
-                      <Badge variant="outline" className={getStatusColor(booking.status)}>
+                      <Badge
+                        variant="outline"
+                        className={getStatusColor(booking.status)}
+                      >
                         {booking.status}
                       </Badge>
                     </TableCell>
@@ -173,7 +185,11 @@ export default function BookingTable() {
                         >
                           Edit
                         </Button>
-                        <Button variant="ghost" size="sm" className="text-red-600 hover:text-red-800 hover:bg-red-50">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="text-red-600 hover:text-red-800 hover:bg-red-50"
+                        >
                           Cancel
                         </Button>
                       </div>
@@ -186,5 +202,5 @@ export default function BookingTable() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }
