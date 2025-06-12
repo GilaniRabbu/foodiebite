@@ -32,29 +32,6 @@ export default function AdminOverview() {
     },
   ];
 
-  const recentFeedback = [
-    {
-      id: 1,
-      customer: "Alice Johnson",
-      date: "2024-01-15",
-      comment: "Loved the ambiance and food!",
-      rating: 5,
-    },
-    {
-      id: 2,
-      customer: "Bob Smith",
-      date: "2024-01-16",
-      comment: "Service could be quicker.",
-      rating: 3,
-    },
-    {
-      id: 3,
-      customer: "Carol Davis",
-      date: "2024-01-17",
-      comment: "Great place for family dinner.",
-      rating: 4,
-    },
-  ];
 
   return (
     <div className="space-y-6">
@@ -91,37 +68,7 @@ export default function AdminOverview() {
         })}
       </div>
 
-      {/* Recent Feedback */}
-      <div className="grid grid-cols-1 gap-6">
-        <div className="bg-white rounded-xl border border-gray-200 shadow-sm">
-          <div className="p-6 border-b border-gray-200">
-            <h3 className="text-lg font-semibold text-gray-900">
-              Recent Customer Feedback
-            </h3>
-          </div>
-          <div className="p-6 space-y-4">
-            {recentFeedback.map((feedback) => (
-              <div
-                key={feedback.id}
-                className="p-4 bg-gray-50 rounded-lg space-y-1"
-              >
-                <p className="font-medium text-gray-900">{feedback.customer}</p>
-                <p className="text-sm text-gray-600">{feedback.date}</p>
-                <p className="text-sm text-gray-700">"{feedback.comment}"</p>
-                <div className="flex items-center text-yellow-500 text-sm">
-                  {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      className={`w-4 h-4 ${i < feedback.rating ? "fill-yellow-500" : "fill-none"
-                        }`}
-                    />
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
+
     </div>
   );
 }

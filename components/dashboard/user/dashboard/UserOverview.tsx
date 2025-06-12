@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { CalendarDays, MapPin, Heart, TrendingUp } from "lucide-react"
 
-export default function Overview() {
+export default function UserOverview() {
   const metrics = [
     {
       title: "Total Bookings",
