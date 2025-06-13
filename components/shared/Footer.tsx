@@ -101,7 +101,7 @@ const Footer = () => {
                   href="#"
                   className="text-gray-600 hover:text-gray-900 text-sm"
                 >
-                  880 123-4567
+                  +880 123-4567
                 </Link>
               </li>
               <li>

@@ -1,21 +1,26 @@
+/* eslint-disable */
 "use client";
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useLoginUserMutation } from "@/redux/api/authApi";
+import { toast } from "sonner";
 
 export default function LoginForm() {
   // Default credentials for roles
   const defaultCredentials = {
     user: {
-      email: "user@example.com",
-      password: "user1234",
+      email: "inez@mailinator.com",
+      password: "1234567",
     },
     admin: {
       email: "admin@example.com",
       password: "admin1234",
     },
   };
+
+  const [userLogin, { isLoading }] = useLoginUserMutation();
   const router = useRouter();
 
   const [formData, setFormData] = useState({
@@ -43,14 +48,25 @@ export default function LoginForm() {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Login form submitted:", formData);
-    if (formData.role === "user") {
-      router.push("/user/dashboard");
-    }
-    else if (formData.role === "admin") {
-      router.push("/admin/dashboard");
+
+    try {
+      const { role, ...rest } = formData;
+      const res = await userLogin(rest).unwrap();
+      console.log("Login success:", res);
+
+      if (res.success) {
+        if (res?.data?.user?.role === "ADMIN") {
+          router.push("/admin/dashboard");
+        } else if (res?.data?.user?.role === "USER") {
+          router.push("/user/dashboard");
+        }
+        toast.success(res.message);
+      }
+    } catch (error) {
+      toast.error("Login failed. Please try again.");
     }
   };
 
@@ -61,7 +77,7 @@ export default function LoginForm() {
           Login
         </h2>
 
-        <form onSubmit={handleSubmit} className="space-y-5">
+        <form className="space-y-5">
           <div>
             <label
               htmlFor="email"
@@ -132,10 +148,12 @@ export default function LoginForm() {
           </fieldset>
 
           <button
-            type="submit"
-            className="w-full cursor-pointer bg-orange-600 text-white font-semibold py-2.5 rounded-lg transition-colors"
+            onClick={handleSubmit}
+            className={`w-full cursor-pointer bg-orange-600 hover:bg-orange-700 text-white py-2.5 rounded-lg transition-colors ${
+              isLoading ? "opacity-50 cursor-not-allowed" : ""
+            }`}
           >
-            Login
+            {isLoading ? "Logging in..." : "Login"}
           </button>
         </form>
 

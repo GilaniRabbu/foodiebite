@@ -39,7 +39,7 @@ export default function AdminOverview() {
       <div>
         <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
         <p className="text-gray-600 mt-2">
-          Here's a snapshot of the restaurant's performance.
+          Here&apos;s a snapshot of the restaurant&apos;s performance.
         </p>
       </div>
 
@@ -67,7 +67,6 @@ export default function AdminOverview() {
           );
         })}
       </div>
-
 
     </div>
   );

@@ -1,8 +1,8 @@
+/* eslint-disable */
 "use client";
 import React from "react";
 import { useRouter } from "next/navigation";
 import { useGetAllMealsQuery } from "@/redux/api/mealApi";
-import { Meal } from "@/types/Meal";
 import { toast } from "sonner";
 import {
   addMeal,
@@ -19,8 +19,8 @@ const Menus = () => {
   const selectedMeals = useSelector(selectSelectedMeals);
 
   // Group meals by type
-  const groupedMeals: Record<string, Meal[]> = data?.data?.reduce(
-    (acc: Record<string, Meal[]>, meal: Meal) => {
+  const groupedMeals: Record<string, any[]> = data?.data?.reduce(
+    (acc: Record<string, any[]>, meal: any) => {
       if (!acc[meal.type]) acc[meal.type] = [];
       acc[meal.type].push(meal);
       return acc;
@@ -28,11 +28,14 @@ const Menus = () => {
     {}
   );
 
-  const handleCheckboxChange = (mealId: string) => {
-    if (selectedMeals.includes(mealId)) {
-      dispatch(removeMeal(mealId));
+  const isMealSelected = (mealId: string) =>
+    selectedMeals.some((m: any) => m._id === mealId);
+
+  const handleCheckboxChange = (meal: any) => {
+    if (isMealSelected(meal._id)) {
+      dispatch(removeMeal(meal._id));
     } else {
-      dispatch(addMeal(mealId));
+      dispatch(addMeal(meal));
     }
   };
 
@@ -44,14 +47,14 @@ const Menus = () => {
   };
 
   if (isLoading) {
-    return <Loader />
+    return <Loader />;
   }
   if (isError) {
     return (
       <div className="flex items-center justify-center p-10">
         <p className="text-xl text-orange-400">No Menu Items Found</p>
       </div>
-    )
+    );
   }
 
   return (
@@ -64,7 +67,7 @@ const Menus = () => {
                 {type}
               </h3>
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 ">
-                {meals.map((meal: Meal) => (
+                {meals.map((meal: any) => (
                   <div
                     key={meal._id}
                     className="flex justify-between items-center gap-5 pb-4 border-gray-200 border-b"
@@ -103,22 +106,20 @@ const Menus = () => {
                       </div>
                     </div>
 
-                    {/* Fix: fixed width container for price + checkbox */}
                     <div className="flex items-center space-x-4 w-36 justify-end">
                       <span className="text-lg font-semibold text-green-800">
                         ${meal.price}
                       </span>
                       <input
                         type="checkbox"
-                        checked={selectedMeals.includes(meal._id)}
-                        onChange={() => handleCheckboxChange(meal._id)}
+                        checked={isMealSelected(meal._id)}
+                        onChange={() => handleCheckboxChange(meal)}
                       />
                     </div>
                   </div>
                 ))}
               </div>
 
-              {/* Book button (outside map) */}
               <div className="text-center mt-6">
                 <button
                   onClick={handleBookTable}

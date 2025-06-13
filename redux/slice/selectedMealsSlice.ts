@@ -2,7 +2,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 type TSelectedMealsState = {
-  selectedMeals: string[];
+  selectedMeals: any[];
 };
 
 const initialState: TSelectedMealsState = {
@@ -13,17 +13,20 @@ const selectedMealsSlice = createSlice({
   name: "selectedMeals",
   initialState,
   reducers: {
-    setSelectedMeals: (state, action: PayloadAction<string[]>) => {
+    setSelectedMeals: (state, action: PayloadAction<any[]>) => {
       state.selectedMeals = action.payload;
     },
-    addMeal: (state, action: PayloadAction<string>) => {
-      if (!state.selectedMeals.includes(action.payload)) {
+    addMeal: (state, action: PayloadAction<any>) => {
+      const exists = state.selectedMeals.find(
+        (meal) => meal._id === action.payload._id
+      );
+      if (!exists) {
         state.selectedMeals.push(action.payload);
       }
     },
     removeMeal: (state, action: PayloadAction<string>) => {
       state.selectedMeals = state.selectedMeals.filter(
-        (mealId) => mealId !== action.payload
+        (meal) => meal._id !== action.payload
       );
     },
     clearSelectedMeals: (state) => {
@@ -32,15 +35,12 @@ const selectedMealsSlice = createSlice({
   },
 });
 
-export const {
-  setSelectedMeals,
-  addMeal,
-  removeMeal,
-  clearSelectedMeals,
-} = selectedMealsSlice.actions;
+export const { setSelectedMeals, addMeal, removeMeal, clearSelectedMeals } =
+  selectedMealsSlice.actions;
 
 export default selectedMealsSlice.reducer;
 
-// ✅ Selectors
-export const selectSelectedMeals = (state: { selectedMeals: TSelectedMealsState }) =>
-  state.selectedMeals.selectedMeals;
+// ✅ Selector
+export const selectSelectedMeals = (state: {
+  selectedMeals: TSelectedMealsState;
+}) => state.selectedMeals.selectedMeals;
