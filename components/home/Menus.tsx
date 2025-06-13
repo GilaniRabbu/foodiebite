@@ -14,6 +14,7 @@ import Loader from "../shared/Loader";
 
 const Menus = () => {
   const { data, isLoading, isError } = useGetAllMealsQuery(undefined);
+  console.log(data)
   const router = useRouter();
   const dispatch = useDispatch();
   const selectedMeals = useSelector(selectSelectedMeals);

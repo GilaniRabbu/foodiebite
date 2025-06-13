@@ -77,16 +77,17 @@ const Booking: React.FC = () => {
       mealIds, // ✅ renamed from meals → mealIds
     };
 
-    console.log("Booking payload:", payload);
 
     try {
       const res = await createBooking(payload).unwrap();
       console.log("Booking success:", res);
       if (res.success) {
-        console.log(res.data);
+        console.log('data', res.data);
         toast.success(res.message);
+        const ids = res.data.map((b: any) => b).join(",");
+        console.log("Booking IDs:", ids);
         router.push(
-          `/success-booking?bookingId=${res?.data?.booking?.bookingId}&total=20`
+          `/booking/success?bookingIds=${ids}`
         );
       }
       // Optional: dispatch(clearSelectedMeals());
@@ -264,9 +265,8 @@ const Booking: React.FC = () => {
             <div className="pt-4">
               <button
                 type="submit"
-                className={`w-full cursor-pointer bg-orange-600 hover:bg-orange-700 text-white py-2.5 rounded-lg transition-colors ${
-                  isLoading ? "opacity-50 cursor-not-allowed" : ""
-                }`}
+                className={`w-full cursor-pointer bg-orange-600 hover:bg-orange-700 text-white py-2.5 rounded-lg transition-colors ${isLoading ? "opacity-50 cursor-not-allowed" : ""
+                  }`}
               >
                 {isLoading ? "Reserving..." : "Confirm Reservation"}
               </button>
