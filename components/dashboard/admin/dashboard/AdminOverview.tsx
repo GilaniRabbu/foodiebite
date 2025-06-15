@@ -1,4 +1,4 @@
-import { Calendar, DollarSign, Utensils, Users, Star } from "lucide-react";
+import { Calendar, DollarSign, Utensils, Users } from "lucide-react";
 
 export default function AdminOverview() {
   const stats = [
@@ -31,7 +31,6 @@ export default function AdminOverview() {
       description: "Unique customers served",
     },
   ];
-
 
   return (
     <div className="space-y-6">
@@ -67,7 +66,6 @@ export default function AdminOverview() {
           );
         })}
       </div>
-
     </div>
   );
 }

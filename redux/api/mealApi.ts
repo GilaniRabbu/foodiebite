@@ -13,11 +13,6 @@ const mealApi = baseApi.injectEndpoints({
       invalidatesTags: ["Meal"],
     }),
 
-    // getMeals: build.query({
-    //   query: () => "/meals",
-    //   providesTags: ["Meal"],
-    // }),
-
     // Get All Meals
     getAllMeals: build.query({
       query: () => ({
@@ -27,7 +22,7 @@ const mealApi = baseApi.injectEndpoints({
       providesTags: ["Meal"],
     }),
 
-    // Get Single Meal
+    // Get Meal by ID
     getMealById: build.query({
       query: (id: string) => ({
         url: `/meals/${id}`,
@@ -54,6 +49,44 @@ const mealApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Meal"],
     }),
+
+    // ✅ Get all categories
+    getAllCategories: build.query<any, void>({
+      query: () => ({
+        url: "/meals/categories",
+        method: "GET",
+      }),
+      providesTags: ["Meal"],
+    }),
+
+    // ✅ Get meals by category with optional pagination/sorting
+    getMealsByCategory: build.query({
+      query: ({
+        category,
+        page,
+        limit,
+        sortBy,
+        sortOrder,
+      }: {
+        category: string;
+        page?: number;
+        limit?: number;
+        sortBy?: string;
+        sortOrder?: "asc" | "desc";
+      }) => {
+        const params = new URLSearchParams();
+        if (category) params.append("category", category);
+        if (page) params.append("page", page.toString());
+        if (limit) params.append("limit", limit.toString());
+        if (sortBy) params.append("sortBy", sortBy);
+        if (sortOrder) params.append("sortOrder", sortOrder);
+        return {
+          url: `/meals/meals-by-category?${params.toString()}`,
+          method: "GET",
+        };
+      },
+      providesTags: ["Meal"],
+    }),
   }),
 });
 
@@ -63,5 +96,6 @@ export const {
   useGetMealByIdQuery,
   useUpdateMealMutation,
   useDeleteMealMutation,
-  // useGetMealsQuery,
+  useGetAllCategoriesQuery,
+  useGetMealsByCategoryQuery,
 } = mealApi;
