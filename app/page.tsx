@@ -4,7 +4,7 @@ import ServiceInfo from "@/components/home/ServiceInfo";
 import StatsSection from "@/components/home/StatsSection";
 import ContactUs from "@/components/contact/Contact";
 import ContainerWrapper from "@/components/common/ContainerWrapper";
-// import TopCategories from "@/components/home/TopCategories";
+import TopCategories from "@/components/home/TopCategories";
 import OurServices from "@/components/home/OurServices";
 
 export default function Home() {
@@ -15,8 +15,7 @@ export default function Home() {
       </ContainerWrapper>
       <ServiceInfo />
       <ContainerWrapper>
-        {/* <TopCategories /> */}
-
+        <TopCategories />
         <Menus />
       </ContainerWrapper>
       <StatsSection />
