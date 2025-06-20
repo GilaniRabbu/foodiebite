@@ -1,83 +1,60 @@
 "use client";
-
 import { useState } from "react";
 import Image from "next/image";
-import { Heart, Clock, Users } from "lucide-react";
+import { Heart, Clock, Users, Check, X } from "lucide-react";
+import { useGetMealByIdQuery } from "@/redux/api/mealApi";
 
-// interface MealDetailsProps {
-//   meal?: {
-//     id: number;
-//     name: string;
-//     description: string;
-//     longDescription: string;
-//     price: number;
-//     originalPrice: number;
-//     image: string;
-//     rating: number;
-//     reviewCount: number;
-//     prepTime: string;
-//     servings: number;
-//     ingredients: string[];
-//     nutritionFacts: {
-//       calories: number;
-//       protein: string;
-//       carbs: string;
-//       fat: string;
-//     };
-//     tags: string[];
-//   };
-// }
 interface MealDetailsProps {
   id: string;
 }
-const meal = {
-  id: 1,
-  name: "Mexican Tacos with Seasoned Meat",
-  description: "Authentic Mexican tacos with perfectly seasoned ground beef",
-  longDescription:
-    "Experience the authentic taste of Mexico with our handcrafted tacos featuring perfectly seasoned ground beef, fresh lettuce, diced tomatoes, shredded cheese, and our signature salsa. Each taco is served in a warm corn tortilla that's made fresh daily. This traditional recipe has been passed down through generations and brings the vibrant flavors of Mexican street food right to your table.",
-  price: 18.0,
-  originalPrice: 24.0,
-  image: "/placeholder.svg?height=400&width=400",
-  rating: 4.8,
-  reviewCount: 127,
-  prepTime: "15-20 min",
-  servings: 3,
-  ingredients: [
-    "Ground beef (200g)",
-    "Corn tortillas (3 pieces)",
-    "Fresh lettuce",
-    "Diced tomatoes",
-    "Shredded cheddar cheese",
-    "Sour cream",
-    "Signature salsa",
-    "Lime wedges",
-    "Mexican spices blend",
-  ],
-  nutritionFacts: {
-    calories: 420,
-    protein: "28g",
-    carbs: "32g",
-    fat: "18g",
-  },
-  tags: ["Spicy", "Gluten-Free Option", "High Protein", "Popular"],
-};
+
+interface MealImage {
+  url: string;
+  altText: string;
+  _id?: string;
+  id: string;
+}
 
 export default function MealDetails({ id }: MealDetailsProps) {
   const [isFavorite, setIsFavorite] = useState(false);
   const [selectedImage, setSelectedImage] = useState(0);
-  console.log(id);
 
-  const images = [meal.image, meal.image, meal.image]; // In real app, would have multiple images
+  const { data, isLoading, isError } = useGetMealByIdQuery(id);
+
+  const meal = data?.data;
+
+  if (isLoading) {
+    return (
+      <div className="max-w-7xl mx-auto px-4 py-8 animate-pulse space-y-6">
+        <div className="h-[400px] bg-gray-200 rounded-xl" />
+        <div className="h-6 w-3/4 bg-gray-200 rounded" />
+        <div className="h-4 w-1/2 bg-gray-200 rounded" />
+        <div className="h-4 w-full bg-gray-200 rounded" />
+        <div className="h-4 w-5/6 bg-gray-200 rounded" />
+      </div>
+    );
+  }
+
+  if (isError || !meal)
+    return (
+      <p className="text-center text-red-500 py-10">
+        Failed to load meal details.
+      </p>
+    );
+
+  const images = meal?.images?.map((img: MealImage) => img.url) ?? [
+    "/placeholder.svg",
+  ];
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
         {/* Image Section */}
         <div className="space-y-4">
+          {/* Main Image */}
           <div className="relative aspect-square rounded-2xl overflow-hidden bg-gray-100">
             <Image
-              src={images[selectedImage] || "/placeholder.svg"}
+              src={images[selectedImage]}
               alt={meal.name}
               fill
               className="object-cover"
@@ -96,7 +73,7 @@ export default function MealDetails({ id }: MealDetailsProps) {
 
           {/* Thumbnail Images */}
           <div className="flex gap-3">
-            {images.map((image, index) => (
+            {images.map((imgUrl: string, index: number) => (
               <button
                 key={index}
                 onClick={() => setSelectedImage(index)}
@@ -107,8 +84,8 @@ export default function MealDetails({ id }: MealDetailsProps) {
                 }`}
               >
                 <Image
-                  src={image || "/placeholder.svg"}
-                  alt={`${meal.name} view ${index + 1}`}
+                  src={imgUrl}
+                  alt={`Thumbnail ${index + 1}`}
                   fill
                   className="object-cover"
                 />
@@ -119,90 +96,61 @@ export default function MealDetails({ id }: MealDetailsProps) {
 
         {/* Details Section */}
         <div className="space-y-6">
-          {/* Header */}
-          <div>
-            <div className="flex flex-wrap gap-2 mb-3">
-              {meal.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="px-3 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">
-              {meal.name}
-            </h1>
-            <p className="text-gray-600 text-lg">{meal.description}</p>
+          {/* Categories (Tags) */}
+          <div className="flex flex-wrap gap-2 mb-3">
+            {meal.categories.map((category: string) => (
+              <span
+                key={category}
+                className="px-3 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full"
+              >
+                {category}
+              </span>
+            ))}
           </div>
 
-          {/* Rating */}
-          {/* <div className="flex items-center gap-3">
-            <div className="flex items-center gap-1">
-              {[...Array(5)].map((_, i) => (
-                <Star
-                  key={i}
-                  className={`w-5 h-5 ${
-                    i < Math.floor(meal.rating)
-                      ? "fill-yellow-400 text-yellow-400"
-                      : "text-gray-300"
-                  }`}
-                />
-              ))}
-            </div>
-            <span className="font-semibold text-gray-900">{meal.rating}</span>
-            <span className="text-gray-500">({meal.reviewCount} reviews)</span>
-          </div> */}
+          {/* Meal Name and Description */}
+          {/* Title + Availability */}
+          <div className="flex items-center justify-between">
+            <h1 className="text-3xl font-bold text-gray-900">{meal.name}</h1>
+            {meal.isAvailable ? (
+              <span className="inline-flex items-center px-3 py-1 text-sm bg-green-100 text-green-800 rounded-full">
+                <Check className="w-4 h-4 mr-1" /> Available
+              </span>
+            ) : (
+              <span className="inline-flex items-center px-3 py-1 text-sm bg-red-100 text-red-800 rounded-full">
+                <X className="w-4 h-4 mr-1" /> Not available
+              </span>
+            )}
+          </div>
+          <p className="text-gray-600 text-lg">{meal.description}</p>
 
-          {/* Price */}
+          {/* Price Info */}
           <div className="flex items-center gap-4">
             <span className="text-3xl font-bold text-gray-900">
               ${meal.price.toFixed(2)}
             </span>
-            <span className="text-xl text-gray-400 line-through">
-              ${meal.originalPrice.toFixed(2)}
-            </span>
-            <span className="px-3 py-1 bg-red-100 text-red-800 text-sm font-medium rounded-full">
-              Save ${(meal.originalPrice - meal.price).toFixed(2)}
-            </span>
           </div>
 
-          {/* Quick Info */}
+          {/* Basic Info - hardcoded for now */}
           <div className="flex gap-6 py-4 border-y border-gray-200">
             <div className="flex items-center gap-2">
               <Clock className="w-5 h-5 text-gray-500" />
-              <span className="text-gray-700">{meal.prepTime}</span>
+              <span className="text-gray-700">15-20 min</span>
             </div>
             <div className="flex items-center gap-2">
               <Users className="w-5 h-5 text-gray-500" />
-              <span className="text-gray-700">{meal.servings} servings</span>
+              <span className="text-gray-700">2-4 servings</span>
             </div>
-          </div>
-          <div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">
-              Description
-            </h2>
-            <p className="text-gray-700 leading-relaxed">
-              {meal.longDescription}
-            </p>
           </div>
 
-          {/* Ingredients */}
-          <div className="mt-12">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">
-              Ingredients
+          {/* Description Expanded */}
+          <div>
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">
+              Keywords / Details
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              {meal.ingredients.map((ingredient, index) => (
-                <div
-                  key={index}
-                  className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg"
-                >
-                  <span className="text-gray-700">{ingredient}</span>
-                </div>
-              ))}
-            </div>
+            <p className="text-gray-700 leading-relaxed">
+              {meal.keywords?.[0] ?? "No extra keywords available."}
+            </p>
           </div>
         </div>
       </div>

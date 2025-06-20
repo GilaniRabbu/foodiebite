@@ -22,34 +22,6 @@ const mealApi = baseApi.injectEndpoints({
       providesTags: ["Meal"],
     }),
 
-    // Get Meal by ID
-    getMealById: build.query({
-      query: (id: string) => ({
-        url: `/meals/${id}`,
-        method: "GET",
-      }),
-      providesTags: ["Meal"],
-    }),
-
-    // Update Meal
-    updateMeal: build.mutation({
-      query: ({ id, data }: { id: string; data: Partial<any> }) => ({
-        url: `/meals/${id}`,
-        method: "PATCH",
-        body: data,
-      }),
-      invalidatesTags: ["Meal"],
-    }),
-
-    // Delete Meal
-    deleteMeal: build.mutation({
-      query: (id: string) => ({
-        url: `/meals/${id}`,
-        method: "DELETE",
-      }),
-      invalidatesTags: ["Meal"],
-    }),
-
     // ✅ Get all categories
     getAllCategories: build.query<any, void>({
       query: () => ({
@@ -86,6 +58,34 @@ const mealApi = baseApi.injectEndpoints({
         };
       },
       providesTags: ["Meal"],
+    }),
+
+    // Get Meal by ID
+    getMealById: build.query({
+      query: (id: string) => ({
+        url: `/meals/${id}`,
+        method: "GET",
+      }),
+      providesTags: ["Meal"],
+    }),
+
+    // Update Meal
+    updateMeal: build.mutation({
+      query: ({ id, data }: { id: string; data: Partial<any> }) => ({
+        url: `/meals/${id}`,
+        method: "PATCH",
+        body: data,
+      }),
+      invalidatesTags: ["Meal"],
+    }),
+
+    // Delete Meal
+    deleteMeal: build.mutation({
+      query: (id: string) => ({
+        url: `/meals/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Meal"],
     }),
   }),
 });
