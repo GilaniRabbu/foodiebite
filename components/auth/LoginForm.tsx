@@ -71,7 +71,7 @@ export default function LoginForm() {
   };
 
   return (
-    <section className="min-h-screen flex items-center justify-center bg-gray-100 px-4 py-10">
+    <section className="min-h-screen flex items-center justify-center px-4 bg-gray-100">
       <div className="w-full max-w-xl bg-white p-8 rounded-sm">
         <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
           Login
@@ -114,6 +114,12 @@ export default function LoginForm() {
               className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:outline-none"
               required
             />
+            <p
+              onClick={() => router.push("/forgot-password")}
+              className="mt-2 text-sm cursor-pointer text-orange-600 hover:underline"
+            >
+              Forgot password?
+            </p>
           </div>
 
           <fieldset>

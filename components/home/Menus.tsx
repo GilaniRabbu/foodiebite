@@ -11,10 +11,11 @@ import {
 } from "@/redux/slice/selectedMealsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../shared/Loader";
+import { ChevronRight } from "lucide-react";
 
 const Menus = () => {
   const { data, isLoading, isError } = useGetAllMealsQuery(undefined);
-  console.log(data)
+  console.log(data);
   const router = useRouter();
   const dispatch = useDispatch();
   const selectedMeals = useSelector(selectSelectedMeals);
@@ -93,15 +94,16 @@ const Menus = () => {
                           {(meal.description ?? "").split(" ").length > 7 &&
                             "..."}
                         </p>
-                        <p className="text-sm text-gray-500 hidden lg:block mb-1 min-h-[48px]">
+                        <p className="text-sm text-gray-500 hidden lg:block mb-1 min-h-[48px] line-clamp-2">
                           {meal.description ?? ""}
                         </p>
                         <div>
                           <button
                             onClick={() => router.push(`/meals/${meal._id}`)}
-                            className="text-green-700 hover:underline text-sm"
+                            className="flex items-center gap-1 text-sm cursor-pointer text-green-700"
                           >
-                            View Details
+                            <span>View Details</span>
+                            <ChevronRight className="w-4 h-4" />
                           </button>
                         </div>
                       </div>

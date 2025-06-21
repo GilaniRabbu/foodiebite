@@ -1,7 +1,7 @@
 /* eslint-disable */
 "use client";
 import { useState, useEffect } from "react";
-import { FileText } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import Pagination from "../common/Pagination";
@@ -126,7 +126,7 @@ export default function TopCategories() {
                     href={`/meals/${item._id}`}
                     className="w-8 h-8 flex items-center justify-center rounded-full bg-green-800 text-white"
                   >
-                    <FileText className="w-4 h-4" />
+                    <ArrowRight className="w-4 h-4" />
                   </Link>
                 </div>
               </div>

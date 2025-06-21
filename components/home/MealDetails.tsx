@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
-import { Heart, Clock, Users, Check, X } from "lucide-react";
+import { Clock, Users, Check, X } from "lucide-react";
 import { useGetMealByIdQuery } from "@/redux/api/mealApi";
 
 interface MealDetailsProps {
@@ -16,9 +16,7 @@ interface MealImage {
 }
 
 export default function MealDetails({ id }: MealDetailsProps) {
-  const [isFavorite, setIsFavorite] = useState(false);
   const [selectedImage, setSelectedImage] = useState(0);
-
   const { data, isLoading, isError } = useGetMealByIdQuery(id);
 
   const meal = data?.data;
@@ -59,16 +57,6 @@ export default function MealDetails({ id }: MealDetailsProps) {
               fill
               className="object-cover"
             />
-            <button
-              onClick={() => setIsFavorite(!isFavorite)}
-              className="absolute top-4 right-4 p-2 rounded-full bg-white/80 backdrop-blur-sm hover:bg-white transition-colors"
-            >
-              <Heart
-                className={`w-6 h-6 ${
-                  isFavorite ? "fill-red-500 text-red-500" : "text-gray-600"
-                }`}
-              />
-            </button>
           </div>
 
           {/* Thumbnail Images */}

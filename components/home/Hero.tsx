@@ -29,9 +29,9 @@ export default function Hero() {
             </h1>
           </div>
           <p className="text-lg text-balance text-gray-700">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum
-            convallis ante ante, ut tempor neque bibendum non. Ut enim lacus,
-            auctor nec convallis sed, vehicula ut eros.
+            Discover delicious meals crafted with care and passion. From hearty
+            breakfasts to gourmet dinners, FoodieBite offers a flavorful
+            experience for every craving.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
             <button className="cursor-pointer px-6 py-3 rounded text-lg text-white bg-orange-400 hover:bg-orange-500">
