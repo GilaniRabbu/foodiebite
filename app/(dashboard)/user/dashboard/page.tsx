@@ -1,4 +1,4 @@
-import QuickActions from "@/components/dashboard/user/dashboard/QuickActions";
+import MetricsChart from "@/components/dashboard/user/dashboard/MetricsChart";
 import RecentBooking from "@/components/dashboard/user/dashboard/RecentBooking";
 import UserOverview from "@/components/dashboard/user/dashboard/UserOverview";
 import React from "react";
@@ -13,9 +13,9 @@ const page = () => {
         </p>
       </div>
       <UserOverview />
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
+      <div className="grid gap-4 grid-cols-1 md:grid-cols-2 w-full">
         <RecentBooking />
-        <QuickActions />
+        <MetricsChart />
       </div>
     </div>
   );

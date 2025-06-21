@@ -10,10 +10,7 @@ import {
   LogOut,
   Menu,
   X,
-  Star,
   Users,
-  Mail,
-  BarChart,
   CreditCard,
   ForkKnife,
 } from "lucide-react";
@@ -24,14 +21,32 @@ export default function AdminSidebar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const menuItems = [
-    { id: "dashboard", label: "Dashboard", icon: LayoutDashboard, href: "/admin/dashboard" },
-    { id: "customers", label: "Customers", icon: Users, href: "/admin/customers" },
+    {
+      id: "dashboard",
+      label: "Dashboard",
+      icon: LayoutDashboard,
+      href: "/admin/dashboard",
+    },
+    {
+      id: "customers",
+      label: "Customers",
+      icon: Users,
+      href: "/admin/customers",
+    },
     { id: "booking", label: "Booking", icon: Calendar, href: "/admin/booking" },
     { id: "meals", label: "Meals", icon: ForkKnife, href: "/admin/meals" },
-    { id: "inquiries", label: "Inquiries", icon: Mail, href: "/admin/inquiries" },
-    { id: "analytics", label: "Analytics", icon: BarChart, href: "/admin/analytics" },
-    { id: "payments", label: "Payments", icon: CreditCard, href: "/admin/payments" },
-    { id: "settings", label: "Settings", icon: Settings, href: "/admin/settings" },
+    {
+      id: "payments",
+      label: "Payments",
+      icon: CreditCard,
+      href: "/admin/payments",
+    },
+    {
+      id: "settings",
+      label: "Settings",
+      icon: Settings,
+      href: "/admin/settings",
+    },
   ];
 
   const handleLogout = () => {
@@ -69,8 +84,11 @@ export default function AdminSidebar() {
 
       {/* Sidebar */}
       <div
-        className={`fixed lg:sticky lg:top-0 inset-y-0 min-h-screen left-0 z-50 w-48 bg-white border-r border-gray-200 transform transition-transform duration-300 ease-in-out ${isMobileMenuOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
-          }`}
+        className={`fixed lg:sticky lg:top-0 inset-y-0 min-h-screen left-0 z-50 w-48 bg-white border-r border-gray-200 transform transition-transform duration-300 ease-in-out ${
+          isMobileMenuOpen
+            ? "translate-x-0"
+            : "-translate-x-full lg:translate-x-0"
+        }`}
       >
         <div className="flex flex-col min-h-screen justify-between">
           {/* Header */}
@@ -90,13 +108,16 @@ export default function AdminSidebar() {
                     <Link
                       href={item.href}
                       onClick={() => setActiveSection(item.id)}
-                      className={`w-full flex items-center gap-3 px-4 py-1.5 rounded-lg text-left transition-colors duration-200 ${isActive
-                        ? "bg-red-50 text-red-600 border border-red-200"
-                        : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
-                        }`}
+                      className={`w-full flex items-center gap-3 px-4 py-1.5 rounded-lg text-left transition-colors duration-200 ${
+                        isActive
+                          ? "bg-red-50 text-red-600 border border-red-200"
+                          : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                      }`}
                     >
                       <Icon size={14} />
-                      <span className="font-medium text-[12px]">{item.label}</span>
+                      <span className="font-medium text-[12px]">
+                        {item.label}
+                      </span>
                     </Link>
                   </li>
                 );

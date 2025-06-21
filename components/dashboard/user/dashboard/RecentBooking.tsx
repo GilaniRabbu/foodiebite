@@ -7,7 +7,7 @@ import { Card } from "@/components/ui/card"
 
 const RecentBooking = () => {
     return (
-        <Card className="col-span-4 rounded-sm shadow-none">
+        <Card className="rounded-sm shadow-none">
             <CardHeader>
                 <CardTitle>Recent Bookings</CardTitle>
             </CardHeader>
