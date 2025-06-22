@@ -31,7 +31,7 @@ export default function About() {
             <div className="relative w-full max-w-md mx-auto">
               <div className="relative aspect-square rounded-full overflow-hidden bg-white shadow-2xl border-8 border-white">
                 <Image
-                  src="/images/healthy-bowl.png"
+                  src="/menu-img-3.jpg"
                   alt="Healthy colorful bowl with fresh ingredients"
                   fill
                   className="object-cover"

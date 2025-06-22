@@ -1,8 +1,5 @@
 "use client";
-
-import type React from "react";
-
-import { useState } from "react";
+import React, { useState } from "react";
 import { Send, MapPin, Phone, Mail, Clock } from "lucide-react";
 import Logo from "../shared/Logo";
 
@@ -80,17 +77,12 @@ export default function ContactUs() {
               immersive dining experience that perfectly reflects our refined
               identity.&quot;
             </p>
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-orange-400 to-red-500 rounded-full flex items-center justify-center">
-                <span className="text-white font-semibold text-sm">MJ</span>
+            <div>
+              <div className="text-white font-semibold text-sm italic">
+                Maria Johnson
               </div>
-              <div>
-                <div className="text-white font-semibold text-sm">
-                  Maria Johnson
-                </div>
-                <div className="text-white/70 text-xs">
-                  Food Critic at Culinary Excellence
-                </div>
+              <div className="text-white/70 text-xs italic">
+                Food Critic at Culinary Excellence
               </div>
             </div>
           </div>

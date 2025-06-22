@@ -82,19 +82,19 @@ const Menus = () => {
                           className="w-16 h-16 object-cover rounded-md"
                         />
                       )}
-                      <div className="text-left ">
+                      <div className="text-left">
                         <h4 className="font-bold text-md text-gray-800 truncate lg:whitespace-normal lg:truncate-none">
                           {meal.name}
                         </h4>
                         <p className="text-sm text-gray-500 block lg:hidden">
                           {(meal.description ?? "")
                             .split(" ")
-                            .slice(0, 7)
+                            .slice(0, 10)
                             .join(" ")}
-                          {(meal.description ?? "").split(" ").length > 7 &&
+                          {(meal.description ?? "").split(" ").length > 10 &&
                             "..."}
                         </p>
-                        <p className="text-sm text-gray-500 hidden lg:block mb-1 min-h-[48px] line-clamp-2">
+                        <p className="text-sm text-gray-500 hidden lg:block mb-1 line-clamp-2">
                           {meal.description ?? ""}
                         </p>
                         <div>
@@ -109,7 +109,7 @@ const Menus = () => {
                       </div>
                     </div>
 
-                    <div className="flex items-center space-x-4 w-36 justify-end">
+                    <div className="flex items-center space-x-4 w-28 justify-end">
                       <span className="text-lg font-semibold text-green-800">
                         ${meal.price}
                       </span>

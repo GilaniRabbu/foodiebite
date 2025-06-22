@@ -1,6 +1,5 @@
 /* eslint-disable */
 "use client";
-
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -71,8 +70,8 @@ export default function LoginForm() {
   };
 
   return (
-    <section className="min-h-screen flex items-center justify-center px-4 bg-gray-100">
-      <div className="w-full max-w-xl bg-white p-8 rounded-sm">
+    <section className="px-4 py-8 md:py-0 md:min-h-screen md:flex md:items-center md:justify-center bg-gray-100">
+      <div className="w-full max-w-xl mx-auto bg-white p-8 rounded-sm">
         <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
           Login
         </h2>

@@ -55,7 +55,7 @@ export default function Facts() {
               <div className="relative rounded-full overflow-hidden bg-gradient-to-br from-red-500 to-orange-600 p-1">
                 <div className="relative aspect-square rounded-full overflow-hidden bg-white">
                   <Image
-                    src="/images/chef-burger.png"
+                    src="/menu-img-1.jpg"
                     alt="Chef holding a delicious burger"
                     fill
                     className="object-cover"
