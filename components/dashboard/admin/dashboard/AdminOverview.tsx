@@ -1,3 +1,4 @@
+import { Card, CardContent } from "@/components/ui/card";
 import { Calendar, DollarSign, Utensils, Users } from "lucide-react";
 
 export default function AdminOverview() {
@@ -43,26 +44,28 @@ export default function AdminOverview() {
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat, index) => {
           const Icon = stat.icon;
           return (
-            <div
+            <Card
               key={index}
-              className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm"
+              className="relative overflow-hidden rounded-sm shadow-none"
             >
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-gray-600 mb-1">{stat.label}</p>
-                  <p className="text-2xl font-bold text-gray-900">
-                    {stat.value}
-                  </p>
+              <CardContent>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm text-gray-600 mb-1">{stat.label}</p>
+                    <p className="text-2xl font-bold text-gray-900">
+                      {stat.value}
+                    </p>
+                  </div>
+                  <div className={`p-3 rounded-lg bg-gray-50 ${stat.color}`}>
+                    <Icon className="w-6 h-6" />
+                  </div>
                 </div>
-                <div className={`p-3 rounded-lg bg-gray-50 ${stat.color}`}>
-                  <Icon className="w-6 h-6" />
-                </div>
-              </div>
-            </div>
+              </CardContent>
+            </Card>
           );
         })}
       </div>

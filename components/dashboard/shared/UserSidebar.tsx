@@ -24,7 +24,12 @@ export default function UserSidebar() {
       icon: LayoutDashboard,
       href: "/user/dashboard",
     },
-    { id: "booking", label: "Booking", icon: Calendar, href: "/user/booking" },
+    {
+      id: "bookings",
+      label: "Bookings",
+      icon: Calendar,
+      href: "/user/booking",
+    },
     {
       id: "settings",
       label: "Settings",

@@ -1,7 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { Calendar, Clock, Users, Search, Filter } from "lucide-react";
+import {
+  Calendar,
+  Clock,
+  Users,
+  Search,
+  Filter,
+  Pencil,
+  Trash,
+} from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -148,16 +156,14 @@ export default function BookingTable() {
                 {filteredBookings.map((booking) => (
                   <TableRow key={booking.id} className="hover:bg-muted/50">
                     <TableCell>
-                      <div className="flex items-center gap-2">
-                        <Calendar className="w-4 h-4 text-muted-foreground" />
-                        <div>
-                          <p className="font-medium">{booking.date}</p>
-                          <p className="text-sm text-muted-foreground flex items-center gap-1">
-                            <Clock className="w-3 h-3" />
-                            {booking.time}
-                          </p>
-                        </div>
-                      </div>
+                      <p className="font-medium text-muted-foreground flex items-center gap-1">
+                        <Calendar className="w-4 h-4" />
+                        {booking.date}
+                      </p>
+                      <p className="text-sm text-muted-foreground flex items-center gap-1">
+                        <Clock className="w-3 h-3" />
+                        {booking.time}
+                      </p>
                     </TableCell>
                     <TableCell>
                       <div className="flex items-center gap-1">
@@ -183,14 +189,14 @@ export default function BookingTable() {
                           size="sm"
                           className="text-blue-600 hover:text-blue-800 hover:bg-blue-50"
                         >
-                          Edit
+                          <Pencil size={16} />
                         </Button>
                         <Button
                           variant="ghost"
                           size="sm"
                           className="text-red-600 hover:text-red-800 hover:bg-red-50"
                         >
-                          Cancel
+                          <Trash size={16} />
                         </Button>
                       </div>
                     </TableCell>

@@ -33,7 +33,12 @@ export default function AdminSidebar() {
       icon: Users,
       href: "/admin/customers",
     },
-    { id: "booking", label: "Booking", icon: Calendar, href: "/admin/booking" },
+    {
+      id: "bookings",
+      label: "Bookings",
+      icon: Calendar,
+      href: "/admin/booking",
+    },
     { id: "meals", label: "Meals", icon: ForkKnife, href: "/admin/meals" },
     {
       id: "payments",
