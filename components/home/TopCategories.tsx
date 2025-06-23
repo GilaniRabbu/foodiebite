@@ -9,6 +9,7 @@ import {
   useGetAllCategoriesQuery,
   useGetMealsByCategoryQuery,
 } from "@/redux/api/mealApi";
+import Loader from "../shared/Loader";
 
 export default function TopCategories() {
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -47,7 +48,7 @@ export default function TopCategories() {
     setPage(1);
   }, [selectedCategory]);
 
-  if (categoriesLoading) return <div>Loading categories...</div>;
+  if (categoriesLoading) return <Loader />;
   if (categoriesError) return <div>Error loading categories</div>;
 
   return (

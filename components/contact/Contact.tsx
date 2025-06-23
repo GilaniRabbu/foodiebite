@@ -36,7 +36,7 @@ export default function ContactUs() {
     <section className="py-10 bg-white">
       <div className="grid grid-cols-1 lg:grid-cols-2 ">
         {/* Left Side - Dark Background with Image */}
-        <div className="relative  bg-gradient-to-br rounded-lg from-gray-900 via-gray-800 to-black p-8  flex flex-col justify-between">
+        <div className="relative bg-gradient-to-br rounded-lg from-gray-900 via-gray-800 to-black p-8 flex flex-col justify-between">
           {/* Background Pattern */}
           <div className="absolute inset-0 opacity-10">
             <div className="absolute top-20 left-20 w-32 h-32  border-white/20 rounded-lg transform rotate-12"></div>
@@ -110,11 +110,8 @@ export default function ContactUs() {
         </div>
 
         {/* Right Side - Contact Form */}
-        <div className=" py-10 sm:py-0 sm:p-8  flex flex-col justify-center">
-          <div
-            className="
-           w-full"
-          >
+        <div className="py-10 sm:p-8 flex flex-col justify-center">
+          <div className="w-full">
             {/* Header */}
             <div className="mb-8">
               <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
