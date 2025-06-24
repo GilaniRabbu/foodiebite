@@ -14,7 +14,20 @@ const bookingApi = baseApi.injectEndpoints({
       query: (id: string) => `/booking/${id}`,
       providesTags: ["Booking"],
     }),
+
+    getPaginatedBookings: build.query({
+      query: (params) => ({
+        url: "/booking",
+        method: "GET",
+        params,
+      }),
+      providesTags: ["Booking"],
+    }),
   }),
 });
 
-export const { useCreateBookingMutation, useGetBookingByIdQuery } = bookingApi;
+export const {
+  useCreateBookingMutation,
+  useGetBookingByIdQuery,
+  useGetPaginatedBookingsQuery,
+} = bookingApi;
