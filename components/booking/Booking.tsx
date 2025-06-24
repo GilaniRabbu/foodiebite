@@ -5,7 +5,10 @@ import React, { useState, ChangeEvent, FormEvent, useMemo } from "react";
 import { useCreateBookingMutation } from "@/redux/api/bookingApi";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/redux/store";
-import { removeMeal } from "@/redux/slice/selectedMealsSlice";
+import {
+  removeMeal,
+  clearSelectedMeals,
+} from "@/redux/slice/selectedMealsSlice";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
@@ -69,25 +72,22 @@ const Booking: React.FC = () => {
   ): Promise<void> => {
     e.preventDefault();
 
-    const mealIds = selectedMeals.map((meal) => meal._id); // ✅ simplified
+    const mealIds = selectedMeals.map((meal) => meal._id);
 
     const payload = {
       ...formData,
-      numberOfGuests: Number(formData.numberOfGuests), // ensure it's a number
-      mealIds, // ✅ renamed from meals → mealIds
+      numberOfGuests: Number(formData.numberOfGuests),
+      mealIds,
     };
 
     try {
       const res = await createBooking(payload).unwrap();
-      console.log("Booking success:", res);
       if (res.success) {
-        console.log("data", res.data);
+        dispatch(clearSelectedMeals());
         toast.success(res.message);
         const ids = res.data.map((b: any) => b).join(",");
-        console.log("Booking IDs:", ids);
         router.push(`/booking/success?bookingIds=${ids}`);
       }
-      // Optional: dispatch(clearSelectedMeals());
     } catch (err) {
       console.error("Booking error:", err);
     }
@@ -127,12 +127,12 @@ const Booking: React.FC = () => {
                         </p>
                       </div>
 
-                      <div className="w-24 text-green-800 font-bold text-right">
+                      <div className="md:w-24 text-green-800 font-bold text-right">
                         ${meal.price}
                       </div>
 
                       <button
-                        className="ml-4 px-3 py-1 text-sm text-white bg-red-600 rounded hover:bg-red-700 transition"
+                        className="ml-2 md:ml-4 px-3 py-1 text-sm cursor-pointer text-white bg-red-600 rounded hover:bg-red-700 transition"
                         onClick={() => handleRemoveMeal(meal._id)}
                       >
                         Remove
