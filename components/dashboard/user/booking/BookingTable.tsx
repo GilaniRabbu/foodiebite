@@ -1,19 +1,10 @@
+/* eslint-disable */
 "use client";
-
-import { useState } from "react";
-import {
-  Calendar,
-  Clock,
-  Users,
-  Search,
-  Filter,
-  Pencil,
-  Trash,
-} from "lucide-react";
+import React, { useState } from "react";
+import { useGetPaginatedBookingsQuery } from "@/redux/api/bookingApi";
+import { Trash } from "lucide-react";
+import Loader from "@/components/shared/Loader";
 import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import {
   Table,
   TableBody,
@@ -22,183 +13,109 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
 
-export default function BookingTable() {
-  const [selectedDate, setSelectedDate] = useState("2024-01-15");
-  const [searchTerm, setSearchTerm] = useState("");
+const BookingTable = () => {
+  const [page, setPage] = useState(1);
+  const [status, setStatus] = useState("");
+  const limit = 4;
 
-  const bookings = [
-    {
-      id: 1,
-      date: "2024-01-15",
-      time: "7:00 PM",
-      guests: 4,
-      status: "confirmed",
-      table: "Table 5",
-    },
-    {
-      id: 2,
-      date: "2024-01-15",
-      time: "8:30 PM",
-      guests: 2,
-      status: "pending",
-      table: "Table 2",
-    },
-    {
-      id: 3,
-      date: "2024-01-16",
-      time: "6:00 PM",
-      guests: 6,
-      status: "confirmed",
-      table: "Table 8",
-    },
-    {
-      id: 4,
-      date: "2024-01-16",
-      time: "7:30 PM",
-      guests: 3,
-      status: "confirmed",
-      table: "Table 3",
-    },
-    {
-      id: 5,
-      date: "2024-01-17",
-      time: "8:00 PM",
-      guests: 2,
-      status: "cancelled",
-      table: "Table 1",
-    },
-  ];
+  const { data, isLoading, isError } = useGetPaginatedBookingsQuery({
+    page,
+    limit,
+    ...(status && { status }), // Only add status if it's selected
+  });
 
-  // Filter bookings by table search term
-  const filteredBookings = bookings.filter((booking) =>
-    booking.table.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  // const getStatusVariant = (status: string) => {
-  //   switch (status) {
-  //     case "confirmed":
-  //       return "default" as const
-  //     case "pending":
-  //       return "secondary" as const
-  //     case "cancelled":
-  //       return "destructive" as const
-  //     default:
-  //       return "outline" as const
-  //   }
-  // }
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "confirmed":
-        return "bg-green-100 text-green-800 hover:bg-green-100";
-      case "pending":
-        return "bg-yellow-100 text-yellow-800 hover:bg-yellow-100";
-      case "cancelled":
-        return "bg-red-100 text-red-800 hover:bg-red-100";
-      default:
-        return "bg-gray-100 text-gray-800 hover:bg-gray-100";
-    }
+  const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setPage(1); // reset to page 1 on filter change
+    setStatus(e.target.value);
   };
+
+  if (isLoading) return <Loader />;
+  if (isError || !data?.data)
+    return <p className="text-red-500">Failed to load bookings.</p>;
+
+  const { data: bookings, meta } = data;
 
   return (
     <div className="space-y-6">
-      {/* Filters */}
       <Card className="shadow-none rounded-sm">
         <CardContent className="py-2 px-6">
-          <div className="flex flex-col lg:flex-row gap-4">
-            {/* Search */}
-            <div className="flex-1">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                <Input
-                  type="text"
-                  placeholder="Search by table..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10"
-                />
-              </div>
-            </div>
-
-            {/* Date Filter */}
-            <div className="flex gap-2">
-              <Input
-                type="date"
-                value={selectedDate}
-                onChange={(e) => setSelectedDate(e.target.value)}
-                className="w-auto"
-              />
-              <Button variant="outline" className="flex items-center gap-2">
-                <Filter className="w-4 h-4" />
-                Filter
-              </Button>
-            </div>
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-2xl font-bold text-green-700">My Bookings</h2>
+            <select
+              value={status}
+              onChange={handleStatusChange}
+              className="border px-3 py-2 rounded text-sm"
+            >
+              <option value="">All Statuses</option>
+              <option value="PENDING">Pending</option>
+              <option value="CONFIRMED">Confirmed</option>
+              <option value="CANCELLED">Cancelled</option>
+            </select>
           </div>
         </CardContent>
       </Card>
 
-      {/* Bookings Table */}
       <Card className="shadow-none rounded-sm">
-        <CardContent className="">
+        <CardContent>
           <div className="overflow-x-auto">
             <Table>
               <TableHeader>
                 <TableRow>
                   <TableHead className="font-semibold">Date & Time</TableHead>
                   <TableHead className="font-semibold">Guests</TableHead>
-                  <TableHead className="font-semibold">Table</TableHead>
+                  <TableHead className="font-semibold">Total</TableHead>
                   <TableHead className="font-semibold">Status</TableHead>
                   <TableHead className="font-semibold">Actions</TableHead>
                 </TableRow>
               </TableHeader>
+
               <TableBody>
-                {filteredBookings.map((booking) => (
-                  <TableRow key={booking.id} className="hover:bg-muted/50">
+                {bookings.map((booking: any) => (
+                  <TableRow key={booking._id} className="hover:bg-muted/50">
                     <TableCell>
-                      <p className="font-medium text-muted-foreground flex items-center gap-1">
-                        <Calendar className="w-4 h-4" />
-                        {booking.date}
+                      <p className="text-sm text-muted-foreground font-medium">
+                        {new Date(booking.reservationDate).toLocaleDateString()}
                       </p>
-                      <p className="text-sm text-muted-foreground flex items-center gap-1">
-                        <Clock className="w-3 h-3" />
-                        {booking.time}
+                      <p className="text-sm text-muted-foreground">
+                        {booking.reservationTime}
                       </p>
                     </TableCell>
                     <TableCell>
-                      <div className="flex items-center gap-1">
-                        <Users className="w-4 h-4 text-muted-foreground" />
-                        <span>{booking.guests}</span>
-                      </div>
+                      <span className="text-muted-foreground">
+                        {booking.numberOfGuests}
+                      </span>
                     </TableCell>
                     <TableCell>
-                      <span className="font-medium">{booking.table}</span>
+                      <span className="text-muted-foreground">
+                        ${booking.total}
+                      </span>
                     </TableCell>
                     <TableCell>
-                      <Badge
-                        variant="outline"
-                        className={getStatusColor(booking.status)}
+                      <span
+                        className={`px-2 py-1 rounded text-xs font-medium ${
+                          booking.status === "PENDING"
+                            ? "bg-yellow-100 text-yellow-700"
+                            : booking.status === "CONFIRMED"
+                            ? "bg-green-100 text-green-700"
+                            : "bg-red-100 text-red-700"
+                        }`}
                       >
                         {booking.status}
-                      </Badge>
+                      </span>
                     </TableCell>
                     <TableCell>
-                      <div className="flex gap-2">
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          className="text-blue-600 hover:text-blue-800 hover:bg-blue-50"
-                        >
-                          <Pencil size={16} />
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          className="text-red-600 hover:text-red-800 hover:bg-red-50"
-                        >
-                          <Trash size={16} />
-                        </Button>
-                      </div>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() =>
+                          console.log("Delete booking", booking._id)
+                        }
+                        className="text-red-600 hover:text-red-800 hover:bg-red-50"
+                      >
+                        <Trash size={16} />
+                      </Button>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -207,6 +124,29 @@ export default function BookingTable() {
           </div>
         </CardContent>
       </Card>
+
+      {/* Pagination Controls */}
+      <div className="mt-6 flex justify-center gap-4">
+        <button
+          className="px-4 py-2 border rounded disabled:opacity-50"
+          onClick={() => setPage((prev) => prev - 1)}
+          disabled={page <= 1}
+        >
+          Previous
+        </button>
+        <span className="text-gray-600 text-sm pt-2">
+          Page {meta?.page} of {Math.ceil(meta.total / limit)}
+        </span>
+        <button
+          className="px-4 py-2 border rounded disabled:opacity-50"
+          onClick={() => setPage((prev) => prev + 1)}
+          disabled={page >= Math.ceil(meta.total / limit)}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
-}
+};
+
+export default BookingTable;

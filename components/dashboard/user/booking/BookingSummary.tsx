@@ -1,32 +1,53 @@
+/* eslint-disable */
+"use client";
+
 import { Calendar, Clock, Users } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import { useGetAllBookingsQuery } from "@/redux/api/bookingApi";
+import Loader from "@/components/shared/Loader";
 
 const BookingSummary = () => {
+  const { data, isLoading } = useGetAllBookingsQuery({
+    page: 1,
+    limit: 100,
+  });
+
+  if (isLoading) return <Loader />;
+
+  const bookings = data?.data || [];
+
+  const total = bookings.length;
+  const confirmed = bookings.filter(
+    (b: any) => b.status === "CONFIRMED"
+  ).length;
+  const pending = bookings.filter((b: any) => b.status === "PENDING").length;
+  const canceled = bookings.filter((b: any) => b.status === "CANCELLED").length;
+
   const summaryCards = [
     {
       title: "Total Bookings",
-      value: "32",
+      value: total,
       icon: Calendar,
       iconBg: "bg-green-100",
       iconColor: "text-green-600",
     },
     {
       title: "Confirmed Bookings",
-      value: "7",
+      value: confirmed,
       icon: Calendar,
       iconBg: "bg-green-100",
       iconColor: "text-green-600",
     },
     {
       title: "Pending Bookings",
-      value: "3",
+      value: pending,
       icon: Clock,
       iconBg: "bg-yellow-100",
       iconColor: "text-yellow-600",
     },
     {
       title: "Canceled Bookings",
-      value: "13",
+      value: canceled,
       icon: Users,
       iconBg: "bg-blue-100",
       iconColor: "text-blue-600",
@@ -34,7 +55,7 @@ const BookingSummary = () => {
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+    <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
       {summaryCards.map((card, index) => {
         const Icon = card.icon;
         return (

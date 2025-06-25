@@ -1,5 +1,5 @@
-import Booking from '@/components/booking/Booking';
-import React from 'react';
+import Booking from "@/components/booking/Booking";
+import React from "react";
 
 const page = () => {
   return (

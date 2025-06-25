@@ -1,27 +1,50 @@
+/* eslint-disable */
+"use client";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CalendarDays, MapPin, Heart, TrendingUp } from "lucide-react";
-import BookingTab from "@/components/booking/BookingTab";
+import { useGetAllBookingsQuery } from "@/redux/api/bookingApi";
+import Loader from "@/components/shared/Loader";
 
 export default function UserOverview() {
+  const { data, isLoading } = useGetAllBookingsQuery({
+    page: 1,
+    limit: 100,
+  });
+
+  if (isLoading) return <Loader />;
+
+  const bookings = data?.data || [];
+
+  const totalBookings = bookings.length;
+  const upcomingBookings = bookings.filter(
+    (b: any) => b.status === "PENDING"
+  ).length;
+  const totalSpend = bookings.reduce(
+    (acc: number, curr: any) => acc + Number(curr.total || 0),
+    0
+  );
+  const canceled = bookings.filter((b: any) => b.status === "CANCELLED").length;
+
   const metrics = [
     {
       title: "Total Bookings",
-      value: "47",
+      value: totalBookings,
       icon: CalendarDays,
     },
     {
-      title: "Upcoming Reservations",
-      value: "8",
+      title: "Upcoming Bookings",
+      value: upcomingBookings,
       icon: MapPin,
     },
     {
       title: "Total Spend",
-      value: "2300",
+      value: `$${totalSpend}`,
       icon: Heart,
     },
     {
       title: "Canceled Booking",
-      value: "13",
+      value: canceled,
       icon: TrendingUp,
     },
   ];
@@ -43,20 +66,12 @@ export default function UserOverview() {
                 <Icon className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <div className="text-2xl font-bold">
-                      {metric.value}
-                      {metric.title === "Total Spend" && "$"}
-                    </div>
-                  </div>
-                </div>
+                <div className="text-2xl font-bold">{metric.value}</div>
               </CardContent>
             </Card>
           );
         })}
       </div>
-      <BookingTab />
     </div>
   );
 }

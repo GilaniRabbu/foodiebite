@@ -1,5 +1,3 @@
-
-
 import AdminSidebar from "@/components/dashboard/shared/AdminSidebar";
 import AdminTopNavbar from "@/components/dashboard/shared/AdminTopNavbar";
 import React from "react";
