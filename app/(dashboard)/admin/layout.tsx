@@ -10,7 +10,7 @@ export default function AdminDashboardLayout({
   return (
     <div>
       {/* Sidebar: fixed only on large screens */}
-      <div className="lg:fixed lg:z-50 ">
+      <div className="lg:fixed lg:z-50">
         <AdminSidebar />
       </div>
 

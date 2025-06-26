@@ -6,7 +6,7 @@ const AdminTopNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const toggleMenu = () => {
     setIsOpen(!isOpen);
-  }
+  };
   const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -22,7 +22,10 @@ const AdminTopNavbar = () => {
     };
   }, []);
   return (
-    <header ref={menuRef} className="bg-white w-full fixed z-40 top-0 right-0 border-b border-gray-200 px-6 py-4">
+    <header
+      ref={menuRef}
+      className="bg-white w-full fixed z-40 top-0 right-0 border-b border-gray-200 px-6 py-4"
+    >
       <div className="flex items-center justify-between">
         <div className="flex-1" />
 
@@ -30,10 +33,17 @@ const AdminTopNavbar = () => {
         <div className="flex items-center gap-4">
           {/* User Menu */}
           <div className="flex relative items-center gap-3">
-            <div onClick={toggleMenu} className="w-8 group cursor-pointer h-8 bg-gray-200 rounded-full flex items-center justify-center">
+            <div
+              onClick={toggleMenu}
+              className="w-8 group cursor-pointer h-8 bg-gray-200 rounded-full flex items-center justify-center"
+            >
               <span className="text-sm font-medium text-gray-600">JD</span>
             </div>
-            <div className={`absolute right-0 top-12  ${isOpen ? "block" : "hidden"} transition-all duration-200`}>
+            <div
+              className={`absolute right-0 top-12  ${
+                isOpen ? "block" : "hidden"
+              } transition-all duration-200`}
+            >
               <ul className="bg-white border border-gray-200 rounded-lg p-4 space-y-2 w-48">
                 <li className="text-sm text-gray-600 hover:text-gray-900 cursor-pointer">
                   <Link href="/admin/settings/profile">Profile</Link>
@@ -46,7 +56,6 @@ const AdminTopNavbar = () => {
                 </li>
               </ul>
             </div>
-
           </div>
         </div>
       </div>

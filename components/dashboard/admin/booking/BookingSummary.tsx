@@ -1,92 +1,85 @@
-import { Calendar, Clock, Users } from "lucide-react";
-import React from "react";
+/* eslint-disable */
+"use client";
+import {
+  Calendar as CalendarIcon,
+  Clock as ClockIcon,
+  CheckCircle2 as ConfirmedIcon,
+  XCircle as CanceledIcon,
+} from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { useGetAllBookingsQuery } from "@/redux/api/bookingApi";
+import Loader from "@/components/shared/Loader";
 
 const BookingSummary = () => {
-  const bookings = [
+  const { data, isLoading } = useGetAllBookingsQuery({
+    page: 1,
+    limit: 100,
+  });
+
+  if (isLoading) return <Loader />;
+
+  const bookings = data?.data || [];
+
+  const total = bookings.length;
+  const confirmed = bookings.filter(
+    (b: any) => b.status === "CONFIRMED"
+  ).length;
+  const pending = bookings.filter((b: any) => b.status === "PENDING").length;
+  const canceled = bookings.filter((b: any) => b.status === "CANCELLED").length;
+
+  const summaryCards = [
     {
-      id: 1,
-      date: "2024-01-15",
-      time: "7:00 PM",
-      guests: 4,
-      status: "confirmed",
-      table: "Table 5",
+      title: "Total Bookings",
+      value: total,
+      icon: CalendarIcon,
+      iconBg: "bg-blue-100",
+      iconColor: "text-blue-600",
     },
     {
-      id: 2,
-      date: "2024-01-15",
-      time: "8:30 PM",
-      guests: 2,
-      status: "pending",
-      table: "Table 2",
+      title: "Confirmed Bookings",
+      value: confirmed,
+      icon: ConfirmedIcon,
+      iconBg: "bg-green-100",
+      iconColor: "text-green-600",
     },
     {
-      id: 3,
-      date: "2024-01-16",
-      time: "6:00 PM",
-      guests: 6,
-      status: "confirmed",
-      table: "Table 8",
+      title: "Pending Bookings",
+      value: pending,
+      icon: ClockIcon,
+      iconBg: "bg-yellow-100",
+      iconColor: "text-yellow-600",
     },
     {
-      id: 4,
-      date: "2024-01-16",
-      time: "7:30 PM",
-      guests: 3,
-      status: "confirmed",
-      table: "Table 3",
-    },
-    {
-      id: 5,
-      date: "2024-01-17",
-      time: "8:00 PM",
-      guests: 2,
-      status: "cancelled",
-      table: "Table 1",
+      title: "Canceled Bookings",
+      value: canceled,
+      icon: CanceledIcon,
+      iconBg: "bg-red-100",
+      iconColor: "text-red-600",
     },
   ];
+
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-        <div className="flex items-center gap-3">
-          <div className="p-3 bg-green-100 rounded-lg">
-            <Calendar className="w-6 h-6 text-green-600" />
-          </div>
-          <div>
-            <p className="text-2xl font-bold text-gray-900">
-              {bookings.filter((b) => b.status === "confirmed").length}
-            </p>
-            <p className="text-sm text-gray-600">Confirmed Bookings</p>
-          </div>
-        </div>
-      </div>
-
-      <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-        <div className="flex items-center gap-3">
-          <div className="p-3 bg-yellow-100 rounded-lg">
-            <Clock className="w-6 h-6 text-yellow-600" />
-          </div>
-          <div>
-            <p className="text-2xl font-bold text-gray-900">
-              {bookings.filter((b) => b.status === "pending").length}
-            </p>
-            <p className="text-sm text-gray-600">Pending Bookings</p>
-          </div>
-        </div>
-      </div>
-
-      <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-        <div className="flex items-center gap-3">
-          <div className="p-3 bg-blue-100 rounded-lg">
-            <Users className="w-6 h-6 text-blue-600" />
-          </div>
-          <div>
-            <p className="text-2xl font-bold text-gray-900">
-              {bookings.reduce((sum, b) => sum + b.guests, 0)}
-            </p>
-            <p className="text-sm text-gray-600">Total Guests</p>
-          </div>
-        </div>
-      </div>
+    <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+      {summaryCards.map((card, index) => {
+        const Icon = card.icon;
+        return (
+          <Card key={index} className="border shadow-none rounded-sm">
+            <CardContent className="p-6">
+              <div className="flex items-center gap-3">
+                <div className={`p-3 ${card.iconBg} rounded-lg`}>
+                  <Icon className={`w-6 h-6 ${card.iconColor}`} />
+                </div>
+                <div>
+                  <p className="text-2xl font-bold text-foreground">
+                    {card.value}
+                  </p>
+                  <p className="text-sm text-muted-foreground">{card.title}</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        );
+      })}
     </div>
   );
 };

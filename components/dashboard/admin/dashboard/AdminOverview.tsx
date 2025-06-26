@@ -1,32 +1,59 @@
+/* eslint-disable */
+"use client";
 import { Card, CardContent } from "@/components/ui/card";
-import { Calendar, DollarSign, Utensils, Users } from "lucide-react";
+import { Calendar, DollarSign, Users, Utensils } from "lucide-react";
+import { useGetAllBookingsQuery } from "@/redux/api/bookingApi";
+import Loader from "@/components/shared/Loader";
+import MealTypePieChart from "./MealTypePieChart";
 
 export default function AdminOverview() {
+  const { data, isLoading, isError } = useGetAllBookingsQuery({
+    page: 1,
+    limit: 1000, // large enough to include all
+  });
+
+  if (isLoading) return <Loader />;
+  if (isError || !data?.data)
+    return <p className="text-red-500">Failed to load stats</p>;
+
+  const bookings = data.data;
+
+  const totalBookings = bookings.length;
+  const totalRevenue = bookings.reduce(
+    (sum: any, b: any) => sum + Number(b.total || 0),
+    0
+  );
+  const totalUsers = new Set(bookings.map((b: any) => b.email)).size;
+  const totalMealsOrdered = bookings.reduce(
+    (sum: any, b: any) => sum + (b.mealIds?.length || 0),
+    0
+  );
+
   const stats = [
     {
       label: "Total Bookings",
-      value: "128",
+      value: totalBookings,
       icon: Calendar,
       color: "text-blue-600",
       description: "All customer reservations",
     },
     {
       label: "Total Revenue",
-      value: "$12,450",
+      value: `$${totalRevenue.toLocaleString()}`,
       icon: DollarSign,
       color: "text-green-600",
       description: "Revenue from orders",
     },
     {
-      label: "Menu Items",
-      value: "42",
+      label: "Total Meals",
+      value: totalMealsOrdered,
       icon: Utensils,
-      color: "text-pink-600",
-      description: "Items currently on the menu",
+      color: "text-purple-600",
+      description: "All meals across bookings",
     },
     {
       label: "Total Customers",
-      value: "365",
+      value: totalUsers,
       icon: Users,
       color: "text-orange-600",
       description: "Unique customers served",
@@ -60,7 +87,7 @@ export default function AdminOverview() {
                       {stat.value}
                     </p>
                   </div>
-                  <div className={`p-3 rounded-lg bg-gray-50 ${stat.color}`}>
+                  <div className={`p-3 rounded-lg bg-gray-100 ${stat.color}`}>
                     <Icon className="w-6 h-6" />
                   </div>
                 </div>
@@ -68,6 +95,9 @@ export default function AdminOverview() {
             </Card>
           );
         })}
+      </div>
+      <div className="pt-5 pb-10">
+        <MealTypePieChart />
       </div>
     </div>
   );
