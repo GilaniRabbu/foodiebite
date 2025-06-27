@@ -65,7 +65,10 @@ const CustomerTable = () => {
                 <span className="text-sm">{booking.reservationTime}</span>
               </div>
               <div className="text-lg font-semibold text-gray-800">
-                Total: <span className="text-indigo-600">${booking.total}</span>
+                Total:{" "}
+                <span className="text-indigo-600">
+                  ${booking.total} ({booking.type})
+                </span>
               </div>
             </CardContent>
           </Card>
