@@ -30,9 +30,7 @@ const CustomerTable = () => {
     <div className="space-y-6">
       {/* Filter */}
       <div className="py-3 border-b space-y-4 md:space-y-0">
-        <h1 className="text-3xl font-bold text-indigo-900">
-          Customers Details
-        </h1>
+        <h1 className="text-3xl font-bold text-gray-900">Customers Details</h1>
       </div>
 
       {/* Card List */}
