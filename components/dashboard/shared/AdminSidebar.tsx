@@ -40,12 +40,12 @@ export default function AdminSidebar() {
       href: "/admin/booking",
     },
     { id: "meals", label: "Meals", icon: ForkKnife, href: "/admin/meals" },
-    {
-      id: "payments",
-      label: "Payments",
-      icon: CreditCard,
-      href: "/admin/payments",
-    },
+    // {
+    //   id: "payments",
+    //   label: "Payments",
+    //   icon: CreditCard,
+    //   href: "/admin/payments",
+    // },
     {
       id: "settings",
       label: "Settings",
