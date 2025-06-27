@@ -9,19 +9,12 @@ import { Button } from "@/components/ui/button";
 
 const CustomerTable = () => {
   const [page, setPage] = useState(1);
-  const [status, setStatus] = useState("");
   const limit = 4;
 
   const { data, isLoading, isError } = useGetPaginatedBookingsQuery({
     page,
     limit,
-    ...(status && { status }),
   });
-
-  const handleStatusChange = (e: any) => {
-    setPage(1);
-    setStatus(e.target.value);
-  };
 
   if (isLoading) return <Loader />;
   if (isError || !data?.data)
@@ -36,24 +29,10 @@ const CustomerTable = () => {
   return (
     <div className="space-y-6">
       {/* Filter */}
-      <div className="py-3 border-b flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">
-        <h1 className="text-3xl font-bold text-gray-900">Customers Details</h1>
-        <div className="flex items-center space-x-2">
-          <label htmlFor="status" className="text-sm font-medium text-gray-700">
-            Filter by Status:
-          </label>
-          <select
-            id="status"
-            value={status}
-            onChange={handleStatusChange}
-            className="border border-gray-300 px-4 py-2 rounded-md shadow-none focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm"
-          >
-            <option value="">All Statuses</option>
-            <option value="PENDING">Pending</option>
-            <option value="CONFIRMED">Confirmed</option>
-            <option value="CANCELLED">Cancelled</option>
-          </select>
-        </div>
+      <div className="py-3 border-b space-y-4 md:space-y-0">
+        <h1 className="text-3xl font-bold text-indigo-900">
+          Customers Details
+        </h1>
       </div>
 
       {/* Card List */}
@@ -89,19 +68,6 @@ const CustomerTable = () => {
               </div>
               <div className="text-lg font-semibold text-gray-800">
                 Total: <span className="text-indigo-600">${booking.total}</span>
-              </div>
-              <div>
-                <span
-                  className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${
-                    booking.status === "PENDING"
-                      ? "bg-yellow-100 text-yellow-800"
-                      : booking.status === "CONFIRMED"
-                      ? "bg-green-100 text-green-800"
-                      : "bg-red-100 text-red-800"
-                  }`}
-                >
-                  {booking.status}
-                </span>
               </div>
             </CardContent>
           </Card>
