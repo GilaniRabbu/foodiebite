@@ -78,16 +78,16 @@ const MealsComponent = () => {
   ];
 
   return (
-    <div>
+    <div className="space-y-4">
       <div>
         <h1 className="text-3xl font-bold tracking-tight">Meals Management</h1>
-        <p className="text-muted-foreground">
+        <p className="mt-1 text-muted-foreground">
           Manage your restaurant&apos;s menu items and pricing
         </p>
       </div>
 
       <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-        <Card>
+        <Card className="shadow-none rounded-md">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Meals</CardTitle>
           </CardHeader>
@@ -96,7 +96,7 @@ const MealsComponent = () => {
             <p className="text-xs text-muted-foreground">+2 from last month</p>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="shadow-none rounded-md">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Active Meals</CardTitle>
           </CardHeader>
@@ -107,7 +107,7 @@ const MealsComponent = () => {
             <p className="text-xs text-muted-foreground">Currently available</p>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="shadow-none rounded-md">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Categories</CardTitle>
           </CardHeader>
@@ -120,7 +120,7 @@ const MealsComponent = () => {
             </p>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="shadow-none rounded-md">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Avg. Price</CardTitle>
           </CardHeader>
