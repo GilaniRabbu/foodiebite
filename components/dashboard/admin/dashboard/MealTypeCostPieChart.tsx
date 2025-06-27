@@ -11,18 +11,17 @@ import {
 import { useGetAllBookingsQuery } from "@/redux/api/bookingApi";
 import Loader from "@/components/shared/Loader";
 
-// Color palette
 const COLORS = [
-  "#60a5fa",
-  "#34d399",
-  "#f87171",
-  "#facc15",
-  "#a78bfa",
-  "#f472b6",
-  "#38bdf8",
+  "#34d399", // GREEN
+  "#60a5fa", // BLUE
+  "#f87171", // RED
+  "#facc15", // YELLOW
+  "#a78bfa", // PURPLE
+  "#fb923c", // ORANGE
+  "#e879f9", // PINK
 ];
 
-const MealTypePieChart = () => {
+const MealTypeCostPieChart = () => {
   const { data, isLoading, isError } = useGetAllBookingsQuery({
     page: 1,
     limit: 1000,
@@ -30,29 +29,29 @@ const MealTypePieChart = () => {
 
   if (isLoading) return <Loader />;
   if (isError || !data?.data)
-    return <p className="text-red-500">Failed to load chart data</p>;
+    return <p className="text-red-500">Failed to load data</p>;
 
   const bookings = data.data;
 
-  // Count meal types
-  const mealTypeCounts: Record<string, number> = {};
+  // Calculate total cost per meal type
+  const costByType: Record<string, number> = {};
   bookings.forEach((booking: any) => {
     booking.mealIds.forEach((meal: any) => {
       const type = meal.type || "UNKNOWN";
-      mealTypeCounts[type] = (mealTypeCounts[type] || 0) + 1;
+      const price = Number(meal.price) || 0;
+      costByType[type] = (costByType[type] || 0) + price;
     });
   });
 
-  // Transform into chart data
-  const chartData = Object.entries(mealTypeCounts).map(([type, count]) => ({
+  const chartData = Object.entries(costByType).map(([type, total]) => ({
     name: type,
-    value: count,
+    value: total,
   }));
 
   return (
     <div className="w-full h-[420px]">
       <h2 className="text-xl font-semibold text-center italic text-muted-foreground">
-        Meal Type Distribution
+        Meal Type Cost Distribution
       </h2>
       <ResponsiveContainer width="100%" height="100%">
         <PieChart>
@@ -60,7 +59,7 @@ const MealTypePieChart = () => {
             data={chartData}
             cx="50%"
             cy="50%"
-            labelLine={false}
+            // labelLine={false}
             // label={({ name, percent }) =>
             //   `${name} (${(percent * 100).toFixed(0)}%)`
             // }
@@ -75,7 +74,7 @@ const MealTypePieChart = () => {
               />
             ))}
           </Pie>
-          <Tooltip />
+          <Tooltip formatter={(value: number) => `$${value.toFixed(2)}`} />
           <Legend />
         </PieChart>
       </ResponsiveContainer>
@@ -83,4 +82,4 @@ const MealTypePieChart = () => {
   );
 };
 
-export default MealTypePieChart;
+export default MealTypeCostPieChart;

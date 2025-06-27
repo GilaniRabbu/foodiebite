@@ -5,6 +5,7 @@ import { Calendar, DollarSign, Users, Utensils } from "lucide-react";
 import { useGetAllBookingsQuery } from "@/redux/api/bookingApi";
 import Loader from "@/components/shared/Loader";
 import MealTypePieChart from "./MealTypePieChart";
+import MealTypeCostPieChart from "./MealTypeCostPieChart";
 
 export default function AdminOverview() {
   const { data, isLoading, isError } = useGetAllBookingsQuery({
@@ -96,8 +97,17 @@ export default function AdminOverview() {
           );
         })}
       </div>
-      <div className="pt-5 pb-10">
-        <MealTypePieChart />
+      <div className="pt-5 pb-10 grid gap-4 grid-cols-1 md:grid-cols-2">
+        <Card className="relative overflow-hidden rounded-sm shadow-none">
+          <CardContent>
+            <MealTypePieChart />
+          </CardContent>
+        </Card>
+        <Card className="relative overflow-hidden rounded-sm shadow-none">
+          <CardContent>
+            <MealTypeCostPieChart />
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
