@@ -1,12 +1,15 @@
 /* eslint-disable */
 "use client";
 import {
-  PieChart,
-  Pie,
-  Cell,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
   Tooltip,
-  Legend,
+  // Legend,
   ResponsiveContainer,
+  Cell,
 } from "recharts";
 import { useGetAllBookingsQuery } from "@/redux/api/bookingApi";
 import Loader from "@/components/shared/Loader";
@@ -22,7 +25,7 @@ const COLORS = [
   "#38bdf8",
 ];
 
-const MealTypePieChart = () => {
+const MealTypeBarChart = () => {
   const { data, isLoading, isError } = useGetAllBookingsQuery({
     page: 1,
     limit: 1000,
@@ -47,6 +50,7 @@ const MealTypePieChart = () => {
   const chartData = Object.entries(mealTypeCounts).map(([type, count]) => ({
     name: type,
     value: count,
+    fill: COLORS[Math.floor(Math.random() * COLORS.length)],
   }));
 
   return (
@@ -55,32 +59,27 @@ const MealTypePieChart = () => {
         Meal Type Distribution
       </h2>
       <ResponsiveContainer width="100%" height="100%">
-        <PieChart>
-          <Pie
-            data={chartData}
-            cx="50%"
-            cy="50%"
-            labelLine={false}
-            // label={({ name, percent }) =>
-            //   `${name} (${(percent * 100).toFixed(0)}%)`
-            // }
-            outerRadius={130}
-            fill="#8884d8"
-            dataKey="value"
-          >
-            {chartData.map((_, index) => (
+        <BarChart
+          data={chartData}
+          margin={{ top: 20, right: 30, left: 10, bottom: 5 }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" />
+          <YAxis allowDecimals={false} />
+          <Tooltip />
+          {/* <Legend /> */}
+          <Bar dataKey="value">
+            {chartData.map((entry, index) => (
               <Cell
                 key={`cell-${index}`}
                 fill={COLORS[index % COLORS.length]}
               />
             ))}
-          </Pie>
-          <Tooltip />
-          <Legend />
-        </PieChart>
+          </Bar>
+        </BarChart>
       </ResponsiveContainer>
     </div>
   );
 };
 
-export default MealTypePieChart;
+export default MealTypeBarChart;
