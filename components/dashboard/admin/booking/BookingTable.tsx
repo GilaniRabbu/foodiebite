@@ -128,24 +128,28 @@ const BookingTable = () => {
       </Card>
 
       {/* Pagination Controls */}
-      <div className="mt-6 flex justify-center gap-4">
-        <button
-          className="px-4 py-2 text-sm border rounded cursor-pointer disabled:opacity-50"
+      <div className="mt-8 flex items-center justify-center gap-4">
+        <Button
+          variant="outline"
+          size="sm"
           onClick={() => setPage((prev) => prev - 1)}
           disabled={page <= 1}
+          className="px-4 py-2 border-gray-300 text-gray-700 hover:bg-gray-50"
         >
           Previous
-        </button>
-        <span className="text-gray-600 text-sm pt-2">
+        </Button>
+        <span className="text-gray-700 text-sm">
           Page {meta?.page} of {Math.ceil(meta.total / limit)}
         </span>
-        <button
-          className="px-4 py-2 text-sm border rounded cursor-pointer disabled:opacity-50"
+        <Button
+          variant="outline"
+          size="sm"
           onClick={() => setPage((prev) => prev + 1)}
           disabled={page >= Math.ceil(meta.total / limit)}
+          className="px-4 py-2 border-gray-300 text-gray-700 hover:bg-gray-50"
         >
           Next
-        </button>
+        </Button>
       </div>
     </div>
   );

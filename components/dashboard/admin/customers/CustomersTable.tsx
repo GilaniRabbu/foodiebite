@@ -4,7 +4,14 @@ import React, { useState } from "react";
 import { useGetPaginatedBookingsQuery } from "@/redux/api/bookingApi";
 import { Calendar, Clock3, Mail, Phone, User } from "lucide-react";
 import Loader from "@/components/shared/Loader";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Table,
+  TableHeader,
+  TableHead,
+  TableRow,
+  TableBody,
+  TableCell,
+} from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 
 const CustomerTable = () => {
@@ -28,55 +35,79 @@ const CustomerTable = () => {
 
   return (
     <div className="space-y-6">
-      {/* Filter */}
       <div className="py-3 border-b space-y-4 md:space-y-0">
         <h1 className="text-3xl font-bold text-gray-900">Customers Details</h1>
       </div>
 
       {/* Card List */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {bookings.map((booking: any) => (
-          <Card key={booking._id} className="shadow-none rounded-md border">
-            <CardHeader className="border-b border-gray-200 pb-4">
-              <CardTitle className="text-xl font-semibold flex items-center gap-3 text-gray-800">
-                <User className="w-6 h-6 text-indigo-600" />
-                {booking.firstName} {booking.lastName}
-              </CardTitle>
-              <div className="space-y-2 text-gray-600">
-                <div className="flex items-center gap-2">
-                  <Mail className="w-5 h-5 text-indigo-500" />
-                  <span className="text-sm">{booking.email}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Phone className="w-5 h-5 text-indigo-500" />
-                  <span className="text-sm">{booking.phone}</span>
-                </div>
-              </div>
-            </CardHeader>
-            <CardContent className="pt-4 space-y-3">
-              <div className="flex items-center gap-2 text-gray-600">
-                <Calendar className="w-5 h-5 text-indigo-500" />
-                <span className="text-sm">
-                  {new Date(booking.reservationDate).toLocaleDateString()}
-                </span>
-              </div>
-              <div className="flex items-center gap-2 text-gray-600">
-                <Clock3 className="w-5 h-5 text-indigo-500" />
-                <span className="text-sm">{booking.reservationTime}</span>
-              </div>
-              <div className="text-lg font-semibold text-gray-800">
-                Total:{" "}
-                <span className="text-indigo-600">
-                  ${booking.total} ({booking.type})
-                </span>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
+      <div className="overflow-x-auto">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-[200px]">Full Name</TableHead>
+              <TableHead>Email</TableHead>
+              <TableHead>Phone</TableHead>
+              <TableHead>Date</TableHead>
+              <TableHead>Time</TableHead>
+              <TableHead>Total</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {bookings.map((booking: any) => (
+              <TableRow key={booking._id}>
+                <TableCell>
+                  <div className="flex items-center gap-2 font-semibold text-gray-800">
+                    <User className="w-5 h-5 text-indigo-600" />
+                    {booking.firstName} {booking.lastName}
+                  </div>
+                </TableCell>
+
+                <TableCell>
+                  <div className="flex items-center gap-2 text-gray-600">
+                    <Mail className="w-4 h-4 text-indigo-500" />
+                    <span className="text-sm">{booking.email}</span>
+                  </div>
+                </TableCell>
+
+                <TableCell>
+                  <div className="flex items-center gap-2 text-gray-600">
+                    <Phone className="w-4 h-4 text-indigo-500" />
+                    <span className="text-sm">{booking.phone}</span>
+                  </div>
+                </TableCell>
+
+                <TableCell>
+                  <div className="flex items-center gap-2 text-gray-600">
+                    <Calendar className="w-4 h-4 text-indigo-500" />
+                    <span className="text-sm">
+                      {new Date(booking.reservationDate).toLocaleDateString()}
+                    </span>
+                  </div>
+                </TableCell>
+
+                <TableCell>
+                  <div className="flex items-center gap-2 text-gray-600">
+                    <Clock3 className="w-4 h-4 text-indigo-500" />
+                    <span className="text-sm">{booking.reservationTime}</span>
+                  </div>
+                </TableCell>
+
+                <TableCell>
+                  <div className="text-sm font-medium text-indigo-600">
+                    ${booking.total}{" "}
+                    <span className="text-xs text-gray-500">
+                      ({booking.type})
+                    </span>
+                  </div>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
       </div>
 
       {/* Pagination */}
-      <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+      <div className="mt-8 flex items-center justify-center gap-4">
         <Button
           variant="outline"
           size="sm"
