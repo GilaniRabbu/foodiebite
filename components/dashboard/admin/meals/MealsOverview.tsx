@@ -93,7 +93,7 @@ const MealsOverview = () => {
         </h2>
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
-            <Button className="px-4 py-2 text-sm rounded-md bg-indigo-600 text-white">
+            <Button className="px-4 py-2 cursor-pointer text-sm rounded-md bg-indigo-600 text-white">
               Create Meal
             </Button>
           </DialogTrigger>

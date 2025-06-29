@@ -31,7 +31,6 @@ export default function MealsForm({ onSuccess }: Props) {
     formData.append("description", formDataRaw.description);
     formData.append("type", formDataRaw.type);
     formData.append("price", formDataRaw.price);
-    formData.append("keywords", formDataRaw.keywords);
     formData.append("categories", formDataRaw.categories);
 
     // Append files
@@ -52,16 +51,26 @@ export default function MealsForm({ onSuccess }: Props) {
   };
 
   return (
-    <div className="max-w-2xl mx-auto border overflow-y-scroll p-6 rounded-lg bg-white shadow-sm">
+    <>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
           <Label htmlFor="name">Meal Name</Label>
-          <Input id="name" {...register("name")} required />
+          <Input
+            id="name"
+            placeholder="Enter Meal Name"
+            {...register("name")}
+            required
+          />
         </div>
 
         <div>
           <Label htmlFor="description">Description</Label>
-          <Textarea id="description" {...register("description")} required />
+          <Textarea
+            id="description"
+            placeholder="Enter Meal Description"
+            {...register("description")}
+            required
+          />
         </div>
 
         <div>
@@ -69,7 +78,7 @@ export default function MealsForm({ onSuccess }: Props) {
           <Input
             id="type"
             {...register("type")}
-            placeholder="e.g., DINNER"
+            placeholder="e.g. DINNER"
             required
           />
         </div>
@@ -78,18 +87,8 @@ export default function MealsForm({ onSuccess }: Props) {
           <Label htmlFor="categories">Categories (comma separated)</Label>
           <Input
             id="categories"
-            placeholder="e.g., CHICKEN, DINNER"
+            placeholder="e.g. CHICKEN, DINNER"
             {...register("categories")}
-            required
-          />
-        </div>
-
-        <div>
-          <Label htmlFor="keywords">Keywords</Label>
-          <Input
-            id="keywords"
-            placeholder="Grilled chicken, Healthy, BBQ"
-            {...register("keywords")}
             required
           />
         </div>
@@ -102,6 +101,7 @@ export default function MealsForm({ onSuccess }: Props) {
             {...register("price")}
             required
             step="0.01"
+            placeholder="Enter Meal Price"
           />
         </div>
 
@@ -121,10 +121,14 @@ export default function MealsForm({ onSuccess }: Props) {
           />
         </div>
 
-        <Button type="submit" disabled={isSubmitting || isLoading}>
+        <Button
+          type="submit"
+          className="cursor-pointer"
+          disabled={isSubmitting || isLoading}
+        >
           {isLoading || isSubmitting ? "Submitting..." : "Create Meal"}
         </Button>
       </form>
-    </div>
+    </>
   );
 }
