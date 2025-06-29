@@ -171,9 +171,6 @@ const MealsOverview = () => {
           </TableBody>
         </Table>
       </div>
-      <div>
-        <MealsForm />
-      </div>
     </div>
   );
 };

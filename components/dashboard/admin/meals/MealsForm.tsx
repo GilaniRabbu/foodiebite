@@ -52,7 +52,7 @@ export default function MealsForm({ onSuccess }: Props) {
   };
 
   return (
-    <div className="max-w-2xl mx-auto border p-6 rounded-lg bg-white shadow-sm">
+    <div className="max-w-2xl mx-auto border overflow-y-scroll p-6 rounded-lg bg-white shadow-sm">
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
           <Label htmlFor="name">Meal Name</Label>
