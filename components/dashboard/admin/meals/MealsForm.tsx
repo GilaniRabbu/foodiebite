@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 
-export default function CreateMealForm() {
+export default function MealsForm() {
   const {
     register,
     handleSubmit,
@@ -37,6 +37,7 @@ export default function CreateMealForm() {
 
     try {
       const res = await createMeal(formData).unwrap();
+      console.log(res);
       toast.success("Meal created successfully!");
       reset();
       setSelectedFiles([]);

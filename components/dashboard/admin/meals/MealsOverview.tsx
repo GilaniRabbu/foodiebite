@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
 import Loader from "@/components/shared/Loader";
 import Image from "next/image";
+import MealsForm from "./MealsForm";
 
 const MealsOverview = () => {
   const { data, isLoading, isError } = useGetAllMealsQuery(undefined);
@@ -229,6 +230,9 @@ const MealsOverview = () => {
             ))}
           </TableBody>
         </Table>
+      </div>
+      <div>
+        <MealsForm />
       </div>
     </div>
   );
