@@ -89,27 +89,19 @@ export default function MealDetails({ id }: MealDetailsProps) {
             {meal.categories.map((category: string) => (
               <span
                 key={category}
-                className="px-3 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full"
+                className="px-3 py-1 text-xs font-medium bg-green-100 text-green-800 rounded"
               >
                 {category}
               </span>
             ))}
           </div>
 
-          {/* Meal Name and Description */}
-          {/* Title + Availability */}
-          <div className="flex items-center justify-between">
+          {/* Meal Title */}
+          <div>
             <h1 className="text-3xl font-bold text-gray-900">{meal.name}</h1>
-            {meal.isAvailable ? (
-              <span className="inline-flex items-center px-3 py-1 text-sm bg-green-100 text-green-800 rounded-full">
-                <Check className="w-4 h-4 mr-1" /> Available
-              </span>
-            ) : (
-              <span className="inline-flex items-center px-3 py-1 text-sm bg-red-100 text-red-800 rounded-full">
-                <X className="w-4 h-4 mr-1" /> Not available
-              </span>
-            )}
           </div>
+
+          {/* Meal Description */}
           <p className="text-gray-600 text-lg">{meal.description}</p>
 
           {/* Price Info */}
@@ -119,7 +111,7 @@ export default function MealDetails({ id }: MealDetailsProps) {
             </span>
           </div>
 
-          {/* Basic Info - hardcoded for now */}
+          {/* Basic Info */}
           <div className="flex gap-6 py-4 border-y border-gray-200">
             <div className="flex items-center gap-2">
               <Clock className="w-5 h-5 text-gray-500" />
@@ -131,14 +123,30 @@ export default function MealDetails({ id }: MealDetailsProps) {
             </div>
           </div>
 
+          {/* Availability Badge */}
+          <div>
+            {meal.isAvailable ? (
+              <span className="inline-flex items-center px-3 py-1 text-sm bg-green-100 text-green-800 rounded">
+                <Check className="w-4 h-4 mr-1" /> Available
+              </span>
+            ) : (
+              <span className="inline-flex items-center px-3 py-1 text-sm bg-red-100 text-red-800 rounded-full">
+                <X className="w-4 h-4 mr-1" /> Not available
+              </span>
+            )}
+          </div>
+
           {/* Description Expanded */}
           <div>
             <h2 className="text-2xl font-bold text-gray-900 mb-4">
               Keywords / Details
             </h2>
-            <p className="text-gray-700 leading-relaxed">
-              {meal.keywords?.[0] ?? "No extra keywords available."}
-            </p>
+            <ul className="list-disc list-inside text-gray-700 leading-relaxed space-y-1">
+              <li>Fresh Ingredients</li>
+              <li>Popular Choice</li>
+              <li>Balanced Meal</li>
+              <li>Chef&apos;s Special</li>
+            </ul>
           </div>
         </div>
       </div>
