@@ -10,7 +10,7 @@ export default function LoginForm() {
   // Default credentials for roles
   const defaultCredentials = {
     user: {
-      email: "inez@mailinator.com",
+      email: "toufiqgilani@gmail.com",
       password: "1234567",
     },
     admin: {
