@@ -1,6 +1,5 @@
 /* eslint-disable */
 "use client";
-
 import { useState } from "react";
 import Link from "next/link";
 import {
@@ -11,7 +10,6 @@ import {
   Menu,
   X,
   Users,
-  CreditCard,
   ForkKnife,
 } from "lucide-react";
 import Logo from "@/components/shared/Logo";
@@ -19,6 +17,7 @@ import Logo from "@/components/shared/Logo";
 export default function AdminSidebar() {
   const [activeSection, setActiveSection] = useState("dashboard");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const menuItems = [
     {
@@ -40,12 +39,6 @@ export default function AdminSidebar() {
       href: "/admin/booking",
     },
     { id: "meals", label: "Meals", icon: ForkKnife, href: "/admin/meals" },
-    // {
-    //   id: "payments",
-    //   label: "Payments",
-    //   icon: CreditCard,
-    //   href: "/admin/payments",
-    // },
     {
       id: "settings",
       label: "Settings",
@@ -112,7 +105,10 @@ export default function AdminSidebar() {
                   <li key={item.id}>
                     <Link
                       href={item.href}
-                      onClick={() => setActiveSection(item.id)}
+                      onClick={() => {
+                        setActiveSection(item.id);
+                        setIsOpen(false);
+                      }}
                       className={`w-full flex items-center gap-3 px-4 py-1.5 rounded-lg text-left transition-colors duration-200 ${
                         isActive
                           ? "bg-red-50 text-red-600 border border-red-200"

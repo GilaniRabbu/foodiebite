@@ -10,6 +10,7 @@ const bookingApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Booking"],
     }),
+
     getBookingById: build.query({
       query: (id: string) => `/booking/${id}`,
       providesTags: ["Booking"],
@@ -23,6 +24,7 @@ const bookingApi = baseApi.injectEndpoints({
       }),
       providesTags: ["Booking"],
     }),
+
     getAllBookings: build.query({
       query: (params) => ({
         url: `/booking`,
