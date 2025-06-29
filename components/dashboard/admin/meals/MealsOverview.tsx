@@ -11,20 +11,15 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useGetAllMealsQuery } from "@/redux/api/mealApi";
-import { Loader2, Trash2 } from "lucide-react";
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { Trash2 } from "lucide-react";
+import Loader from "@/components/shared/Loader";
+import Image from "next/image";
 
-const MealsComponent = () => {
+const MealsOverview = () => {
   const { data, isLoading, isError } = useGetAllMealsQuery(undefined);
 
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center py-10">
-        <Loader2 className="animate-spin w-6 h-6 text-gray-600" />
-      </div>
-    );
-  }
+  if (isLoading) <Loader />;
 
   if (isError || !data?.data) {
     return <div className="text-red-500">Failed to load meals.</div>;
@@ -170,19 +165,19 @@ const MealsComponent = () => {
         <h2 className="text-xl md:text-2xl font-semibold text-gray-800">
           All Meals Details
         </h2>
-        <button className="px-4 py-2 text-sm rounded-md bg-indigo-600 text-white">
+        <Button className="px-4 py-2 cursor-pointer text-sm rounded-md bg-indigo-600 text-white">
           Create Meal
-        </button>
+        </Button>
       </div>
       <div className="overflow-x-auto">
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="min-w-[150px]">Image</TableHead>
-              <TableHead className="min-w-[200px]">Name</TableHead>
-              <TableHead className="min-w-[150px]">Type</TableHead>
-              <TableHead className="min-w-[150px]">Price</TableHead>
-              <TableHead className="min-w-[100px]">Available</TableHead>
+              <TableHead className="min-w-[120px]">Image</TableHead>
+              <TableHead className="min-w-[150px]">Name</TableHead>
+              <TableHead className="min-w-[120px]">Type</TableHead>
+              <TableHead className="min-w-[120px]">Price</TableHead>
+              <TableHead className="min-w-[120px]">Available</TableHead>
               <TableHead className="min-w-[120px]">Actions</TableHead>
             </TableRow>
           </TableHeader>
@@ -239,4 +234,4 @@ const MealsComponent = () => {
   );
 };
 
-export default MealsComponent;
+export default MealsOverview;
