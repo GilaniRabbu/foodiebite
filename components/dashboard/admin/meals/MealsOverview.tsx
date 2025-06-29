@@ -1,6 +1,6 @@
 /* eslint-disable */
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
@@ -10,6 +10,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { useGetAllMealsQuery } from "@/redux/api/mealApi";
 import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
@@ -18,6 +26,7 @@ import Image from "next/image";
 import MealsForm from "./MealsForm";
 
 const MealsOverview = () => {
+  const [open, setOpen] = useState(false);
   const { data, isLoading, isError } = useGetAllMealsQuery(undefined);
 
   if (isLoading) <Loader />;
@@ -27,81 +36,6 @@ const MealsOverview = () => {
   }
 
   const meals = data.data;
-
-  const meal = [
-    {
-      id: 1,
-      name: "Grilled Salmon",
-      category: "Main Course",
-      price: 24.99,
-      status: "active",
-      image: "/placeholder.svg?height=40&width=40",
-      description: "Fresh Atlantic salmon with herbs",
-      ingredients: "Salmon, herbs, lemon",
-      calories: 350,
-      preparationTime: "25 min",
-    },
-    {
-      id: 2,
-      name: "Caesar Salad",
-      category: "Appetizer",
-      price: 12.99,
-      status: "active",
-      image: "/placeholder.svg?height=40&width=40",
-      description: "Classic Caesar salad with croutons",
-      ingredients: "Lettuce, parmesan, croutons",
-      calories: 180,
-      preparationTime: "10 min",
-    },
-    {
-      id: 3,
-      name: "Chocolate Cake",
-      category: "Dessert",
-      price: 8.99,
-      status: "inactive",
-      image: "/placeholder.svg?height=40&width=40",
-      description: "Rich chocolate cake with ganache",
-      ingredients: "Chocolate, flour, eggs",
-      calories: 420,
-      preparationTime: "45 min",
-    },
-    {
-      id: 4,
-      name: "Beef Burger",
-      category: "Main Course",
-      price: 16.99,
-      status: "active",
-      image: "/placeholder.svg?height=40&width=40",
-      description: "Juicy beef burger with fries",
-      ingredients: "Beef, bun, lettuce, tomato",
-      calories: 650,
-      preparationTime: "20 min",
-    },
-    {
-      id: 5,
-      name: "Vegetable Soup",
-      category: "Appetizer",
-      price: 9.99,
-      status: "active",
-      image: "/placeholder.svg?height=40&width=40",
-      description: "Fresh seasonal vegetable soup",
-      ingredients: "Mixed vegetables, broth",
-      calories: 120,
-      preparationTime: "30 min",
-    },
-    {
-      id: 6,
-      name: "Tiramisu",
-      category: "Dessert",
-      price: 7.99,
-      status: "active",
-      image: "/placeholder.svg?height=40&width=40",
-      description: "Classic Italian tiramisu",
-      ingredients: "Mascarpone, coffee, ladyfingers",
-      calories: 380,
-      preparationTime: "15 min",
-    },
-  ];
 
   return (
     <div className="space-y-6">
@@ -118,7 +52,7 @@ const MealsOverview = () => {
             <CardTitle className="text-sm font-medium">Total Meals</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{meals.length}</div>
+            <div className="text-2xl font-bold">28</div>
             <p className="text-xs text-muted-foreground">+2 from last month</p>
           </CardContent>
         </Card>
@@ -127,9 +61,7 @@ const MealsOverview = () => {
             <CardTitle className="text-sm font-medium">Active Meals</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
-              {meal.filter((m) => m.status === "active").length}
-            </div>
+            <div className="text-2xl font-bold">20</div>
             <p className="text-xs text-muted-foreground">Currently available</p>
           </CardContent>
         </Card>
@@ -138,9 +70,7 @@ const MealsOverview = () => {
             <CardTitle className="text-sm font-medium">Categories</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
-              {new Set(meal.map((m) => m.category)).size}
-            </div>
+            <div className="text-2xl font-bold">5</div>
             <p className="text-xs text-muted-foreground">
               Different categories
             </p>
@@ -151,12 +81,7 @@ const MealsOverview = () => {
             <CardTitle className="text-sm font-medium">Avg. Price</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
-              $
-              {(
-                meal.reduce((sum, m) => sum + m.price, 0) / meal.length
-              ).toFixed(2)}
-            </div>
+            <div className="text-2xl font-bold">$18</div>
             <p className="text-xs text-muted-foreground">Across all meals</p>
           </CardContent>
         </Card>
@@ -166,9 +91,24 @@ const MealsOverview = () => {
         <h2 className="text-xl md:text-2xl font-semibold text-gray-800">
           All Meals Details
         </h2>
-        <Button className="px-4 py-2 cursor-pointer text-sm rounded-md bg-indigo-600 text-white">
-          Create Meal
-        </Button>
+        <Dialog open={open} onOpenChange={setOpen}>
+          <DialogTrigger asChild>
+            <Button className="px-4 py-2 text-sm rounded-md bg-indigo-600 text-white">
+              Create Meal
+            </Button>
+          </DialogTrigger>
+
+          <DialogContent className="max-w-2xl">
+            <DialogHeader>
+              <DialogTitle>Create a New Meal</DialogTitle>
+              <DialogDescription>
+                Fill the form below to add a new meal.
+              </DialogDescription>
+            </DialogHeader>
+
+            <MealsForm onSuccess={() => setOpen(false)} />
+          </DialogContent>
+        </Dialog>
       </div>
       <div className="overflow-x-auto">
         <Table>

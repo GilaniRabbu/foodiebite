@@ -9,7 +9,11 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 
-export default function MealsForm() {
+type Props = {
+  onSuccess?: () => void;
+};
+
+export default function MealsForm({ onSuccess }: Props) {
   const {
     register,
     handleSubmit,
@@ -36,11 +40,11 @@ export default function MealsForm() {
     }
 
     try {
-      const res = await createMeal(formData).unwrap();
-      console.log(res);
+      await createMeal(formData).unwrap();
       toast.success("Meal created successfully!");
       reset();
       setSelectedFiles([]);
+      if (onSuccess) onSuccess();
     } catch (err: any) {
       console.error(err);
       toast.error("Failed to create meal");
@@ -49,7 +53,6 @@ export default function MealsForm() {
 
   return (
     <div className="max-w-2xl mx-auto border p-6 rounded-lg bg-white shadow-sm">
-      <h2 className="text-xl font-semibold mb-4">Create New Meal</h2>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
           <Label htmlFor="name">Meal Name</Label>
