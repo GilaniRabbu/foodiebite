@@ -1,10 +1,12 @@
 /* eslint-disable */
 "use client";
-import React, { useState } from "react";
-import { useGetPaginatedBookingsQuery } from "@/redux/api/bookingApi";
-import { Trash } from "lucide-react";
-import Loader from "@/components/shared/Loader";
-import { Card, CardContent } from "@/components/ui/card";
+import * as React from "react";
+import {
+  ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
 import {
   Table,
   TableBody,
@@ -13,140 +15,125 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
+import { useGetBookingsByUserIdQuery } from "@/redux/api/bookingApi";
+import Loader from "@/components/shared/Loader";
+import dayjs from "dayjs";
 
-const BookingTable = () => {
-  const [page, setPage] = useState(1);
-  const [status, setStatus] = useState("");
-  const limit = 4;
-
-  const { data, isLoading, isError } = useGetPaginatedBookingsQuery({
-    page,
-    limit,
-    ...(status && { status }), // Only add status if it's selected
-  });
-
-  const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setPage(1); // reset to page 1 on filter change
-    setStatus(e.target.value);
-  };
-
-  if (isLoading) return <Loader />;
-  if (isError || !data?.data)
-    return <p className="text-red-500">Failed to load bookings.</p>;
-
-  const { data: bookings, meta } = data;
-
-  return (
-    <div className="space-y-6">
-      <Card className="shadow-none rounded-sm">
-        <CardContent className="py-2 px-6">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-green-700">My Bookings</h2>
-            <select
-              value={status}
-              onChange={handleStatusChange}
-              className="border px-3 py-2 rounded text-sm"
-            >
-              <option value="">All Statuses</option>
-              <option value="PENDING">Pending</option>
-              <option value="CONFIRMED">Confirmed</option>
-              <option value="CANCELLED">Cancelled</option>
-            </select>
-          </div>
-        </CardContent>
-      </Card>
-
-      <Card className="shadow-none rounded-sm">
-        <CardContent>
-          <div className="overflow-x-auto">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="font-semibold">Date & Time</TableHead>
-                  <TableHead className="font-semibold">Guests</TableHead>
-                  <TableHead className="font-semibold">Total</TableHead>
-                  <TableHead className="font-semibold">Status</TableHead>
-                  <TableHead className="font-semibold">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-
-              <TableBody>
-                {bookings.map((booking: any) => (
-                  <TableRow key={booking._id} className="hover:bg-muted/50">
-                    <TableCell>
-                      <p className="text-sm text-muted-foreground font-medium">
-                        {new Date(booking.reservationDate).toLocaleDateString()}
-                      </p>
-                      <p className="text-sm text-muted-foreground">
-                        {booking.reservationTime}
-                      </p>
-                    </TableCell>
-                    <TableCell>
-                      <span className="text-muted-foreground">
-                        {booking.numberOfGuests}
-                      </span>
-                    </TableCell>
-                    <TableCell>
-                      <span className="text-muted-foreground">
-                        ${booking.total}
-                      </span>
-                    </TableCell>
-                    <TableCell>
-                      <span
-                        className={`px-2 py-1 rounded text-xs font-medium ${
-                          booking.status === "PENDING"
-                            ? "bg-yellow-100 text-yellow-700"
-                            : booking.status === "CONFIRMED"
-                            ? "bg-green-100 text-green-700"
-                            : "bg-red-100 text-red-700"
-                        }`}
-                      >
-                        {booking.status}
-                      </span>
-                    </TableCell>
-                    <TableCell>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() =>
-                          console.log("Delete booking", booking._id)
-                        }
-                        className="text-red-600 hover:text-red-800 hover:bg-red-50"
-                      >
-                        <Trash size={16} />
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Pagination Controls */}
-      <div className="mt-6 flex justify-center gap-4">
-        <button
-          className="px-4 py-2 border rounded disabled:opacity-50"
-          onClick={() => setPage((prev) => prev - 1)}
-          disabled={page <= 1}
-        >
-          Previous
-        </button>
-        <span className="text-gray-600 text-sm pt-2">
-          Page {meta?.page} of {Math.ceil(meta.total / limit)}
-        </span>
-        <button
-          className="px-4 py-2 border rounded disabled:opacity-50"
-          onClick={() => setPage((prev) => prev + 1)}
-          disabled={page >= Math.ceil(meta.total / limit)}
-        >
-          Next
-        </button>
-      </div>
-    </div>
-  );
+type Props = {
+  userId: string;
 };
 
-export default BookingTable;
+type BookingRow = {
+  _id: string;
+  total: number;
+  status: string;
+  type?: string;
+  mealCount: number;
+  createdAt?: string;
+};
+
+export default function BookingTable({ userId }: Props) {
+  const { data, isLoading, error } = useGetBookingsByUserIdQuery({
+    userId,
+    page: 1,
+    limit: 100,
+  });
+
+  const rawBookings = data?.data || [];
+
+  // 🧠 Transform bookings for the table
+  const bookings: BookingRow[] = rawBookings.map((booking) => ({
+    _id: booking._id,
+    total: booking.total,
+    status: booking.status,
+    type: booking.type,
+    mealCount: booking.mealIds.length,
+    createdAt: booking.createdAt,
+  }));
+
+  const columns: ColumnDef<BookingRow>[] = [
+    {
+      accessorKey: "_id",
+      header: "Booking ID",
+      cell: ({ getValue }) => (
+        <div className="text-xs truncate max-w-[200px]">
+          {getValue() as string}
+        </div>
+      ),
+    },
+    {
+      accessorKey: "status",
+      header: "Status",
+      cell: ({ getValue }) => (
+        <div className="capitalize">{getValue() as string}</div>
+      ),
+    },
+    {
+      accessorKey: "total",
+      header: "Total ($)",
+    },
+    {
+      accessorKey: "type",
+      header: "Type",
+      cell: ({ getValue }) => getValue() ?? "N/A",
+    },
+    {
+      accessorKey: "mealCount",
+      header: "Meal Count",
+    },
+    {
+      accessorKey: "createdAt",
+      header: "Created At",
+      cell: ({ getValue }) =>
+        getValue() ? dayjs(getValue() as string).format("YYYY-MM-DD") : "N/A",
+    },
+  ];
+
+  const table = useReactTable({
+    data: bookings,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+  });
+
+  if (isLoading) return <Loader />;
+  if (error)
+    return <div className="text-red-500">Failed to load Booking data.</div>;
+
+  return (
+    <div className="p-4 border rounded-md bg-white shadow-sm">
+      <h2 className="text-xl font-semibold mb-4">All Bookings (Table)</h2>
+
+      {bookings.length === 0 ? (
+        <p>No bookings found.</p>
+      ) : (
+        <Table>
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <TableHead key={header.id}>
+                    {flexRender(
+                      header.column.columnDef.header,
+                      header.getContext()
+                    )}
+                  </TableHead>
+                ))}
+              </TableRow>
+            ))}
+          </TableHeader>
+          <TableBody>
+            {table.getRowModel().rows.map((row) => (
+              <TableRow key={row.id}>
+                {row.getVisibleCells().map((cell) => (
+                  <TableCell key={cell.id}>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      )}
+    </div>
+  );
+}

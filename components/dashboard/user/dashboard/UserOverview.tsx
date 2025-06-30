@@ -1,30 +1,36 @@
 /* eslint-disable */
 "use client";
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CalendarDays, MapPin, Heart, TrendingUp } from "lucide-react";
-import { useGetAllBookingsQuery } from "@/redux/api/bookingApi";
+import { useGetBookingsByUserIdQuery } from "@/redux/api/bookingApi";
 import Loader from "@/components/shared/Loader";
 
 export default function UserOverview() {
-  const { data, isLoading } = useGetAllBookingsQuery({
+  const userId = "686190f2a2fc79a924679593";
+
+  // ✅ Use bookings by user ID
+  const { data, isLoading } = useGetBookingsByUserIdQuery({
+    userId,
     page: 1,
     limit: 100,
   });
 
   if (isLoading) return <Loader />;
 
+  // ✅ bookings for this user
   const bookings = data?.data || [];
+  console.log(bookings);
 
+  // ✅ Metrics calculation based on user bookings
   const totalBookings = bookings.length;
   const upcomingBookings = bookings.filter(
-    (b: any) => b.status === "PENDING"
+    (b) => b.status === "PENDING"
   ).length;
   const totalSpend = bookings.reduce(
-    (acc: number, curr: any) => acc + Number(curr.total || 0),
+    (acc, curr) => acc + Number(curr.total || 0),
     0
   );
-  const canceled = bookings.filter((b: any) => b.status === "CANCELLED").length;
+  const canceled = bookings.filter((b) => b.status === "CANCELLED").length;
 
   const metrics = [
     {

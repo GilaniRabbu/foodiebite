@@ -1,4 +1,5 @@
 import { baseApi } from "./baseApi";
+import { IBooking, IGenericResponse } from "@/types/booking";
 
 const bookingApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
@@ -32,6 +33,19 @@ const bookingApi = baseApi.injectEndpoints({
       }),
       providesTags: ["Booking"],
     }),
+
+    getBookingsByUserId: build.query<
+      IGenericResponse<IBooking[]>,
+      {
+        userId: string;
+        page?: number;
+        limit?: number;
+      }
+    >({
+      query: ({ userId, page = 1, limit = 10 }) =>
+        `/booking/user/${userId}?page=${page}&limit=${limit}`,
+      providesTags: ["Booking"],
+    }),
   }),
 });
 
@@ -40,4 +54,5 @@ export const {
   useGetBookingByIdQuery,
   useGetPaginatedBookingsQuery,
   useGetAllBookingsQuery,
+  useGetBookingsByUserIdQuery,
 } = bookingApi;
