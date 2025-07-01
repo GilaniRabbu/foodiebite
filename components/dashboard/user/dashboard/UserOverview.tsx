@@ -1,9 +1,11 @@
 /* eslint-disable */
 "use client";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CalendarDays, MapPin, Heart, TrendingUp } from "lucide-react";
 import { useGetBookingsByUserIdQuery } from "@/redux/api/bookingApi";
 import Loader from "@/components/shared/Loader";
+import UserBookingChart from "./UserBookingChart";
 
 export default function UserOverview() {
   const userId = "686190f2a2fc79a924679593";
@@ -78,6 +80,12 @@ export default function UserOverview() {
           );
         })}
       </div>
+      <UserBookingChart
+        totalBookings={totalBookings}
+        upcomingBookings={upcomingBookings}
+        canceled={canceled}
+        totalSpend={totalSpend}
+      />
     </div>
   );
 }

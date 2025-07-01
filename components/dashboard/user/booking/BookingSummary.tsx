@@ -1,13 +1,18 @@
 /* eslint-disable */
 "use client";
 
-import { Calendar, Clock, Users } from "lucide-react";
+import { Calendar, Clock, CheckCircle2, XCircle } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import { useGetAllBookingsQuery } from "@/redux/api/bookingApi";
+import { useGetBookingsByUserIdQuery } from "@/redux/api/bookingApi";
 import Loader from "@/components/shared/Loader";
 
-const BookingSummary = () => {
-  const { data, isLoading } = useGetAllBookingsQuery({
+type Props = {
+  userId: string;
+};
+
+const BookingSummary = ({ userId }: Props) => {
+  const { data, isLoading } = useGetBookingsByUserIdQuery({
+    userId,
     page: 1,
     limit: 100,
   });
@@ -28,13 +33,13 @@ const BookingSummary = () => {
       title: "Total Bookings",
       value: total,
       icon: Calendar,
-      iconBg: "bg-green-100",
-      iconColor: "text-green-600",
+      iconBg: "bg-blue-100",
+      iconColor: "text-blue-600",
     },
     {
       title: "Confirmed Bookings",
       value: confirmed,
-      icon: Calendar,
+      icon: CheckCircle2,
       iconBg: "bg-green-100",
       iconColor: "text-green-600",
     },
@@ -48,18 +53,18 @@ const BookingSummary = () => {
     {
       title: "Canceled Bookings",
       value: canceled,
-      icon: Users,
-      iconBg: "bg-blue-100",
-      iconColor: "text-blue-600",
+      icon: XCircle,
+      iconBg: "bg-red-100",
+      iconColor: "text-red-600",
     },
   ];
 
   return (
-    <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+    <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
       {summaryCards.map((card, index) => {
         const Icon = card.icon;
         return (
-          <Card key={index} className="border-border shadow-none rounded-sm">
+          <Card key={index} className="border shadow-none rounded-sm">
             <CardContent className="p-6">
               <div className="flex items-center gap-3">
                 <div className={`p-3 ${card.iconBg} rounded-lg`}>

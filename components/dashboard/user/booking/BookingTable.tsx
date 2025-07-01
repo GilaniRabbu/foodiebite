@@ -100,7 +100,7 @@ export default function BookingTable({ userId }: Props) {
     return <div className="text-red-500">Failed to load Booking data.</div>;
 
   return (
-    <div className="p-4 border rounded-md bg-white shadow-sm">
+    <div className="p-4 border shadow-none rounded-sm bg-white">
       <h2 className="text-xl font-semibold mb-4">All Bookings (Table)</h2>
 
       {bookings.length === 0 ? (
