@@ -1,5 +1,6 @@
 /* eslint-disable */
 "use client";
+
 import { useState } from "react";
 import Link from "next/link";
 import {
@@ -15,7 +16,6 @@ import Logo from "@/components/shared/Logo";
 export default function UserSidebar() {
   const [activeSection, setActiveSection] = useState("dashboard");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
 
   const menuItems = [
     {
@@ -98,7 +98,7 @@ export default function UserSidebar() {
                       href={item.href}
                       onClick={() => {
                         setActiveSection(item.id);
-                        setIsOpen(false);
+                        setIsMobileMenuOpen(false);
                       }}
                       className={`w-full flex items-center gap-3 px-4 py-2 rounded-lg text-left transition-colors duration-200 ${
                         isActive
