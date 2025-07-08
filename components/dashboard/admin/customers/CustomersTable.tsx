@@ -33,7 +33,7 @@ const CustomerTable = () => {
 
   // const { data: bookings, meta } = data;
 
-  const { data: rawBookings, meta } = data;
+  const { data: rawBookings } = data;
 
   // Group bookings by email
   const bookingsByEmail: Record<string, any[]> = rawBookings.reduce(
@@ -47,20 +47,28 @@ const CustomerTable = () => {
     {} as Record<string, any[]>
   );
 
+  const emails = Object.keys(bookingsByEmail);
+  const totalPages = emails.length;
+  const currentEmail = emails[page - 1];
+  const currentUserBookings = bookingsByEmail[currentEmail];
+
   return (
     <div className="space-y-6">
       <div className="py-3 border-b space-y-4 md:space-y-0">
         <h1 className="text-3xl font-bold text-gray-900">Customers Details</h1>
       </div>
 
-      {Object.entries(bookingsByEmail).map(([email, bookings]) => (
-        <div key={email} className="mb-10 border rounded-md p-4 shadow-sm">
+      {currentUserBookings && (
+        <div className="mb-10 border rounded-md p-4 shadow-sm">
           <div className="mb-4">
             <h2 className="text-xl font-semibold text-indigo-700">
-              {bookings[0].firstName} {bookings[0].lastName}
+              {currentUserBookings[0].firstName}{" "}
+              {currentUserBookings[0].lastName}
             </h2>
-            <p className="text-sm text-gray-600">{email}</p>
-            <p className="text-sm text-gray-600">{bookings[0].phone}</p>
+            <p className="text-sm text-gray-600">{currentEmail}</p>
+            <p className="text-sm text-gray-600">
+              {currentUserBookings[0].phone}
+            </p>
           </div>
 
           <div className="overflow-x-auto">
@@ -75,7 +83,7 @@ const CustomerTable = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {[...bookings]
+                {[...currentUserBookings]
                   .sort(
                     (a, b) =>
                       new Date(a.reservationDate).getTime() -
@@ -108,7 +116,7 @@ const CustomerTable = () => {
             </Table>
           </div>
         </div>
-      ))}
+      )}
       {/* Card List */}
       {/* <div className="overflow-x-auto">
         <Table>
@@ -188,7 +196,7 @@ const CustomerTable = () => {
       </div> */}
 
       {/* Pagination */}
-      <div className="mt-8 flex items-center justify-center gap-4">
+      {/* <div className="mt-8 flex items-center justify-center gap-4">
         <Button
           variant="outline"
           size="sm"
@@ -207,6 +215,27 @@ const CustomerTable = () => {
           onClick={() => setPage((prev) => prev + 1)}
           disabled={page >= Math.ceil(meta.total / limit)}
           className="px-4 py-2 border-gray-300 text-gray-700 hover:bg-gray-50"
+        >
+          Next
+        </Button>
+      </div> */}
+      <div className="mt-8 flex items-center justify-center gap-4">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => setPage((prev) => prev - 1)}
+          disabled={page <= 1}
+        >
+          Previous
+        </Button>
+        <span className="text-gray-700 text-sm">
+          Page {page} of {totalPages}
+        </span>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => setPage((prev) => prev + 1)}
+          disabled={page >= totalPages}
         >
           Next
         </Button>
