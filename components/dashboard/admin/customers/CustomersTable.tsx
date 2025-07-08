@@ -33,24 +33,19 @@ const CustomerTable = () => {
 
   // const { data: bookings, meta } = data;
 
-  const { data: rawBookings } = data;
+  const { data: rawBookings = [], meta } = data || {};
 
-  // Group bookings by email
-  const bookingsByEmail: Record<string, any[]> = rawBookings.reduce(
-    (acc: any, booking: any) => {
-      if (!acc[booking.email]) {
-        acc[booking.email] = [];
-      }
+  // Group by unique email (per page result)
+  const grouped = rawBookings.reduce(
+    (acc: Record<string, any[]>, booking: any) => {
+      if (!acc[booking.email]) acc[booking.email] = [];
       acc[booking.email].push(booking);
       return acc;
     },
-    {} as Record<string, any[]>
+    {}
   );
 
-  const emails = Object.keys(bookingsByEmail);
-  const totalPages = emails.length;
-  const currentEmail = emails[page - 1];
-  const currentUserBookings = bookingsByEmail[currentEmail];
+  const groupedBookings: any[][] = Object.values(grouped);
 
   return (
     <div className="space-y-6">
@@ -58,20 +53,17 @@ const CustomerTable = () => {
         <h1 className="text-3xl font-bold text-gray-900">Customers Details</h1>
       </div>
 
-      {currentUserBookings && (
-        <div className="mb-10 border rounded-md p-4 shadow-sm">
-          <div className="mb-4">
-            <h2 className="text-xl font-semibold text-indigo-700">
-              {currentUserBookings[0].firstName}{" "}
-              {currentUserBookings[0].lastName}
-            </h2>
-            <p className="text-sm text-gray-600">{currentEmail}</p>
-            <p className="text-sm text-gray-600">
-              {currentUserBookings[0].phone}
-            </p>
-          </div>
+      {groupedBookings.map((group, idx) => {
+        const user = group[0];
 
-          <div className="overflow-x-auto">
+        return (
+          <div key={idx} className="border p-4 rounded-md shadow-sm">
+            <h2 className="text-xl font-semibold text-indigo-700 mb-1">
+              {user.firstName} {user.lastName}
+            </h2>
+            <p className="text-sm text-gray-600">{user.email}</p>
+            <p className="text-sm text-gray-600 mb-4">{user.phone}</p>
+
             <Table>
               <TableHeader>
                 <TableRow>
@@ -83,13 +75,13 @@ const CustomerTable = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {[...currentUserBookings]
+                {group
                   .sort(
-                    (a, b) =>
+                    (a: any, b: any) =>
                       new Date(a.reservationDate).getTime() -
                       new Date(b.reservationDate).getTime()
                   )
-                  .map((booking) => (
+                  .map((booking: any) => (
                     <TableRow key={booking._id}>
                       <TableCell>
                         {new Date(booking.reservationDate).toLocaleDateString()}
@@ -115,8 +107,8 @@ const CustomerTable = () => {
               </TableBody>
             </Table>
           </div>
-        </div>
-      )}
+        );
+      })}
       {/* Card List */}
       {/* <div className="overflow-x-auto">
         <Table>
@@ -229,13 +221,13 @@ const CustomerTable = () => {
           Previous
         </Button>
         <span className="text-gray-700 text-sm">
-          Page {page} of {totalPages}
+          Page {meta?.page} of {Math.ceil(meta.total / limit)}
         </span>
         <Button
           variant="outline"
           size="sm"
           onClick={() => setPage((prev) => prev + 1)}
-          disabled={page >= totalPages}
+          disabled={page >= Math.ceil(meta.total / limit)}
         >
           Next
         </Button>
