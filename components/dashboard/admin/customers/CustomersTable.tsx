@@ -31,7 +31,21 @@ const CustomerTable = () => {
       </p>
     );
 
-  const { data: bookings, meta } = data;
+  // const { data: bookings, meta } = data;
+
+  const { data: rawBookings, meta } = data;
+
+  // Group bookings by email
+  const bookingsByEmail: Record<string, any[]> = rawBookings.reduce(
+    (acc: any, booking: any) => {
+      if (!acc[booking.email]) {
+        acc[booking.email] = [];
+      }
+      acc[booking.email].push(booking);
+      return acc;
+    },
+    {} as Record<string, any[]>
+  );
 
   return (
     <div className="space-y-6">
@@ -39,8 +53,64 @@ const CustomerTable = () => {
         <h1 className="text-3xl font-bold text-gray-900">Customers Details</h1>
       </div>
 
+      {Object.entries(bookingsByEmail).map(([email, bookings]) => (
+        <div key={email} className="mb-10 border rounded-md p-4 shadow-sm">
+          <div className="mb-4">
+            <h2 className="text-xl font-semibold text-indigo-700">
+              {bookings[0].firstName} {bookings[0].lastName}
+            </h2>
+            <p className="text-sm text-gray-600">{email}</p>
+            <p className="text-sm text-gray-600">{bookings[0].phone}</p>
+          </div>
+
+          <div className="overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Date</TableHead>
+                  <TableHead>Time</TableHead>
+                  <TableHead>Guests</TableHead>
+                  <TableHead>Total</TableHead>
+                  <TableHead>Status</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {[...bookings]
+                  .sort(
+                    (a, b) =>
+                      new Date(a.reservationDate).getTime() -
+                      new Date(b.reservationDate).getTime()
+                  )
+                  .map((booking) => (
+                    <TableRow key={booking._id}>
+                      <TableCell>
+                        {new Date(booking.reservationDate).toLocaleDateString()}
+                      </TableCell>
+                      <TableCell>{booking.reservationTime}</TableCell>
+                      <TableCell>{booking.numberOfGuests}</TableCell>
+                      <TableCell>${booking.total}</TableCell>
+                      <TableCell>
+                        <span
+                          className={`px-2 py-1 rounded text-xs font-medium ${
+                            booking.status === "PENDING"
+                              ? "bg-yellow-100 text-yellow-700"
+                              : booking.status === "CONFIRMED"
+                              ? "bg-green-100 text-green-700"
+                              : "bg-red-100 text-red-700"
+                          }`}
+                        >
+                          {booking.status}
+                        </span>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+              </TableBody>
+            </Table>
+          </div>
+        </div>
+      ))}
       {/* Card List */}
-      <div className="overflow-x-auto">
+      {/* <div className="overflow-x-auto">
         <Table>
           <TableHeader>
             <TableRow>
@@ -53,7 +123,7 @@ const CustomerTable = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {/* {bookings.map((booking: any) => ( */}
+            {/* {bookings.map((booking: any) => (
             {[...bookings]
               .sort(
                 (a, b) =>
@@ -115,7 +185,7 @@ const CustomerTable = () => {
               ))}
           </TableBody>
         </Table>
-      </div>
+      </div> */}
 
       {/* Pagination */}
       <div className="mt-8 flex items-center justify-center gap-4">
