@@ -57,29 +57,26 @@ const CustomerTable = () => {
   );
 
   return (
-    <div className="space-y-10">
-      <div className="py-3 border-b space-y-4 md:space-y-0">
+    <div className="space-y-10 mb-5">
+      <div className="py-4 border-b">
         <h1 className="text-3xl font-bold text-gray-900">Customers Details</h1>
       </div>
 
       {Object.entries(groupedByEmail).map(([email, bookings]) => {
-        const { firstName, lastName, phone } = bookings[0]; // Use first booking for contact info
+        const { firstName, lastName, phone } = bookings[0];
         return (
-          <div
-            key={email}
-            className="space-y-4 border p-4 rounded-md shadow-sm"
-          >
-            <div className="space-y-1">
-              <div className="text-xl font-semibold text-gray-800 flex items-center gap-2">
+          <div key={email} className="space-y-4 p-4 border rounded-sm">
+            <div className="space-y-2">
+              <div className="text-lg font-semibold text-gray-800 flex items-center gap-2">
                 <User className="w-5 h-5 text-indigo-600" />
                 {firstName} {lastName}
               </div>
-              <div className="text-sm text-muted-foreground flex items-center gap-2">
-                <Mail className="w-4 h-4 text-indigo-500" />
+              <div className="text-lg text-muted-foreground flex items-center gap-2">
+                <Mail className="w-5 h-5 text-indigo-500" />
                 {email}
               </div>
-              <div className="text-sm text-muted-foreground flex items-center gap-2">
-                <Phone className="w-4 h-4 text-indigo-500" />
+              <div className="text-lg text-muted-foreground flex items-center gap-2">
+                <Phone className="w-5 h-5 text-indigo-500" />
                 {phone}
               </div>
             </div>
@@ -113,12 +110,12 @@ const CustomerTable = () => {
                         </div>
                       </TableCell>
                       <TableCell>
-                        {booking.numberOfGuests}
-                        <span className="text-xs text-gray-500">
+                        {booking.numberOfGuests}{" "}
+                        <span className="text-xs text-gray-600">
                           ({booking.type})
                         </span>
                       </TableCell>
-                      <TableCell>${booking.total}</TableCell>
+                      <TableCell>$ {booking.total}</TableCell>
                       <TableCell>
                         <span
                           className={`px-2 py-1 rounded text-xs font-medium ${
