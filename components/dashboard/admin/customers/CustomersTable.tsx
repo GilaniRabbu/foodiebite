@@ -1,6 +1,6 @@
 /* eslint-disable */
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { useGetPaginatedBookingsQuery } from "@/redux/api/bookingApi";
 import { Calendar, Clock3, Mail, Phone, User } from "lucide-react";
 import Loader from "@/components/shared/Loader";
@@ -12,15 +12,15 @@ import {
   TableBody,
   TableCell,
 } from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
+// import { Button } from "@/components/ui/button";
 
 const CustomerTable = () => {
-  const [page, setPage] = useState(1);
-  const limit = 4;
+  // const [page, setPage] = useState(1);
+  // const limit = 4;
 
   const { data, isLoading, isError } = useGetPaginatedBookingsQuery({
-    page,
-    limit,
+    page: 1,
+    limit: 1000,
   });
 
   if (isLoading) return <Loader />;
@@ -33,61 +33,91 @@ const CustomerTable = () => {
 
   // const { data: bookings, meta } = data;
 
-  const { data: rawBookings = [], meta } = data || {};
+  const { data: bookings } = data;
 
-  // Group by unique email (per page result)
-  const grouped = rawBookings.reduce(
+  // Group bookings by email
+  const groupedByEmail: Record<string, any[]> = bookings.reduce(
     (acc: Record<string, any[]>, booking: any) => {
-      if (!acc[booking.email]) acc[booking.email] = [];
+      if (!acc[booking.email]) {
+        acc[booking.email] = [];
+      }
       acc[booking.email].push(booking);
       return acc;
     },
     {}
   );
 
-  const groupedBookings: any[][] = Object.values(grouped);
+  // Sort each customer's bookings by reservationDate
+  Object.values(groupedByEmail).forEach((group) =>
+    group.sort(
+      (a, b) =>
+        new Date(a.reservationDate).getTime() -
+        new Date(b.reservationDate).getTime()
+    )
+  );
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-10">
       <div className="py-3 border-b space-y-4 md:space-y-0">
         <h1 className="text-3xl font-bold text-gray-900">Customers Details</h1>
       </div>
 
-      {groupedBookings.map((group, idx) => {
-        const user = group[0];
-
+      {Object.entries(groupedByEmail).map(([email, bookings]) => {
+        const { firstName, lastName, phone } = bookings[0]; // Use first booking for contact info
         return (
-          <div key={idx} className="border p-4 rounded-md shadow-sm">
-            <h2 className="text-xl font-semibold text-indigo-700 mb-1">
-              {user.firstName} {user.lastName}
-            </h2>
-            <p className="text-sm text-gray-600">{user.email}</p>
-            <p className="text-sm text-gray-600 mb-4">{user.phone}</p>
+          <div
+            key={email}
+            className="space-y-4 border p-4 rounded-md shadow-sm"
+          >
+            <div className="space-y-1">
+              <div className="text-xl font-semibold text-gray-800 flex items-center gap-2">
+                <User className="w-5 h-5 text-indigo-600" />
+                {firstName} {lastName}
+              </div>
+              <div className="text-sm text-muted-foreground flex items-center gap-2">
+                <Mail className="w-4 h-4 text-indigo-500" />
+                {email}
+              </div>
+              <div className="text-sm text-muted-foreground flex items-center gap-2">
+                <Phone className="w-4 h-4 text-indigo-500" />
+                {phone}
+              </div>
+            </div>
 
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Date</TableHead>
-                  <TableHead>Time</TableHead>
-                  <TableHead>Guests</TableHead>
-                  <TableHead>Total</TableHead>
-                  <TableHead>Status</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {group
-                  .sort(
-                    (a: any, b: any) =>
-                      new Date(a.reservationDate).getTime() -
-                      new Date(b.reservationDate).getTime()
-                  )
-                  .map((booking: any) => (
+            <div className="overflow-x-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Date</TableHead>
+                    <TableHead>Time</TableHead>
+                    <TableHead>Guests</TableHead>
+                    <TableHead>Total</TableHead>
+                    <TableHead>Status</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {bookings.map((booking) => (
                     <TableRow key={booking._id}>
                       <TableCell>
-                        {new Date(booking.reservationDate).toLocaleDateString()}
+                        <div className="flex items-center gap-2 text-gray-600">
+                          <Calendar className="w-4 h-4 text-indigo-500" />
+                          {new Date(
+                            booking.reservationDate
+                          ).toLocaleDateString()}
+                        </div>
                       </TableCell>
-                      <TableCell>{booking.reservationTime}</TableCell>
-                      <TableCell>{booking.numberOfGuests}</TableCell>
+                      <TableCell>
+                        <div className="flex items-center gap-2 text-gray-600">
+                          <Clock3 className="w-4 h-4 text-indigo-500" />
+                          {booking.reservationTime}
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        {booking.numberOfGuests}
+                        <span className="text-xs text-gray-500">
+                          ({booking.type})
+                        </span>
+                      </TableCell>
                       <TableCell>${booking.total}</TableCell>
                       <TableCell>
                         <span
@@ -104,11 +134,13 @@ const CustomerTable = () => {
                       </TableCell>
                     </TableRow>
                   ))}
-              </TableBody>
-            </Table>
+                </TableBody>
+              </Table>
+            </div>
           </div>
         );
       })}
+
       {/* Card List */}
       {/* <div className="overflow-x-auto">
         <Table>
@@ -123,66 +155,55 @@ const CustomerTable = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {/* {bookings.map((booking: any) => (
-            {[...bookings]
-              .sort(
-                (a, b) =>
-                  new Date(a.reservationDate).getTime() -
-                  new Date(b.reservationDate).getTime()
-              )
-              .filter(
-                (booking, index, self) =>
-                  index === self.findIndex((b) => b.email === booking.email)
-              )
-              .map((booking: any) => (
-                <TableRow key={booking._id}>
-                  <TableCell>
-                    <div className="flex items-center gap-2 font-semibold text-gray-800">
-                      <User className="w-5 h-5 text-indigo-600" />
-                      {booking.firstName} {booking.lastName}
-                    </div>
-                  </TableCell>
+            {bookings.map((booking: any) => (
+              <TableRow key={booking._id}>
+                <TableCell>
+                  <div className="flex items-center gap-2 font-semibold text-gray-800">
+                    <User className="w-5 h-5 text-indigo-600" />
+                    {booking.firstName} {booking.lastName}
+                  </div>
+                </TableCell>
 
-                  <TableCell>
-                    <div className="flex items-center gap-2 text-gray-600">
-                      <Mail className="w-4 h-4 text-indigo-500" />
-                      <span className="text-sm">{booking.email}</span>
-                    </div>
-                  </TableCell>
+                <TableCell>
+                  <div className="flex items-center gap-2 text-gray-600">
+                    <Mail className="w-4 h-4 text-indigo-500" />
+                    <span className="text-sm">{booking.email}</span>
+                  </div>
+                </TableCell>
 
-                  <TableCell>
-                    <div className="flex items-center gap-2 text-gray-600">
-                      <Phone className="w-4 h-4 text-indigo-500" />
-                      <span className="text-sm">{booking.phone}</span>
-                    </div>
-                  </TableCell>
+                <TableCell>
+                  <div className="flex items-center gap-2 text-gray-600">
+                    <Phone className="w-4 h-4 text-indigo-500" />
+                    <span className="text-sm">{booking.phone}</span>
+                  </div>
+                </TableCell>
 
-                  <TableCell>
-                    <div className="flex items-center gap-2 text-gray-600">
-                      <Calendar className="w-4 h-4 text-indigo-500" />
-                      <span className="text-sm">
-                        {new Date(booking.reservationDate).toLocaleDateString()}
-                      </span>
-                    </div>
-                  </TableCell>
+                <TableCell>
+                  <div className="flex items-center gap-2 text-gray-600">
+                    <Calendar className="w-4 h-4 text-indigo-500" />
+                    <span className="text-sm">
+                      {new Date(booking.reservationDate).toLocaleDateString()}
+                    </span>
+                  </div>
+                </TableCell>
 
-                  <TableCell>
-                    <div className="flex items-center gap-2 text-gray-600">
-                      <Clock3 className="w-4 h-4 text-indigo-500" />
-                      <span className="text-sm">{booking.reservationTime}</span>
-                    </div>
-                  </TableCell>
+                <TableCell>
+                  <div className="flex items-center gap-2 text-gray-600">
+                    <Clock3 className="w-4 h-4 text-indigo-500" />
+                    <span className="text-sm">{booking.reservationTime}</span>
+                  </div>
+                </TableCell>
 
-                  <TableCell>
-                    <div className="text-sm font-medium text-indigo-600">
-                      ${booking.total}{" "}
-                      <span className="text-xs text-gray-500">
-                        ({booking.type})
-                      </span>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))}
+                <TableCell>
+                  <div className="text-sm font-medium text-indigo-600">
+                    ${booking.total}{" "}
+                    <span className="text-xs text-gray-500">
+                      ({booking.type})
+                    </span>
+                  </div>
+                </TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </div> */}
@@ -211,27 +232,6 @@ const CustomerTable = () => {
           Next
         </Button>
       </div> */}
-      <div className="mt-8 flex items-center justify-center gap-4">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => setPage((prev) => prev - 1)}
-          disabled={page <= 1}
-        >
-          Previous
-        </Button>
-        <span className="text-gray-700 text-sm">
-          Page {meta?.page} of {Math.ceil(meta.total / limit)}
-        </span>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => setPage((prev) => prev + 1)}
-          disabled={page >= Math.ceil(meta.total / limit)}
-        >
-          Next
-        </Button>
-      </div>
     </div>
   );
 };
