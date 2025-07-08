@@ -158,13 +158,13 @@ const BookingSuccess = () => {
       >
         <Link
           href="/"
-          className="bg-orange-600 hover:bg-orange-700 text-white px-6 py-3 rounded text-sm font-medium transition"
+          className="bg-orange-600 hover:bg-orange-700 text-white px-6 py-3 rounded text-sm text-center font-medium transition"
         >
           Return to Home
         </Link>
         <Link
           href="/meals"
-          className="bg-gray-100 hover:bg-gray-200 text-gray-800 px-6 py-3 rounded text-sm font-medium transition"
+          className="bg-gray-100 hover:bg-gray-200 text-gray-800 px-6 py-3 rounded text-sm text-center font-medium transition"
         >
           Check our Meals
         </Link>
