@@ -42,14 +42,20 @@ export default function BookingTable({ userId }: Props) {
   const rawBookings = data?.data || [];
 
   // 🧠 Transform bookings for the table
-  const bookings: BookingRow[] = rawBookings.map((booking) => ({
-    _id: booking._id,
-    total: booking.total,
-    status: booking.status,
-    type: booking.type,
-    mealCount: booking.mealIds.length,
-    reservationDate: booking.reservationDate,
-  }));
+  const bookings: BookingRow[] = rawBookings
+    .map((booking) => ({
+      _id: booking._id,
+      total: booking.total,
+      status: booking.status,
+      type: booking.type,
+      mealCount: booking.mealIds.length,
+      reservationDate: booking.reservationDate,
+    }))
+    .sort(
+      (a, b) =>
+        new Date(a.reservationDate ?? "").getTime() -
+        new Date(b.reservationDate ?? "").getTime()
+    );
 
   const columns: ColumnDef<BookingRow>[] = [
     {
