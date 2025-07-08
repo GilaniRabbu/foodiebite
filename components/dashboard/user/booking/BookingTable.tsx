@@ -82,8 +82,8 @@ export default function BookingTable({ userId }: Props) {
       header: "Meal Count",
     },
     {
-      accessorKey: "createdAt",
-      header: "Created At",
+      accessorKey: "reservationDate",
+      header: "Date",
       cell: ({ getValue }) =>
         getValue() ? dayjs(getValue() as string).format("YYYY-MM-DD") : "N/A",
     },

@@ -67,17 +67,23 @@ const CustomerTable = () => {
         return (
           <div key={email} className="space-y-4 p-4 border rounded-sm">
             <div className="space-y-2">
-              <div className="text-sm sm:text-lg font-semibold text-gray-800 flex items-center gap-2">
+              <div className="flex items-center gap-2">
                 <User className="w-3 h-3 sm:w-4 sm:h-4 text-indigo-600" />
-                {firstName} {lastName}
+                <p className="text-sm sm:text-lg font-semibold text-gray-800">
+                  {firstName} {lastName}
+                </p>
               </div>
-              <div className="text-sm sm:text-lg text-muted-foreground flex items-center gap-2">
+              <div className="flex items-center gap-2">
                 <Mail className="w-3 h-3 sm:w-4 sm:h-4 text-indigo-500" />
-                {email}
+                <p className="text-sm sm:text-lg font-semibold text-muted-foreground">
+                  {email}
+                </p>
               </div>
-              <div className="text-sm sm:text-lg text-muted-foreground flex items-center gap-2">
+              <div className="flex items-center gap-2">
                 <Phone className="w-3 h-3 sm:w-4 sm:h-4 text-indigo-500" />
-                {phone}
+                <p className="text-sm sm:text-lg font-semibold text-muted-foreground">
+                  {phone}
+                </p>
               </div>
             </div>
 
@@ -134,63 +140,22 @@ const CustomerTable = () => {
                 </TableBody>
               </Table>
 
-              {/* Summary & Export */}
-              <div className="mt-4 flex flex-wrap items-center justify-between gap-4 border-t pt-4">
-                <div className="space-y-2 text-sm">
-                  <p className="font-medium text-gray-700">
-                    Total Orders:{" "}
-                    <span className="font-bold">{bookings.length}</span>
-                  </p>
-                  <p className="font-medium text-gray-700">
-                    Total Spend:{" "}
-                    <span className="font-bold">
-                      $
-                      {bookings.reduce(
-                        (acc: number, curr: any) => acc + Number(curr.total),
-                        0
-                      )}
-                    </span>
-                  </p>
-                </div>
-
-                <div className="flex flex-col gap-2">
-                  <button
-                    onClick={() => {
-                      const csvHeader = "Date,Time,Guests,Total,Status\n";
-                      const csvRows = bookings
-                        .map(
-                          (b) =>
-                            `${new Date(
-                              b.reservationDate
-                            ).toLocaleDateString()},${b.reservationTime},${
-                              b.numberOfGuests
-                            },${b.total},${b.status}`
-                        )
-                        .join("\n");
-                      const blob = new Blob([csvHeader + csvRows], {
-                        type: "text/csv",
-                      });
-                      const url = URL.createObjectURL(blob);
-                      const link = document.createElement("a");
-                      link.href = url;
-                      link.download = `${firstName}_${lastName}_bookings.csv`;
-                      document.body.appendChild(link);
-                      link.click();
-                      document.body.removeChild(link);
-                    }}
-                    className="px-4 py-2 rounded text-sm bg-indigo-600 text-white"
-                  >
-                    Export CSV
-                  </button>
-                  <button
-                    onClick={() => {
-                      window.print();
-                    }}
-                    className="px-4 py-2 rounded text-sm bg-red-600 text-white"
-                  >
-                    Export PDF
-                  </button>
-                </div>
+              {/* Summary */}
+              <div className="space-y-2 text-sm mt-4 pt-4 border-t">
+                <p className="font-medium text-gray-700">
+                  Total Orders:{" "}
+                  <span className="font-bold">{bookings.length}</span>
+                </p>
+                <p className="font-medium text-gray-700">
+                  Total Spend:{" "}
+                  <span className="font-bold">
+                    $
+                    {bookings.reduce(
+                      (acc: number, curr: any) => acc + Number(curr.total),
+                      0
+                    )}
+                  </span>
+                </p>
               </div>
             </div>
           </div>
