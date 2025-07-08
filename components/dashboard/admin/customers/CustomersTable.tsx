@@ -54,11 +54,15 @@ const CustomerTable = () => {
           </TableHeader>
           <TableBody>
             {/* {bookings.map((booking: any) => ( */}
-            {bookings
+            {[...bookings]
+              .sort(
+                (a, b) =>
+                  new Date(a.reservationDate).getTime() -
+                  new Date(b.reservationDate).getTime()
+              )
               .filter(
-                (booking: any, index: any, self: any) =>
-                  index ===
-                  self.findIndex((b: any) => b.email === booking.email)
+                (booking, index, self) =>
+                  index === self.findIndex((b) => b.email === booking.email)
               )
               .map((booking: any) => (
                 <TableRow key={booking._id}>
