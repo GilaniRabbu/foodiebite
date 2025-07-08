@@ -75,13 +75,13 @@ const CustomerTable = () => {
               </div>
               <div className="flex items-center gap-2">
                 <Mail className="w-3 h-3 sm:w-4 sm:h-4 text-indigo-500" />
-                <p className="text-sm sm:text-lg font-semibold text-muted-foreground">
+                <p className="text-sm sm:text-lg font-semibold text-gray-800">
                   {email}
                 </p>
               </div>
               <div className="flex items-center gap-2">
                 <Phone className="w-3 h-3 sm:w-4 sm:h-4 text-indigo-500" />
-                <p className="text-sm sm:text-lg font-semibold text-muted-foreground">
+                <p className="text-sm sm:text-lg font-semibold text-gray-800">
                   {phone}
                 </p>
               </div>
