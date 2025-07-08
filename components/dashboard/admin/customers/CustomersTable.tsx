@@ -53,55 +53,62 @@ const CustomerTable = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {bookings.map((booking: any) => (
-              <TableRow key={booking._id}>
-                <TableCell>
-                  <div className="flex items-center gap-2 font-semibold text-gray-800">
-                    <User className="w-5 h-5 text-indigo-600" />
-                    {booking.firstName} {booking.lastName}
-                  </div>
-                </TableCell>
+            {/* {bookings.map((booking: any) => ( */}
+            {bookings
+              .filter(
+                (booking: any, index: any, self: any) =>
+                  index ===
+                  self.findIndex((b: any) => b.email === booking.email)
+              )
+              .map((booking: any) => (
+                <TableRow key={booking._id}>
+                  <TableCell>
+                    <div className="flex items-center gap-2 font-semibold text-gray-800">
+                      <User className="w-5 h-5 text-indigo-600" />
+                      {booking.firstName} {booking.lastName}
+                    </div>
+                  </TableCell>
 
-                <TableCell>
-                  <div className="flex items-center gap-2 text-gray-600">
-                    <Mail className="w-4 h-4 text-indigo-500" />
-                    <span className="text-sm">{booking.email}</span>
-                  </div>
-                </TableCell>
+                  <TableCell>
+                    <div className="flex items-center gap-2 text-gray-600">
+                      <Mail className="w-4 h-4 text-indigo-500" />
+                      <span className="text-sm">{booking.email}</span>
+                    </div>
+                  </TableCell>
 
-                <TableCell>
-                  <div className="flex items-center gap-2 text-gray-600">
-                    <Phone className="w-4 h-4 text-indigo-500" />
-                    <span className="text-sm">{booking.phone}</span>
-                  </div>
-                </TableCell>
+                  <TableCell>
+                    <div className="flex items-center gap-2 text-gray-600">
+                      <Phone className="w-4 h-4 text-indigo-500" />
+                      <span className="text-sm">{booking.phone}</span>
+                    </div>
+                  </TableCell>
 
-                <TableCell>
-                  <div className="flex items-center gap-2 text-gray-600">
-                    <Calendar className="w-4 h-4 text-indigo-500" />
-                    <span className="text-sm">
-                      {new Date(booking.reservationDate).toLocaleDateString()}
-                    </span>
-                  </div>
-                </TableCell>
+                  <TableCell>
+                    <div className="flex items-center gap-2 text-gray-600">
+                      <Calendar className="w-4 h-4 text-indigo-500" />
+                      <span className="text-sm">
+                        {new Date(booking.reservationDate).toLocaleDateString()}
+                      </span>
+                    </div>
+                  </TableCell>
 
-                <TableCell>
-                  <div className="flex items-center gap-2 text-gray-600">
-                    <Clock3 className="w-4 h-4 text-indigo-500" />
-                    <span className="text-sm">{booking.reservationTime}</span>
-                  </div>
-                </TableCell>
+                  <TableCell>
+                    <div className="flex items-center gap-2 text-gray-600">
+                      <Clock3 className="w-4 h-4 text-indigo-500" />
+                      <span className="text-sm">{booking.reservationTime}</span>
+                    </div>
+                  </TableCell>
 
-                <TableCell>
-                  <div className="text-sm font-medium text-indigo-600">
-                    ${booking.total}{" "}
-                    <span className="text-xs text-gray-500">
-                      ({booking.type})
-                    </span>
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))}
+                  <TableCell>
+                    <div className="text-sm font-medium text-indigo-600">
+                      ${booking.total}{" "}
+                      <span className="text-xs text-gray-500">
+                        ({booking.type})
+                      </span>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </div>
