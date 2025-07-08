@@ -46,7 +46,7 @@ export default function AdminOverview() {
       description: "Revenue from orders",
     },
     {
-      label: "Total Meals",
+      label: "Total Meals Dist.",
       value: totalMealsOrdered,
       icon: Utensils,
       color: "text-purple-600",
