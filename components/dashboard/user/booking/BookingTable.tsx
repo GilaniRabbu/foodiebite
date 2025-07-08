@@ -29,7 +29,7 @@ type BookingRow = {
   status: string;
   type?: string;
   mealCount: number;
-  createdAt?: string;
+  reservationDate?: string;
 };
 
 export default function BookingTable({ userId }: Props) {
@@ -48,7 +48,7 @@ export default function BookingTable({ userId }: Props) {
     status: booking.status,
     type: booking.type,
     mealCount: booking.mealIds.length,
-    createdAt: booking.createdAt,
+    reservationDate: booking.reservationDate,
   }));
 
   const columns: ColumnDef<BookingRow>[] = [

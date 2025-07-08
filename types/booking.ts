@@ -13,7 +13,7 @@ export interface IBooking {
   type?: string;
   total: number;
   status: string;
-  createdAt?: string;
+  reservationDate?: string;
 }
 
 export interface IPaginationMeta {
