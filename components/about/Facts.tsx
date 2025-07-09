@@ -1,4 +1,5 @@
 import Image from "next/image";
+import ContainerWrapper from "@/components/common/ContainerWrapper";
 
 interface StatItemProps {
   label: string;
@@ -9,7 +10,7 @@ interface StatItemProps {
 const StatItem = ({ label, value, color }: StatItemProps) => (
   <div className="text-center">
     <div className={`text-4xl font-bold mb-1 ${color}`}>{value}</div>
-    <div className="text-gray-600 text-sm font-medium">{label}</div>
+    <div className="text-sm font-medium text-gray-600">{label}</div>
   </div>
 );
 
@@ -21,8 +22,8 @@ export default function Facts() {
       color: "text-red-500",
     },
     {
-      label: "Total Food Categories",
-      value: "153+",
+      label: "Food Categories",
+      value: "145+",
       color: "text-orange-500",
     },
     {
@@ -33,8 +34,8 @@ export default function Facts() {
   ];
 
   return (
-    <section className="bg-orange-50 py-16 px-4">
-      <div className="max-w-6xl mx-auto">
+    <section className="bg-orange-50 py-20">
+      <ContainerWrapper>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Image Section */}
           <div className="relative">
@@ -52,13 +53,13 @@ export default function Facts() {
               </div>
 
               {/* Main image */}
-              <div className="relative rounded-full overflow-hidden bg-gradient-to-br from-red-500 to-orange-600 p-1">
+              <div className="relative p-1 rounded-full overflow-hidden bg-gradient-to-br from-red-500 to-orange-600">
                 <div className="relative aspect-square rounded-full overflow-hidden bg-white">
                   <Image
                     src="/menu-img-1.jpg"
                     alt="Chef holding a delicious burger"
-                    fill
                     className="object-cover"
+                    fill
                     priority
                   />
                 </div>
@@ -82,20 +83,20 @@ export default function Facts() {
           <div className="space-y-8">
             {/* Main heading */}
             <div>
-              <h2 className="text-4xl lg:text-5xl font-bold text-gray-800 leading-tight">
+              <h2 className="text-4xl lg:text-5xl font-bold leading-tight text-gray-900">
                 We provide more than a{" "}
                 <span className="text-yellow-500">variety of services.</span>
               </h2>
             </div>
 
             {/* Description */}
-            <p className="text-gray-600 text-lg leading-relaxed">
+            <p className="text-lg leading-relaxed text-gray-600">
               This type of restaurant typically serves food and beverages, along
               with light refreshments such as baked goods or snacks.
             </p>
 
             {/* Statistics */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 py-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-12 py-6">
               {stats.map((stat, index) => (
                 <StatItem
                   key={index}
@@ -107,7 +108,7 @@ export default function Facts() {
             </div>
           </div>
         </div>
-      </div>
+      </ContainerWrapper>
     </section>
   );
 }

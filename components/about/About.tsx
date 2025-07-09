@@ -28,7 +28,7 @@ export default function About() {
               </span>
             </div>
             {/* Main Heading */}
-            <h2 className="text-4xl font-bold leading-tight max-w-md text-gray-900">
+            <h2 className="text-4xl lg:text-5xl font-bold leading-tight max-w-md text-gray-900">
               We always provide quality food for you
             </h2>
             {/* Description Paragraphs */}
