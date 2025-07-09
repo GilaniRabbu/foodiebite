@@ -249,7 +249,7 @@ export default function ContactUs() {
               {/* Submit Button */}
               <button
                 type="submit"
-                className="w-full bg-gray-900 hover:bg-gray-800 text-white font-semibold py-4 px-6 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2"
+                className="w-full bg-gray-900 hover:bg-gray-800 text-white cursor-pointer font-semibold py-4 px-6 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2"
               >
                 <Send className="w-4 h-4" />
                 Send Message
