@@ -8,11 +8,11 @@ export default function About() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
           {/* Image Section */}
           <div className="relative w-full max-w-md mx-auto">
-            <div className="aspect-square rounded-full overflow-hidden shadow-2xl border-8 border-white bg-white">
+            <div className="relative aspect-square rounded-full overflow-hidden shadow-2xl border-8 border-white bg-white">
               <Image
                 src="/menu-img-3.jpg"
-                alt="Healthy colorful bowl with fresh ingredients"
-                className="object-cover"
+                alt="Healthy fresh dish"
+                className="object-cover rounded-full"
                 fill
                 priority
               />
@@ -44,7 +44,7 @@ export default function About() {
             </div>
             {/* View Menu Button */}
             <div className="pt-4">
-              <button className="px-8 py-4 font-semibold rounded-full shadow transition-all duration-200 text-white bg-green-500 hover:bg-green-600">
+              <button className="px-8 py-4 font-semibold rounded-full cursor-pointer shadow transition-all duration-200 text-white bg-green-500 hover:bg-green-600">
                 View Menu
               </button>
             </div>
