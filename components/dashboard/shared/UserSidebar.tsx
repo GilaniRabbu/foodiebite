@@ -12,6 +12,7 @@ import {
   X,
 } from "lucide-react";
 import Logo from "@/components/shared/Logo";
+import useLogout from "@/hooks/useLogout";
 
 export default function UserSidebar() {
   const [activeSection, setActiveSection] = useState("dashboard");
@@ -38,10 +39,7 @@ export default function UserSidebar() {
     },
   ];
 
-  const handleLogout = () => {
-    console.log("Logging out...");
-    // Add your logout logic here
-  };
+  const handleLogout = useLogout();
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);

@@ -15,18 +15,10 @@ type TAuthState = {
   } | null;
 };
 
+// `user: null` means "not logged in". It is replaced by the server's user
+// object on login (see components/auth/LoginForm.tsx) and reset on logout.
 const initialState: TAuthState = {
-  user: {
-    _id: "",
-    phone: "",
-    firstName: "",
-    lastName: "",
-    isPhoneVerified: false,
-    isOpenJoinUs: false,
-    isOpenSelectArea: false,
-    isOpenSelectServices: false,
-    role: "", // ✅ Default role in initial state
-  },
+  user: null,
 };
 
 const authSlice = createSlice({

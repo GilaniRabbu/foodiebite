@@ -2,8 +2,11 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
+import { useSelector } from "react-redux";
 import Logo from "./Logo";
 import ContainerWrapper from "../common/ContainerWrapper";
+import { selectCurrentUser } from "@/redux/slice/authSlice";
+import useLogout from "@/hooks/useLogout";
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -15,6 +18,8 @@ const navLinks = [
 
 const MobileHeader = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const user = useSelector(selectCurrentUser);
+  const handleLogout = useLogout();
 
   return (
     <ContainerWrapper className="py-5 block lg:hidden relative z-50">
@@ -63,20 +68,46 @@ const MobileHeader = () => {
             </Link>
           ))}
           <div className="flex flex-col space-y-2 ">
-            <Link
-              href="/signup"
-              onClick={() => setIsOpen(false)}
-              className="px-4 py-2 rounded text-black border border-gray-300 text-center"
-            >
-              Sign Up
-            </Link>
-            <Link
-              href="/login"
-              onClick={() => setIsOpen(false)}
-              className="px-4 py-2 rounded text-white bg-orange-400 hover:bg-orange-500 text-center"
-            >
-              Log In
-            </Link>
+            {user ? (
+              <>
+                <Link
+                  href={
+                    user.role === "ADMIN" ? "/admin/dashboard" : "/user/dashboard"
+                  }
+                  onClick={() => setIsOpen(false)}
+                  className="px-4 py-2 rounded text-black border border-gray-300 text-center"
+                >
+                  Dashboard
+                </Link>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsOpen(false);
+                    handleLogout();
+                  }}
+                  className="px-4 py-2 rounded text-white bg-orange-400 hover:bg-orange-500 text-center cursor-pointer"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link
+                  href="/signup"
+                  onClick={() => setIsOpen(false)}
+                  className="px-4 py-2 rounded text-black border border-gray-300 text-center"
+                >
+                  Sign Up
+                </Link>
+                <Link
+                  href="/login"
+                  onClick={() => setIsOpen(false)}
+                  className="px-4 py-2 rounded text-white bg-orange-400 hover:bg-orange-500 text-center"
+                >
+                  Log In
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </div>

@@ -1,9 +1,11 @@
 "use client";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
+import useLogout from "@/hooks/useLogout";
 
 const UserTopNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const handleLogout = useLogout();
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   }
@@ -41,7 +43,10 @@ const UserTopNavbar = () => {
                 <li className="text-sm text-gray-600 hover:text-gray-900 cursor-pointer">
                   <Link href="/user/settings/security">Security</Link>
                 </li>
-                <li className="text-sm text-gray-600 hover:text-gray-900 cursor-pointer">
+                <li
+                  onClick={handleLogout}
+                  className="text-sm text-gray-600 hover:text-gray-900 cursor-pointer"
+                >
                   Logout
                 </li>
               </ul>

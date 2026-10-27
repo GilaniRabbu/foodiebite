@@ -14,6 +14,7 @@ import {
   ForkKnife,
 } from "lucide-react";
 import Logo from "@/components/shared/Logo";
+import useLogout from "@/hooks/useLogout";
 
 export default function AdminSidebar() {
   const [activeSection, setActiveSection] = useState("dashboard");
@@ -47,10 +48,7 @@ export default function AdminSidebar() {
     },
   ];
 
-  const handleLogout = () => {
-    console.log("Logging out...");
-    // Add your logout logic here
-  };
+  const handleLogout = useLogout();
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);

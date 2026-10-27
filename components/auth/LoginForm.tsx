@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useLoginUserMutation } from "@/redux/api/authApi";
+import { setUser } from "@/redux/slice/authSlice";
+import { useDispatch } from "react-redux";
 import { toast } from "sonner";
 
 export default function LoginForm() {
@@ -21,6 +23,7 @@ export default function LoginForm() {
 
   const [userLogin, { isLoading }] = useLoginUserMutation();
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const [formData, setFormData] = useState({
     email: defaultCredentials.user.email,
@@ -57,12 +60,20 @@ export default function LoginForm() {
       console.log("Login success:", res);
 
       if (res.success) {
-        if (res?.data?.user?.role === "ADMIN") {
-          router.push("/admin/dashboard");
-        } else if (res?.data?.user?.role === "USER") {
-          router.push("/user/dashboard");
+        const loggedInUser = res?.data?.user;
+
+        // Keep the session alive across reloads: the access token is what
+        // redux/api/baseApi.ts sends as the Authorization header.
+        if (res?.data?.accessToken) {
+          localStorage.setItem("accessToken", res.data.accessToken);
         }
+        // Persisted by redux/store.ts so the header knows who is logged in.
+        dispatch(setUser({ user: loggedInUser }));
+
         toast.success(res.message);
+        router.push(
+          loggedInUser?.role === "ADMIN" ? "/admin/dashboard" : "/user/dashboard"
+        );
       }
     } catch (error) {
       toast.error("Login failed. Please try again.");
