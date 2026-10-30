@@ -1,27 +1,35 @@
-/* eslint-disable */
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CalendarDays, MapPin, Heart, TrendingUp } from "lucide-react";
+import { CalendarDays, MapPin, Heart, TrendingUp, Mail, Phone } from "lucide-react";
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "@/redux/slice/authSlice";
 import { useGetBookingsByUserIdQuery } from "@/redux/api/bookingApi";
 import Loader from "@/components/shared/Loader";
 import UserBookingChart from "./UserBookingChart";
 
 export default function UserOverview() {
-  const userId = "686190f2a2fc79a924679593";
+  const user = useSelector(selectCurrentUser);
+  const userId = user?._id;
 
-  // ✅ Use bookings by user ID
-  const { data, isLoading } = useGetBookingsByUserIdQuery({
-    userId,
-    page: 1,
-    limit: 100,
-  });
+  const { data, isLoading, isError } = useGetBookingsByUserIdQuery(
+    { userId: userId as string, page: 1, limit: 100 },
+    { skip: !userId }
+  );
 
+  if (!userId) return null;
   if (isLoading) return <Loader />;
 
-  // ✅ bookings for this user
+  // ✅ bookings for the logged in user
   const bookings = data?.data || [];
-  console.log(bookings);
+
+  const fullName =
+    [user?.firstName, user?.lastName].filter(Boolean).join(" ") ||
+    user?.email ||
+    "Guest";
+  const initials =
+    `${user?.firstName?.[0] ?? ""}${user?.lastName?.[0] ?? ""}`.toUpperCase() ||
+    fullName.charAt(0).toUpperCase();
 
   // ✅ Metrics calculation based on user bookings
   const totalBookings = bookings.length;
@@ -59,6 +67,37 @@ export default function UserOverview() {
 
   return (
     <div className="space-y-4">
+      {/* Logged in user identity */}
+      <Card className="rounded-sm shadow-none">
+        <CardContent className="flex flex-col gap-4 p-6 md:flex-row md:items-center">
+          <div className="w-14 h-14 shrink-0 bg-red-50 rounded-full flex items-center justify-center">
+            <span className="text-lg font-semibold text-red-600">
+              {initials}
+            </span>
+          </div>
+          <div className="flex-1">
+            <p className="text-lg font-semibold text-gray-900">{fullName}</p>
+            <p className="text-xs text-muted-foreground capitalize">
+              {user?.role ? `${user.role.toLowerCase()} account` : "account"}
+            </p>
+          </div>
+          <div className="flex flex-col gap-2 text-sm text-gray-600 md:items-end">
+            {user?.email && (
+              <span className="flex items-center gap-2">
+                <Mail className="h-4 w-4 text-muted-foreground" />
+                {user.email}
+              </span>
+            )}
+            {user?.phone && (
+              <span className="flex items-center gap-2">
+                <Phone className="h-4 w-4 text-muted-foreground" />
+                {user.phone}
+              </span>
+            )}
+          </div>
+        </CardContent>
+      </Card>
+
       <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
         {metrics.map((metric) => {
           const Icon = metric.icon;
@@ -80,12 +119,19 @@ export default function UserOverview() {
           );
         })}
       </div>
-      <UserBookingChart
-        totalBookings={totalBookings}
-        upcomingBookings={upcomingBookings}
-        canceled={canceled}
-        totalSpend={totalSpend}
-      />
+
+      {isError ? (
+        <div className="rounded-sm border border-red-200 bg-red-50 p-4 text-sm text-red-600">
+          Failed to load your bookings.
+        </div>
+      ) : (
+        <UserBookingChart
+          totalBookings={totalBookings}
+          upcomingBookings={upcomingBookings}
+          canceled={canceled}
+          totalSpend={totalSpend}
+        />
+      )}
     </div>
   );
 }

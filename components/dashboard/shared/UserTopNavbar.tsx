@@ -1,6 +1,8 @@
 "use client";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "@/redux/slice/authSlice";
 import useLogout from "@/hooks/useLogout";
 
 const UserTopNavbar = () => {
@@ -10,6 +12,15 @@ const UserTopNavbar = () => {
     setIsOpen(!isOpen);
   }
   const menuRef = useRef<HTMLDivElement>(null);
+  const user = useSelector(selectCurrentUser);
+
+  const fullName =
+    [user?.firstName, user?.lastName].filter(Boolean).join(" ") ||
+    user?.email ||
+    "Guest";
+  const initials =
+    `${user?.firstName?.[0] ?? ""}${user?.lastName?.[0] ?? ""}`.toUpperCase() ||
+    fullName.charAt(0).toUpperCase();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -32,8 +43,16 @@ const UserTopNavbar = () => {
         <div className="flex items-center gap-4">
           {/* User Menu */}
           <div className="flex relative items-center gap-3">
+            <div className="hidden text-right sm:block">
+              <p className="text-sm font-medium text-gray-900">{fullName}</p>
+              {user?.email && (
+                <p className="text-xs text-gray-500">{user.email}</p>
+              )}
+            </div>
             <div onClick={toggleMenu} className="w-8 group cursor-pointer h-8 bg-gray-200 rounded-full flex items-center justify-center">
-              <span className="text-sm font-medium text-gray-600">JD</span>
+              <span className="text-sm font-medium text-gray-600">
+                {initials}
+              </span>
             </div>
             <div className={`absolute right-0 top-12  ${isOpen ? "block" : "hidden"} transition-all duration-200`}>
               <ul className="bg-white border border-gray-200 rounded-lg p-4 space-y-2 w-48">
@@ -60,4 +79,3 @@ const UserTopNavbar = () => {
 };
 
 export default UserTopNavbar;
-// 
